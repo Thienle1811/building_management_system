@@ -1,0 +1,15 @@
+# Python & Django
+*.pyc
+__pycache__/
+db.sqlite3
+.env
+
+# Môi trường ảo (Rất quan trọng)
+venv/
+env/
+
+# Media upload (Ảnh CCCD, Hợp đồng...)
+media/
+
+# VS Code settings
+.vscode/
