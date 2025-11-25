@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Thêm cư dân mới{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-user-plus me-2"></i>Thêm cư dân mới</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %} <h5 class="text-primary mb-3 border-bottom pb-2">Thông tin cá nhân</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">{{ form.full_name.label }}</label>
+                            {{ form.full_name }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">{{ form.identity_card.label }}</label>
+                            {{ form.identity_card }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">{{ form.phone_number.label }}</label>
+                            {{ form.phone_number }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">{{ form.emergency_phone.label }}</label>
+                            {{ form.emergency_phone }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">{{ form.current_apartment.label }}</label>
+                            {{ form.current_apartment }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">{{ form.relationship_type.label }}</label>
+                            {{ form.relationship_type }}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form-label">{{ form.identity_card_image_front.label }}</label>
+                            {{ form.identity_card_image_front }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ form.identity_card_image_back.label }}</label>
+                            {{ form.identity_card_image_back }}
+                        </div>
+                    </div>
+
+                    <h5 class="text-primary mb-3 border-bottom pb-2">
+                        <i class="fas fa-motorcycle me-2"></i>Phương tiện đi lại
+                    </h5>
+                    {{ vehicle_formset.management_form }} {% for v_form in vehicle_formset %}
+                        <div class="row g-3 align-items-center mb-2 p-2 border rounded bg-light">
+                            <div class="col-md-5">
+                                {{ v_form.license_plate }}
+                            </div>
+                            <div class="col-md-5">
+                                {{ v_form.vehicle_type }}
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <small class="text-muted">Xe số {{ forloop.counter }}</small>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="form-text mb-4 text-muted">
+                        * Mặc định nhập 1 xe. (Tính năng "Thêm dòng" bằng JS sẽ phát triển sau)
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'resident_list_web' %}" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-times me-1"></i> Hủy bỏ
+                        </a>
+                        <button type="submit" class="btn btn-success px-4">
+                            <i class="fas fa-save me-1"></i> Lưu lại
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
