@@ -117,7 +117,7 @@
 
     <div id="fullpage" class="homepage">
         
-        <div class="section slider-top animatedParent animateOnce">
+        <div id="gioi-thieu" class="section slider-top animatedParent animateOnce">
             <div class="slider_banner">
                 {% for slide in slides %}
                 <div class="item-slide">
@@ -191,24 +191,19 @@
                             <h2 class="title fadeInUpShort delay-250 animated go">Tin tức & Sự kiện</h2>
                         </div>
                         <div class="s-news w-item-news ani-up">
+                            {% for news in news_list %}
                             <div class="item-news w-anima">
-                                <a href="#" class="anima-img">
-                                    <div class="thumb-over"><img src="{% static 'landing/img/nam-long-trao-84-suat-hoc-bong-swing-for-dreams-2025-tong-gia-tri-840-trieu-dong-cho-sinh-vien-9.jpg' %}" class="img-responsive"></div>
-                                    <span>25/11/2025</span><h4>Lễ mở bán đợt 1 dự án Nhà ở xã hội Hồng Loan</h4>
+                                <a href="{{ news.link }}" class="anima-img">
+                                    <div class="thumb-over">
+                                        <img src="{{ news.image.url }}" class="img-responsive" alt="{{ news.title }}">
+                                    </div>
+                                    <span>{{ news.date|date:"d/m/Y" }}</span>
+                                    <h4>{{ news.title }}</h4>
                                 </a>
                             </div>
-                            <div class="item-news w-anima">
-                                <a href="#" class="anima-img">
-                                    <div class="thumb-over"><img src="{% static 'landing/img/e2-sunset-1092x614-1.jpg' %}" class="img-responsive"></div>
-                                    <span>20/11/2025</span><h4>Tiến độ thi công thần tốc: Cất nóc tòa H1</h4>
-                                </a>
-                            </div>
-                            <div class="item-news w-anima">
-                                <a href="#" class="anima-img">
-                                    <div class="thumb-over"><img src="{% static 'landing/img/nam-long-33-nam-kien-dinh-kien-tao-di-san-tu-triet-ly-nhan-van-1.jpg' %}" class="img-responsive"></div>
-                                    <span>15/11/2025</span><h4>Hướng dẫn hồ sơ đăng ký mua nhà ở xã hội</h4>
-                                </a>
-                            </div>
+                            {% empty %}
+                            <p class="text-center">Chưa có tin tức nào.</p>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -224,15 +219,24 @@
                         </div>
                         <div class="s-number-business w-count-num ani-up">
                             <div class="item-num w-anima text-center">
-                                <div class="num-left"><div class="item-count"><span class="count">5</span>+</div><div class="t-num">Block căn hộ</div></div>
+                                <div class="num-left">
+                                    <div class="item-count"><span class="count">{{ config.total_blocks }}</span></div>
+                                    <div class="t-num">Block căn hộ</div>
+                                </div>
                                 <div class="des-num">thiết kế <br>hiện đại</div>
                             </div>
                             <div class="item-num w-anima text-center">
-                                <div class="num-left"><div class="item-count"><span class="count">1.200</span>+</div><div class="t-num">Căn hộ</div></div>
+                                <div class="num-left">
+                                    <div class="item-count"><span class="count">{{ config.total_apartments }}</span></div>
+                                    <div class="t-num">Căn hộ</div>
+                                </div>
                                 <div class="des-num">đáp ứng <br>nhu cầu</div>
                             </div>
                             <div class="item-num w-anima text-center">
-                                <div class="num-left"><div class="item-count"><span class="count">100</span>%</div><div class="t-num">Tiện ích</div></div>
+                                <div class="num-left">
+                                    <div class="item-count"><span class="count">{{ config.total_utilities }}</span></div>
+                                    <div class="t-num">Tiện ích</div>
+                                </div>
                                 <div class="des-num">đồng bộ <br>khép kín</div>
                             </div>
                         </div>
@@ -312,22 +316,31 @@
                     <div id="lien-he" class="col-md-6">
                         <div class="p-4 bg-white rounded shadow-sm border-top border-4 border-warning">
                             <h3 class="mb-3 fw-bold text-center">Đăng ký tư vấn miễn phí</h3>
-                            <form action="#" method="POST">
+                            
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+
+                            <form action="" method="POST">
                                 {% csrf_token %}
                                 <div class="mb-3">
-                                    <input type="text" class="form-control py-2" placeholder="Họ và tên của bạn" required>
+                                    <input type="text" name="full_name" class="form-control py-2" placeholder="Họ và tên của bạn" required>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="tel" class="form-control py-2" placeholder="Số điện thoại liên hệ" required>
+                                    <input type="tel" name="phone" class="form-control py-2" placeholder="Số điện thoại liên hệ" required>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="email" class="form-control py-2" placeholder="Email (không bắt buộc)">
+                                    <input type="email" name="email" class="form-control py-2" placeholder="Email (không bắt buộc)">
                                 </div>
                                 <div class="mb-3">
-                                    <select class="form-select py-2">
-                                        <option selected>Nhu cầu của bạn?</option>
-                                        <option value="1">Mua ở</option>
-                                        <option value="2">Đầu tư/Cho thuê</option>
+                                    <select name="demand" class="form-select py-2">
+                                        <option value="buy" selected>Mua ở</option>
+                                        <option value="invest">Đầu tư/Cho thuê</option>
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-custom w-100 py-2 fw-bold fs-5">GỬI ĐĂNG KÝ NGAY</button>

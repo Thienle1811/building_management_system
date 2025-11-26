@@ -10,6 +10,11 @@ class LandingConfig(BaseModel):
     primary_color = models.CharField(max_length=7, default="#1da1f2", verbose_name="Màu chủ đạo (HEX)")
     secondary_color = models.CharField(max_length=7, default="#f70", verbose_name="Màu phụ (HEX)")
     
+    # Cấu hình Quy mô dự án (MỚI THÊM - Bước 2.1)
+    total_blocks = models.IntegerField(default=5, verbose_name="Số lượng Block")
+    total_apartments = models.CharField(max_length=50, default="1.200+", verbose_name="Số lượng căn hộ")
+    total_utilities = models.CharField(max_length=50, default="100%", verbose_name="Tỷ lệ tiện ích")
+    
     # Thông tin liên hệ Footer
     hotline = models.CharField(max_length=20)
     email = models.EmailField()
@@ -74,3 +79,36 @@ class ProcessStep(BaseModel):
     class Meta:
         ordering = ['order']
         verbose_name = "Bước Quy trình"
+
+class CustomerLead(BaseModel):
+    """Lưu thông tin khách hàng đăng ký từ Landing Page (MỚI THÊM - Bước 1.1)"""
+    full_name = models.CharField(max_length=255, verbose_name="Họ và tên")
+    phone = models.CharField(max_length=20, verbose_name="Số điện thoại")
+    email = models.EmailField(null=True, blank=True, verbose_name="Email")
+    
+    DEMAND_CHOICES = (
+        ('buy', 'Mua ở'),
+        ('invest', 'Đầu tư/Cho thuê'),
+    )
+    demand = models.CharField(max_length=20, choices=DEMAND_CHOICES, default='buy', verbose_name="Nhu cầu")
+    note = models.TextField(null=True, blank=True, verbose_name="Ghi chú thêm")
+    
+    status = models.CharField(max_length=20, default='new', verbose_name="Trạng thái xử lý") # new, contacted, closed
+
+    def __str__(self):
+        return f"{self.full_name} - {self.phone}"
+
+    class Meta:
+        verbose_name = "Khách hàng đăng ký"
+        verbose_name_plural = "Danh sách Khách hàng"
+
+class NewsItem(BaseModel):
+    """Tin tức & Sự kiện hiển thị trang chủ (MỚI THÊM - Bước 3.1)"""
+    title = models.CharField(max_length=255, verbose_name="Tiêu đề tin")
+    image = models.ImageField(upload_to='landing/news/', verbose_name="Ảnh đại diện")
+    date = models.DateField(auto_now_add=True, verbose_name="Ngày đăng")
+    link = models.CharField(max_length=255, default="#", verbose_name="Link chi tiết")
+    
+    class Meta:
+        ordering = ['-date']
+        verbose_name = "Tin tức"
