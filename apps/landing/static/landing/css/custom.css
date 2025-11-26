@@ -1,0 +1,316 @@
+.not-found {
+  margin-left: 15px;
+}
+
+.wpcf7-spinner,
+.wpcf7-response-output {
+  display: none !important;
+}
+
+
+
+.hidden-file {
+  display: none !important;
+}
+
+.autocomplete li span {
+    color: var(--colorsecond);
+}
+
+.right-col .doc-list {
+  max-height: 350px; /* Bạn có thể điều chỉnh giá trị này cho phù hợp */
+  overflow-y: auto; 
+}
+
+/* (Tùy chọn) Thêm một chút padding để thanh cuộn không quá sát nội dung */
+.right-col .doc-list .doc-item {
+    padding-right: 10px;
+}
+
+.section-content .doc-list {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.dropdown-menu {
+  max-height: 250px; 
+  overflow-y: auto;
+}
+
+.scrollable-capital-list {
+  max-height: 250px; 
+  overflow-y: auto;
+}
+
+.report-link {
+  max-height: 350px; 
+  overflow-y: auto;
+}
+
+
+/* --- CSS CHO HIỆU ỨNG PRELOADER BAY VÀO HEADER --- */
+/* Logo chính trong header ban đầu sẽ ẩn đi */
+#final-logo {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Nền của preloader */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: #ffffff; /* Đổi màu nền nếu cần */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.8s ease, opacity 0.8s ease;
+}
+
+#preloader-logo {
+    width: 150px;
+    height: auto;
+    
+    /* Trạng thái ban đầu: trong suốt và hơi nhỏ lại */
+    opacity: 0; 
+    transform: scale(1);
+
+    /* Transition sẽ xử lý cả transform và opacity */
+    transition: transform 1s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.8s ease;
+}
+
+#preloader-logo.visible {
+    /* Trạng thái sau khi hiện ra: rõ nét và trở về kích thước 100% */
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Lớp này được JS thêm vào để ẩn preloader đi */
+#preloader.hidden {
+    background-color: transparent;
+    opacity: 0;
+    pointer-events: none; /* Cho phép click xuyên qua khi đã ẩn */
+}
+
+.slick-dots li:only-child {
+  display: none !important;
+}
+
+.doc-meta {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.datetime-label {color: rgba(83, 88, 98, 1); font-size: 15px;}
+
+
+/* Css Gom các báo cáo vào chung tab */
+ /* THAY ĐỔI: CSS để ẩn/hiện layout theo thiết bị */
+    .financial-desktop-view { display: none; } /* Mặc định ẩn trên mobile */
+    .financial-mobile-view { display: block; } /* Mặc định hiện trên mobile */
+
+    @media (min-width: 992px) { /* Trên màn hình desktop (rộng hơn 992px) */
+        .financial-desktop-view { display: block; }
+        .financial-mobile-view { display: none; }
+    }
+
+    /* CSS cho layout desktop */
+   /* Bố cục lưới chính */
+.financial-grid-layout {
+    display: grid;
+    grid-template-columns: 48% 52%;
+    gap: 0;    position: relative;
+    overflow: hidden;
+}
+
+/* Phần nhãn bên trái */
+.financial-labels .label-header {
+    padding: 10px; min-height: 45px;
+}
+.label-content {
+    border-left: 1px solid #D5D7DA; border-bottom: 1px solid #D5D7DA;
+    padding-left: 10px; border-top-left-radius: 8px; border-bottom-left-radius: 8px;
+}
+.financial-labels .label-item {
+    padding: 9px 12px 9px 0; border-top: 1px solid #D5D7DA; min-height: 42px;
+    display: flex; align-items: center; font-size: 0.9rem;
+}
+.label-content .label-item:first-child { border-top: 0; }
+
+/* Vùng chứa slider bên phải */
+.financial-values-slider { position: relative; }
+
+.slider-viewport {position: relative; width: 100%; border-bottom: 1px solid #D5D7DA; border-top-right-radius: 8px; border-bottom-right-radius: 8px; overflow: hidden; padding-right: 10px;}
+.slider-viewport:after { content: ''; position: absolute; right: 0px; top: 47px; height: 100%; border-right: 1px solid #D5D7DA; border-top-right-radius: 8px; border-top-left-radius: 8px; overflow: hidden; width: 30px; }
+.financial-values-slider .slider-nav.next{right: 0px;}
+
+/* * THAY ĐỔI QUAN TRỌNG:
+ * Mỗi '.slider-track' bây giờ là một NHÓM được xếp chồng và làm mờ, không còn là một track dài nữa.
+*/
+.slider-track {
+    position: absolute;
+    top: 0; right: 17px; width: 100%; height: 100%;
+    display: flex; /* Dàn các slide-item bên trong */
+    justify-content: flex-start;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease-in-out, visibility 0s linear 0.4s;
+    /* Bỏ transition của transform */
+}
+
+/* Track (nhóm) đang hoạt động */
+.slider-track.active {
+    position: relative;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease-in-out;
+}
+
+/* Mỗi cột trong nhóm */
+.slide-item {
+    flex: 1 0 25%; /* Chia đều không gian cho 4 cột */
+    box-sizing: border-box;    min-width: 145px;
+}
+
+.slide-header {
+    font-size: 0.9rem; text-align: right; padding: 10px;
+    min-height: 45px; display: flex; align-items: center; justify-content: flex-end;
+}
+
+.slide-content .value-item {
+    display: flex; justify-content: flex-end; align-items: center;
+    padding: 9px 12px; border-top: 1px solid #D5D7DA; min-height: 42px;
+    font-family: 'BT-BeauSans-B'; color: var(--colorD27); font-size: var(--fz-16);
+}
+.slide-content .value-item:first-child{border-top: 0px;}
+/* Nút điều hướng */
+.slider-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.4); color: white;
+    border: none; border-radius: 50%;
+    width: 35px; height: 35px;
+    font-size: 20px; cursor: pointer; z-index: 10;
+}
+.slider-nav.prev { left: 10px; }
+.slider-nav.next { right: 10px; }
+.slider-nav:disabled {
+    background-color: rgba(0,0,0,0.15); cursor: not-allowed; opacity: 0.5;
+}
+
+    /* CSS cho layout mobile */
+    .financial-mobile-view .listing-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 12px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+
+/* Wrapper cho menu */
+#stock-nav-wrapper {
+    position: relative;
+    z-index: 1020; 
+}
+
+/* Kiểu dáng chung của thanh menu */
+.stock-nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    transition:var(--d-transition);
+}
+
+/* Lớp 'sticky' sẽ được thêm bằng JavaScript khi cuộn */
+.stock-nav.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.stock-nav .nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block;text-align: left;
+    width: 100%;display: grid ; grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 991px) {
+  .stock-nav .nav-links {
+    display: flex;
+    overflow-x: auto;
+  }
+}
+
+.stock-nav .nav-links li:first-child a{padding-left: 0px;}
+.stock-nav .nav-links li a {
+    display: block;
+    padding:21px 20px 24px;
+    text-decoration: none;
+    color: var(--colormain);    text-align: center;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+.stock-nav .nav-links li a br{display: none;}
+
+
+/* Thêm lớp active để làm nổi bật mục menu hiện tại */
+.stock-nav .nav-links li a.active {
+    color: var(--colorsecond);
+    
+}
+
+
+/* Ẩn khối Cổ tức theo mặc định */
+.dividend {
+  display: none;
+}
+
+
+/* Áp dụng cho màn hình mobile */
+@media (max-width: 768px) {
+  .js-rotating-tabs {
+    display: flex; /* Sử dụng Flexbox để các item luôn nằm trên một hàng */
+    flex-wrap: nowrap; /* Không cho phép xuống dòng */
+  }
+  
+  /* Container cuộn ngoài */
+  .tab-scroll-wrapper {
+    overflow-x: auto; /* Đảm bảo vẫn có thể cuộn ngang nếu cần */
+    -ms-overflow-style: none; /* Ẩn thanh cuộn */
+    scrollbar-width: none;
+  }
+  
+  .tab-scroll-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Mặc định ẩn mobile version, hiện desktop */
+.d-desktop { display: block; }
+.d-mobile { display: none; }
+
+@media (max-width: 767px) {
+  .d-desktop { display: none; }
+  .d-mobile { display: block; }
+}
+
+.visually-hidden-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+
+.grecaptcha-badge {
+  visibility: hidden !important;
+}

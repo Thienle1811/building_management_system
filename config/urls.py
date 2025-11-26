@@ -20,6 +20,8 @@ urlpatterns = [
     # 2. Đường dẫn cho WEB Giao diện (Dành cho BQL trên Desktop)
     # Ví dụ: http://127.0.0.1:8000/residents/
     path('residents/', include('apps.residents.urls_web')), 
+    # Landing Page (Trang chủ)
+    path('', include('apps.landing.urls')),
 ]
 
 # Cấu hình để xem được ảnh upload trong môi trường dev (Debug mode)
