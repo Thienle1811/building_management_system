@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html>
+{% load humanize %} <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -38,30 +38,33 @@
         
         /* Style riêng cho Quy trình (Process) */
         .process-step-box {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            height: 100%;
-            transition: transform 0.3s;
-            border-bottom: 4px solid var(--primary-color);
-            position: relative;
+            background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); height: 100%;
+            transition: transform 0.3s; border-bottom: 4px solid var(--primary-color); position: relative;
         }
         .process-step-box:hover { transform: translateY(-5px); }
         .step-icon {
-            width: 60px; height: 60px;
-            background: var(--secondary-color);
-            color: #fff;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; margin: 0 auto 15px;
+            width: 60px; height: 60px; background: var(--secondary-color); color: #fff; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 15px;
         }
         .step-number {
             position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            background: var(--primary-color); color: #fff;
-            padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;
-            border: 2px solid #fff;
+            background: var(--primary-color); color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; border: 2px solid #fff;
         }
+
+        /* Style cho Card Căn hộ (MỚI) */
+        .apartment-card {
+            background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.08); transition: all 0.3s; height: 100%; border: 1px solid #eee;
+        }
+        .apartment-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.12); }
+        .apt-img { height: 200px; overflow: hidden; position: relative; }
+        .apt-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .apartment-card:hover .apt-img img { transform: scale(1.1); }
+        .apt-status { position: absolute; top: 10px; left: 10px; background: #28a745; color: #fff; font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: bold; }
+        .apt-body { padding: 15px; }
+        .apt-title { font-weight: bold; font-size: 16px; margin-bottom: 5px; color: #333; }
+        .apt-price { color: var(--secondary-color); font-weight: bold; font-size: 18px; margin-bottom: 10px; }
+        .apt-features { display: flex; justify-content: space-between; font-size: 13px; color: #666; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px; }
+        .apt-features span i { margin-right: 5px; color: var(--primary-color); }
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -102,8 +105,8 @@
                         <div class="navi-head">
                             <ul class="main-menu">
                                 <li><a href="#gioi-thieu">Giới thiệu</a></li>
-                                <li><a href="#loi-ich">Lĩnh vực kinh doanh</a></li>
-                                <li><a href="#quy-trinh">Quy trình</a></li>
+                                <li><a href="#loi-ich">Lĩnh vực</a></li>
+                                <li><a href="#san-pham">Căn hộ</a></li> <li><a href="#quy-trinh">Quy trình</a></li>
                                 <li><a href="#tin-tuc">Tin tức</a></li>
                                 <li><a href="#faq">Hỏi đáp</a></li>
                                 <li><a href="#lien-he" class="btn-custom mt-2 mt-lg-0 ms-lg-3">Liên hệ tư vấn</a></li>
@@ -183,33 +186,6 @@
             </div>
         </div>
 
-        <div id="tin-tuc" class="section news animatedParent animateOnce">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="h-two">
-                            <h2 class="title fadeInUpShort delay-250 animated go">Tin tức & Sự kiện</h2>
-                        </div>
-                        <div class="s-news w-item-news ani-up">
-                            {% for news in news_list %}
-                            <div class="item-news w-anima">
-                                <a href="{{ news.link }}" class="anima-img">
-                                    <div class="thumb-over">
-                                        <img src="{{ news.image.url }}" class="img-responsive" alt="{{ news.title }}">
-                                    </div>
-                                    <span>{{ news.date|date:"d/m/Y" }}</span>
-                                    <h4>{{ news.title }}</h4>
-                                </a>
-                            </div>
-                            {% empty %}
-                            <p class="text-center">Chưa có tin tức nào.</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="section s-business animatedParent animateOnce">
             <div class="container-fluid">
                 <div class="row">
@@ -270,6 +246,80 @@
             </div>
         </div>
 
+        <div id="san-pham" class="section py-5 animatedParent animateOnce">
+            <div class="container">
+                <div class="h-two text-center mb-4">
+                    <h2 class="title fadeInUpShort delay-250 animated go">Căn hộ Nổi bật</h2>
+                    <p class="text-muted fadeInUpShort delay-500 animated go">Lựa chọn căn hộ phù hợp với nhu cầu và tài chính của bạn</p>
+                </div>
+                
+                <div class="row fadeInUpShort delay-750 animated go">
+                    {% for apt in featured_apartments %}
+                    <div class="col-md-4 col-sm-6 mb-4">
+                        <div class="apartment-card">
+                            <div class="apt-img">
+                                {% if apt.image %}
+                                    <img src="{{ apt.image.url }}" alt="{{ apt.apartment_code }}">
+                                {% else %}
+                                    <img src="https://placehold.co/600x400?text=NOXH+Hồng+Loan" alt="No Image">
+                                {% endif %}
+                                <span class="apt-status">Đang mở bán</span>
+                            </div>
+                            <div class="apt-body">
+                                <h5 class="apt-title">Căn {{ apt.apartment_code }} - {{ apt.building.name }}</h5>
+                                <div class="apt-price">
+                                    {% if apt.price > 0 %}
+                                        {{ apt.price|intcomma }} VNĐ
+                                    {% else %}
+                                        Liên hệ
+                                    {% endif %}
+                                </div>
+                                <div class="apt-features">
+                                    <span><i class="fas fa-ruler-combined"></i> {{ apt.area_m2 }} m²</span>
+                                    <span><i class="fas fa-bed"></i> {{ apt.bedrooms }} PN</span>
+                                    <span><i class="fas fa-bath"></i> {{ apt.bathrooms }} WC</span>
+                                </div>
+                                <a href="#lien-he" class="btn btn-outline-primary w-100 mt-3 rounded-pill btn-sm">
+                                    <i class="fas fa-info-circle me-1"></i> Đăng ký tư vấn
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center py-5">
+                        <p>Đang cập nhật danh sách căn hộ...</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div id="tin-tuc" class="section news animatedParent animateOnce">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="h-two">
+                            <h2 class="title fadeInUpShort delay-250 animated go">Tin tức & Sự kiện</h2>
+                        </div>
+                        <div class="s-news w-item-news ani-up">
+                            {% for news in news_list %}
+                            <div class="item-news w-anima">
+                                <a href="{{ news.link }}" class="anima-img">
+                                    <div class="thumb-over">
+                                        <img src="{{ news.image.url }}" class="img-responsive" alt="{{ news.title }}">
+                                    </div>
+                                    <span>{{ news.date|date:"d/m/Y" }}</span>
+                                    <h4>{{ news.title }}</h4>
+                                </a>
+                            </div>
+                            {% empty %}
+                            <p class="text-center">Chưa có tin tức nào.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="cam-ket" class="section s-commitment animatedParent animateOnce">
             <div class="container">
                 <div class="row">
@@ -316,7 +366,6 @@
                     <div id="lien-he" class="col-md-6">
                         <div class="p-4 bg-white rounded shadow-sm border-top border-4 border-warning">
                             <h3 class="mb-3 fw-bold text-center">Đăng ký tư vấn miễn phí</h3>
-                            
                             {% if messages %}
                                 {% for message in messages %}
                                     <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -325,7 +374,6 @@
                                     </div>
                                 {% endfor %}
                             {% endif %}
-
                             <form action="" method="POST">
                                 {% csrf_token %}
                                 <div class="mb-3">

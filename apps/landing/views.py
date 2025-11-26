@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import LandingConfig, HeroSlide, Benefit, FAQ, ProcessStep, CustomerLead, NewsItem
+from apps.buildings.models import Apartment # Import model Apartment
 
 def landing_page(request):
     # --- XỬ LÝ FORM ĐĂNG KÝ (POST) ---
@@ -31,9 +32,11 @@ def landing_page(request):
     benefits = Benefit.objects.all()
     faqs = FAQ.objects.all()
     process_steps = ProcessStep.objects.all().order_by('order')
-    
-    # Lấy 3 tin tức mới nhất (MỚI)
     news_list = NewsItem.objects.all()[:3]
+
+    # --- LẤY DỮ LIỆU CĂN HỘ (CATALOG) - MỚI THÊM ---
+    # Lấy các căn hộ trạng thái 'VACANT' (Mở bán/Trống), tối đa 6 căn
+    featured_apartments = Apartment.objects.filter(status='VACANT').order_by('-created_at')[:6]
 
     context = {
         'config': config,
@@ -41,6 +44,7 @@ def landing_page(request):
         'benefits': benefits,
         'faqs': faqs,
         'process_steps': process_steps,
-        'news_list': news_list, # Truyền biến này sang HTML
+        'news_list': news_list,
+        'featured_apartments': featured_apartments, # Truyền sang HTML
     }
     return render(request, 'landing/index.html', context)

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize', # <--- ĐÃ THÊM DÒNG NÀY ĐỂ SỬA LỖI
 
     # --- Third-party Libraries (Thư viện bên thứ 3) ---
     'rest_framework',       # Để xây dựng API
