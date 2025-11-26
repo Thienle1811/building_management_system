@@ -1,1505 +1,295 @@
-<!DOCTYPE html>{% load static %}
-<!-- saved from url=(0026)https://www.namlongvn.com/ -->
-<html lang="vi" prefix="og: http://ogp.me/ns#" xmlns:fb="http://ogp.me/ns/fb#" class="mdl-js"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <!---->
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{{ config.project_name|default:"Dự án NOXH Hồng Loan" }}</title>
+    {% if config.logo %}
+        <link rel="shortcut icon" href="{{ config.logo.url }}">
+    {% else %}
+        <link rel="shortcut icon" href="{% static 'landing/img/favicon.ico' %}">
+    {% endif %}
 
-  <link rel="shortcut icon" href="https://www.namlongvn.com/wp-content/themes/namlong/favicon.ico">
-  <link rel="profile" href="http://gmpg.org/xfn/11">
+    <link rel="stylesheet" id="wp-block-library-css" href="{% static 'landing/css/style.min.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" id="contact-form-7-css" href="{% static 'landing/css/styles.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" id="cookie-notice-front-css" href="{% static 'landing/css/front.min.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" id="smart-search-style-css" href="{% static 'landing/css/style.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" id="namlong_animations-css" href="{% static 'landing/css/animations.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" id="namlong_bootstrap.min-css" href="{% static 'landing/css/bootstrap.min.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" id="namlong_template-css" href="{% static 'landing/css/template.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" id="namlong_menu-css" href="{% static 'landing/css/menu.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" id="namlong_homepage-css" href="{% static 'landing/css/homepage.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" id="namlong_ekko-lightbox-css" href="{% static 'landing/css/ekko-lightbox.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" id="namlong_slick-css" href="{% static 'landing/css/slick.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" id="namlong_slick-theme-css" href="{% static 'landing/css/slick-theme.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" id="namlong_custom-css" href="{% static 'landing/css/custom.css' %}" type="text/css" media="all">
 
-  <script type="text/javascript" async="" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/js"></script><script async="" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/gtm.js.download"></script><script>
-    var ajaxUrl = 'https://www.namlongvn.com/wp-admin/admin-ajax.php'; // WordPress AJAX URL
-    var currentLang = 'vi'; // Lấy ngôn ngữ hiện tại từ PHP
-  </script>
-
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
-	<link rel="alternate" href="https://www.namlongvn.com/en/homepage/" hreflang="en">
-<link rel="alternate" href="https://www.namlongvn.com/" hreflang="vi">
-
-	<!-- This site is optimized with the Yoast SEO plugin v26.1 - https://yoast.com/wordpress/plugins/seo/ -->
-	<title>Tập đoàn Nam Long: Trang Chính Thức Của Nam Long Group</title>
-	<meta name="description" content="Nam Long Group (NLG) nhà phát triển Bất Động Sản hàng đầu tại Việt Nam. Hơn 30 năm, Tập đoàn Nam Long đã phát triển với 3 dòng sản phẩm chính: Ehome, Flora, Valora và khu đô thị">
-	<link rel="canonical" href="https://www.namlongvn.com/">
-	<meta property="og:locale" content="vi_VN">
-	<meta property="og:locale:alternate" content="en_US">
-	<meta property="og:type" content="website">
-	<meta property="og:title" content="Tập đoàn Nam Long: Trang Chính Thức Của Nam Long Group">
-	<meta property="og:description" content="Nam Long Group (NLG) nhà phát triển Bất Động Sản hàng đầu tại Việt Nam. Hơn 30 năm, Tập đoàn Nam Long đã phát triển với 3 dòng sản phẩm chính: Ehome, Flora, Valora và khu đô thị">
-	<meta property="og:url" content="https://www.namlongvn.com/">
-	<meta property="og:site_name" content="Nam Long Group">
-	<meta property="article:modified_time" content="2025-11-20T02:50:14+00:00">
-	<meta property="og:image" content="https://www.namlongvn.com/wp-content/uploads/2025/09/nam-long-thumb.jpg">
-	<meta property="og:image:width" content="1200">
-	<meta property="og:image:height" content="630">
-	<meta property="og:image:type" content="image/jpeg">
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="Tập đoàn Nam Long: Trang Chính Thức Của Nam Long Group">
-	<meta name="twitter:description" content="Nam Long Group (NLG) nhà phát triển Bất Động Sản hàng đầu tại Việt Nam. Hơn 30 năm, Tập đoàn Nam Long đã phát triển với 3 dòng sản phẩm chính: Ehome, Flora, Valora và khu đô thị">
-	<meta name="twitter:image" content="https://www.namlongvn.com/wp-content/uploads/2025/09/nam-long-thumb.jpg">
-	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.namlongvn.com/","url":"https://www.namlongvn.com/","name":"Tập đoàn Nam Long: Trang Chính Thức Của Nam Long Group","isPartOf":{"@id":"https://www.namlongvn.com/#website"},"datePublished":"2025-07-07T09:50:22+00:00","dateModified":"2025-11-20T02:50:14+00:00","description":"Nam Long Group (NLG) nhà phát triển Bất Động Sản hàng đầu tại Việt Nam. Hơn 30 năm, Tập đoàn Nam Long đã phát triển với 3 dòng sản phẩm chính: Ehome, Flora, Valora và khu đô thị","breadcrumb":{"@id":"https://www.namlongvn.com/#breadcrumb"},"inLanguage":"vi","potentialAction":[{"@type":"ReadAction","target":["https://www.namlongvn.com/"]}]},{"@type":"BreadcrumbList","@id":"https://www.namlongvn.com/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home"}]},{"@type":"WebSite","@id":"https://www.namlongvn.com/#website","url":"https://www.namlongvn.com/","name":"Nam Long Group","description":"","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.namlongvn.com/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"vi"}]}</script>
-	<!-- / Yoast SEO plugin. -->
-
-
-<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com/">
-<link rel="dns-prefetch" href="https://cdn.jsdelivr.net/">
-<link rel="stylesheet" id="wp-block-library-css" href="{% static 'landing/css/style.min.css' %}" type="text/css" media="all">
-<style id="classic-theme-styles-inline-css" type="text/css">
-/*! This file is auto-generated */
-.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
-</style>
-<style id="global-styles-inline-css" type="text/css">
-:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
-:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
-:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
-:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
-</style>
-<link rel="stylesheet" id="contact-form-7-css" href="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/styles.css" type="text/css" media="all">
-<link rel="stylesheet" id="cookie-notice-front-css" href="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/front.min.css" type="text/css" media="all">
-<link rel="stylesheet" id="smart-search-style-css" href="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/style.css" type="text/css" media="all">
-<link rel="stylesheet" id="namlong_animations-css" href="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/animations.css" type="text/css" media="all">
-<link rel="stylesheet" id="namlong_bootstrap.min-css" href="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/bootstrap.min.css" type="text/css" media="all">
-<link rel="stylesheet" id="namlong_template-css" href="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/template.css" type="text/css" media="all">
-<link rel="stylesheet" id="namlong_menu-css" href="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/menu.css" type="text/css" media="all">
-<link rel="stylesheet" id="namlong_homepage-css" href="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/homepage.css" type="text/css" media="all">
-<link rel="stylesheet" id="namlong_ekko-lightbox-css" href="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/ekko-lightbox.css" type="text/css" media="all">
-<link rel="stylesheet" id="namlong_slick-css" href="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/slick.css" type="text/css" media="all">
-<link rel="stylesheet" id="namlong_slick-theme-css" href="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/slick-theme.css" type="text/css" media="all">
-<link rel="stylesheet" id="namlong_custom-css" href="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/custom.css" type="text/css" media="all">
-<script type="text/javascript" id="cookie-notice-front-js-before">
-/* <![CDATA[ */
-var cnArgs = {"ajaxUrl":"https:\/\/www.namlongvn.com\/wp-admin\/admin-ajax.php","nonce":"7303d05d56","hideEffect":"fade","position":"bottom","onScroll":false,"onScrollOffset":100,"onClick":false,"cookieName":"cookie_notice_accepted","cookieTime":2592000,"cookieTimeRejected":2592000,"globalCookie":false,"redirection":false,"cache":false,"revokeCookies":false,"revokeCookiesOpt":"automatic"};
-/* ]]> */
-</script>
-<script type="text/javascript" src="{% static 'landing/js/front.min.js.download" id="cookie-notice-front-js"></script>
-<script type="text/javascript" src="{% static 'landing/js/jquery.min.js.download" id="jquery-core-js"></script>
-<script type="text/javascript" src="{% static 'landing/js/jquery-migrate.min.js.download" id="jquery-migrate-js"></script>
-<link rel="https://api.w.org/" href="https://www.namlongvn.com/wp-json/"><link rel="alternate" title="JSON" type="application/json" href="https://www.namlongvn.com/wp-json/wp/v2/pages/106"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.namlongvn.com/xmlrpc.php?rsd">
-<meta name="generator" content="WordPress 6.8.3">
-<link rel="shortlink" href="https://www.namlongvn.com/">
-<link rel="alternate" title="oNhúng (JSON)" type="application/json+oembed" href="https://www.namlongvn.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.namlongvn.com%2F">
-<link rel="alternate" title="oNhúng (XML)" type="text/xml+oembed" href="https://www.namlongvn.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.namlongvn.com%2F&amp;format=xml">
-<link rel="icon" href="https://www.namlongvn.com/wp-content/uploads/2025/07/favico-150x150.png" sizes="32x32">
-<link rel="icon" href="https://www.namlongvn.com/wp-content/uploads/2025/07/favico.png" sizes="192x192">
-<link rel="apple-touch-icon" href="https://www.namlongvn.com/wp-content/uploads/2025/07/favico.png">
-<meta name="msapplication-TileImage" content="https://www.namlongvn.com/wp-content/uploads/2025/07/favico.png">
-  <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-NN2ZB8Q');</script>
-<!-- End Google Tag Manager -->
-<style>.swal2-popup.swal2-toast{box-sizing:border-box;grid-column:1/4 !important;grid-row:1/4 !important;grid-template-columns:min-content auto min-content;padding:1em;overflow-y:hidden;background:#fff;box-shadow:0 0 1px rgba(0,0,0,.075),0 1px 2px rgba(0,0,0,.075),1px 2px 4px rgba(0,0,0,.075),1px 3px 8px rgba(0,0,0,.075),2px 4px 16px rgba(0,0,0,.075);pointer-events:all}.swal2-popup.swal2-toast>*{grid-column:2}.swal2-popup.swal2-toast .swal2-title{margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-popup.swal2-toast .swal2-loading{justify-content:center}.swal2-popup.swal2-toast .swal2-input{height:2em;margin:.5em;font-size:1em}.swal2-popup.swal2-toast .swal2-validation-message{font-size:1em}.swal2-popup.swal2-toast .swal2-footer{margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-popup.swal2-toast .swal2-close{grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-popup.swal2-toast .swal2-html-container{margin:.5em 1em;padding:0;overflow:initial;font-size:1em;text-align:initial}.swal2-popup.swal2-toast .swal2-html-container:empty{padding:0}.swal2-popup.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-popup.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-popup.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:bold}.swal2-popup.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-popup.swal2-toast .swal2-actions{justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-popup.swal2-toast .swal2-styled{margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-popup.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;border-radius:50%}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.8em;left:-0.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-popup.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-toast-animate-success-line-tip .75s}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-toast-animate-success-line-long .75s}.swal2-popup.swal2-toast.swal2-show{animation:swal2-toast-show .5s}.swal2-popup.swal2-toast.swal2-hide{animation:swal2-toast-hide .1s forwards}div:where(.swal2-container){display:grid;position:fixed;z-index:1060;inset:0;box-sizing:border-box;grid-template-areas:"top-start     top            top-end" "center-start  center         center-end" "bottom-start  bottom-center  bottom-end";grid-template-rows:minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);height:100%;padding:.625em;overflow-x:hidden;transition:background-color .1s;-webkit-overflow-scrolling:touch}div:where(.swal2-container).swal2-backdrop-show,div:where(.swal2-container).swal2-noanimation{background:rgba(0,0,0,.4)}div:where(.swal2-container).swal2-backdrop-hide{background:rgba(0,0,0,0) !important}div:where(.swal2-container).swal2-top-start,div:where(.swal2-container).swal2-center-start,div:where(.swal2-container).swal2-bottom-start{grid-template-columns:minmax(0, 1fr) auto auto}div:where(.swal2-container).swal2-top,div:where(.swal2-container).swal2-center,div:where(.swal2-container).swal2-bottom{grid-template-columns:auto minmax(0, 1fr) auto}div:where(.swal2-container).swal2-top-end,div:where(.swal2-container).swal2-center-end,div:where(.swal2-container).swal2-bottom-end{grid-template-columns:auto auto minmax(0, 1fr)}div:where(.swal2-container).swal2-top-start>.swal2-popup{align-self:start}div:where(.swal2-container).swal2-top>.swal2-popup{grid-column:2;place-self:start center}div:where(.swal2-container).swal2-top-end>.swal2-popup,div:where(.swal2-container).swal2-top-right>.swal2-popup{grid-column:3;place-self:start end}div:where(.swal2-container).swal2-center-start>.swal2-popup,div:where(.swal2-container).swal2-center-left>.swal2-popup{grid-row:2;align-self:center}div:where(.swal2-container).swal2-center>.swal2-popup{grid-column:2;grid-row:2;place-self:center center}div:where(.swal2-container).swal2-center-end>.swal2-popup,div:where(.swal2-container).swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;place-self:center end}div:where(.swal2-container).swal2-bottom-start>.swal2-popup,div:where(.swal2-container).swal2-bottom-left>.swal2-popup{grid-column:1;grid-row:3;align-self:end}div:where(.swal2-container).swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;place-self:end center}div:where(.swal2-container).swal2-bottom-end>.swal2-popup,div:where(.swal2-container).swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;place-self:end end}div:where(.swal2-container).swal2-grow-row>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-column:1/4;width:100%}div:where(.swal2-container).swal2-grow-column>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}div:where(.swal2-container).swal2-no-transition{transition:none !important}div:where(.swal2-container) div:where(.swal2-popup){display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0, 100%);width:32em;max-width:100%;padding:0 0 1.25em;border:none;border-radius:5px;background:#fff;color:#545454;font-family:inherit;font-size:1rem}div:where(.swal2-container) div:where(.swal2-popup):focus{outline:none}div:where(.swal2-container) div:where(.swal2-popup).swal2-loading{overflow-y:hidden}div:where(.swal2-container) h2:where(.swal2-title){position:relative;max-width:100%;margin:0;padding:.8em 1em 0;color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;word-wrap:break-word}div:where(.swal2-container) div:where(.swal2-actions){display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:center;width:auto;margin:1.25em auto 0;padding:0}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled[disabled]{opacity:.4}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:hover{background-image:linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1))}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:active{background-image:linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2))}div:where(.swal2-container) div:where(.swal2-loader){display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 rgba(0,0,0,0) #2778c4 rgba(0,0,0,0)}div:where(.swal2-container) button:where(.swal2-styled){margin:.3125em;padding:.625em 1.1em;transition:box-shadow .1s;box-shadow:0 0 0 3px rgba(0,0,0,0);font-weight:500}div:where(.swal2-container) button:where(.swal2-styled):not([disabled]){cursor:pointer}div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{border:0;border-radius:.25em;background:initial;background-color:#7066e0;color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm:focus{box-shadow:0 0 0 3px rgba(112,102,224,.5)}div:where(.swal2-container) button:where(.swal2-styled).swal2-deny{border:0;border-radius:.25em;background:initial;background-color:#dc3741;color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled).swal2-deny:focus{box-shadow:0 0 0 3px rgba(220,55,65,.5)}div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel{border:0;border-radius:.25em;background:initial;background-color:#6e7881;color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel:focus{box-shadow:0 0 0 3px rgba(110,120,129,.5)}div:where(.swal2-container) button:where(.swal2-styled).swal2-default-outline:focus{box-shadow:0 0 0 3px rgba(100,150,200,.5)}div:where(.swal2-container) button:where(.swal2-styled):focus{outline:none}div:where(.swal2-container) button:where(.swal2-styled)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-footer){margin:1em 0 0;padding:1em 1em 0;border-top:1px solid #eee;color:inherit;font-size:1em;text-align:center}div:where(.swal2-container) .swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto !important;overflow:hidden;border-bottom-right-radius:5px;border-bottom-left-radius:5px}div:where(.swal2-container) div:where(.swal2-timer-progress-bar){width:100%;height:.25em;background:rgba(0,0,0,.2)}div:where(.swal2-container) img:where(.swal2-image){max-width:100%;margin:2em auto 1em}div:where(.swal2-container) button:where(.swal2-close){z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:color .1s,box-shadow .1s;border:none;border-radius:5px;background:rgba(0,0,0,0);color:#ccc;font-family:monospace;font-size:2.5em;cursor:pointer;justify-self:end}div:where(.swal2-container) button:where(.swal2-close):hover{transform:none;background:rgba(0,0,0,0);color:#f27474}div:where(.swal2-container) button:where(.swal2-close):focus{outline:none;box-shadow:inset 0 0 0 3px rgba(100,150,200,.5)}div:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner{border:0}div:where(.swal2-container) .swal2-html-container{z-index:1;justify-content:center;margin:1em 1.6em .3em;padding:0;overflow:auto;color:inherit;font-size:1.125em;font-weight:normal;line-height:normal;text-align:center;word-wrap:break-word;word-break:break-word}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea),div:where(.swal2-container) select:where(.swal2-select),div:where(.swal2-container) div:where(.swal2-radio),div:where(.swal2-container) label:where(.swal2-checkbox){margin:1em 2em 3px}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea){box-sizing:border-box;width:auto;transition:border-color .1s,box-shadow .1s;border:1px solid #d9d9d9;border-radius:.1875em;background:rgba(0,0,0,0);box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0,0,0,0);color:inherit;font-size:1.125em}div:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,div:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,div:where(.swal2-container) textarea:where(.swal2-textarea).swal2-inputerror{border-color:#f27474 !important;box-shadow:0 0 2px #f27474 !important}div:where(.swal2-container) input:where(.swal2-input):focus,div:where(.swal2-container) input:where(.swal2-file):focus,div:where(.swal2-container) textarea:where(.swal2-textarea):focus{border:1px solid #b4dbed;outline:none;box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(100,150,200,.5)}div:where(.swal2-container) input:where(.swal2-input)::placeholder,div:where(.swal2-container) input:where(.swal2-file)::placeholder,div:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder{color:#ccc}div:where(.swal2-container) .swal2-range{margin:1em 2em 3px;background:#fff}div:where(.swal2-container) .swal2-range input{width:80%}div:where(.swal2-container) .swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}div:where(.swal2-container) .swal2-range input,div:where(.swal2-container) .swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}div:where(.swal2-container) .swal2-input{height:2.625em;padding:0 .75em}div:where(.swal2-container) .swal2-file{width:75%;margin-right:auto;margin-left:auto;background:rgba(0,0,0,0);font-size:1.125em}div:where(.swal2-container) .swal2-textarea{height:6.75em;padding:.75em}div:where(.swal2-container) .swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:rgba(0,0,0,0);color:inherit;font-size:1.125em}div:where(.swal2-container) .swal2-radio,div:where(.swal2-container) .swal2-checkbox{align-items:center;justify-content:center;background:#fff;color:inherit}div:where(.swal2-container) .swal2-radio label,div:where(.swal2-container) .swal2-checkbox label{margin:0 .6em;font-size:1.125em}div:where(.swal2-container) .swal2-radio input,div:where(.swal2-container) .swal2-checkbox input{flex-shrink:0;margin:0 .4em}div:where(.swal2-container) label:where(.swal2-input-label){display:flex;justify-content:center;margin:1em auto 0}div:where(.swal2-container) div:where(.swal2-validation-message){align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:#f0f0f0;color:#666;font-size:1em;font-weight:300}div:where(.swal2-container) div:where(.swal2-validation-message)::before{content:"!";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}div:where(.swal2-container) .swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:rgba(0,0,0,0);font-weight:600}div:where(.swal2-container) .swal2-progress-steps li{display:inline-block;position:relative}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:#add8e6;color:#fff}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:#add8e6}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}div:where(.swal2-icon){position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;border:0.25em solid rgba(0,0,0,0);border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;user-select:none}div:where(.swal2-icon) .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}div:where(.swal2-icon).swal2-error{border-color:#f27474;color:#f27474}div:where(.swal2-icon).swal2-error .swal2-x-mark{position:relative;flex-grow:1}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-error.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark{animation:swal2-animate-error-x-mark .5s}div:where(.swal2-icon).swal2-warning{border-color:#facea8;color:#f8bb86}div:where(.swal2-icon).swal2-warning.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .5s}div:where(.swal2-icon).swal2-info{border-color:#9de0f6;color:#3fc3ee}div:where(.swal2-icon).swal2-info.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .8s}div:where(.swal2-icon).swal2-question{border-color:#c9dae1;color:#87adbd}div:where(.swal2-icon).swal2-question.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-question.swal2-icon-show .swal2-icon-content{animation:swal2-animate-question-mark .8s}div:where(.swal2-icon).swal2-success{border-color:#a5dc86;color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;border-radius:50%}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}div:where(.swal2-icon).swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-0.25em;left:-0.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}div:where(.swal2-icon).swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-animate-success-line-tip .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-animate-success-line-long .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-circular-line-right{animation:swal2-rotate-success-circular-line 4.25s ease-in}[class^=swal2]{-webkit-tap-highlight-color:rgba(0,0,0,0)}.swal2-show{animation:swal2-show .3s}.swal2-hide{animation:swal2-hide .15s forwards}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}@keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-0.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}@keyframes swal2-show{0%{transform:scale(0.7)}45%{transform:scale(1.05)}80%{transform:scale(0.95)}100%{transform:scale(1)}}@keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(0.5);opacity:0}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-0.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(0.4);opacity:0}50%{margin-top:1.625em;transform:scale(0.4);opacity:0}80%{margin-top:-0.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0deg);opacity:1}}@keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto !important}body.swal2-no-backdrop .swal2-container{background-color:rgba(0,0,0,0) !important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:all}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px rgba(0,0,0,.4)}@media print{body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow-y:scroll !important}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) .swal2-container{position:static !important}}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:rgba(0,0,0,0);pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{inset:0 auto auto 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{inset:0 0 auto auto}body.swal2-toast-shown .swal2-container.swal2-top-start,body.swal2-toast-shown .swal2-container.swal2-top-left{inset:0 auto auto 0}body.swal2-toast-shown .swal2-container.swal2-center-start,body.swal2-toast-shown .swal2-container.swal2-center-left{inset:50% auto auto 0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{inset:50% auto auto 50%;transform:translate(-50%, -50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{inset:50% 0 auto auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-start,body.swal2-toast-shown .swal2-container.swal2-bottom-left{inset:auto auto 0 0}body.swal2-toast-shown .swal2-container.swal2-bottom{inset:auto auto 0 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{inset:auto 0 0 auto}</style><style type="text/css">.__react_component_tooltip {
-  border-radius: 3px;
-  display: inline-block;
-  font-size: 13px;
-  left: -999em;
-  opacity: 0;
-  padding: 8px 21px;
-  position: fixed;
-  pointer-events: none;
-  transition: opacity 0.3s ease-out;
-  top: -999em;
-  visibility: hidden;
-  z-index: 999;
-}
-.__react_component_tooltip.allow_hover, .__react_component_tooltip.allow_click {
-  pointer-events: auto;
-}
-.__react_component_tooltip:before, .__react_component_tooltip:after {
-  content: "";
-  width: 0;
-  height: 0;
-  position: absolute;
-}
-.__react_component_tooltip.show {
-  opacity: 0.9;
-  margin-top: 0px;
-  margin-left: 0px;
-  visibility: visible;
-}
-.__react_component_tooltip.type-dark {
-  color: #fff;
-  background-color: #222;
-}
-.__react_component_tooltip.type-dark.place-top:after {
-  border-top-color: #222;
-  border-top-style: solid;
-  border-top-width: 6px;
-}
-.__react_component_tooltip.type-dark.place-bottom:after {
-  border-bottom-color: #222;
-  border-bottom-style: solid;
-  border-bottom-width: 6px;
-}
-.__react_component_tooltip.type-dark.place-left:after {
-  border-left-color: #222;
-  border-left-style: solid;
-  border-left-width: 6px;
-}
-.__react_component_tooltip.type-dark.place-right:after {
-  border-right-color: #222;
-  border-right-style: solid;
-  border-right-width: 6px;
-}
-.__react_component_tooltip.type-dark.border {
-  border: 1px solid #fff;
-}
-.__react_component_tooltip.type-dark.border.place-top:before {
-  border-top: 8px solid #fff;
-}
-.__react_component_tooltip.type-dark.border.place-bottom:before {
-  border-bottom: 8px solid #fff;
-}
-.__react_component_tooltip.type-dark.border.place-left:before {
-  border-left: 8px solid #fff;
-}
-.__react_component_tooltip.type-dark.border.place-right:before {
-  border-right: 8px solid #fff;
-}
-.__react_component_tooltip.type-success {
-  color: #fff;
-  background-color: #8DC572;
-}
-.__react_component_tooltip.type-success.place-top:after {
-  border-top-color: #8DC572;
-  border-top-style: solid;
-  border-top-width: 6px;
-}
-.__react_component_tooltip.type-success.place-bottom:after {
-  border-bottom-color: #8DC572;
-  border-bottom-style: solid;
-  border-bottom-width: 6px;
-}
-.__react_component_tooltip.type-success.place-left:after {
-  border-left-color: #8DC572;
-  border-left-style: solid;
-  border-left-width: 6px;
-}
-.__react_component_tooltip.type-success.place-right:after {
-  border-right-color: #8DC572;
-  border-right-style: solid;
-  border-right-width: 6px;
-}
-.__react_component_tooltip.type-success.border {
-  border: 1px solid #fff;
-}
-.__react_component_tooltip.type-success.border.place-top:before {
-  border-top: 8px solid #fff;
-}
-.__react_component_tooltip.type-success.border.place-bottom:before {
-  border-bottom: 8px solid #fff;
-}
-.__react_component_tooltip.type-success.border.place-left:before {
-  border-left: 8px solid #fff;
-}
-.__react_component_tooltip.type-success.border.place-right:before {
-  border-right: 8px solid #fff;
-}
-.__react_component_tooltip.type-warning {
-  color: #fff;
-  background-color: #F0AD4E;
-}
-.__react_component_tooltip.type-warning.place-top:after {
-  border-top-color: #F0AD4E;
-  border-top-style: solid;
-  border-top-width: 6px;
-}
-.__react_component_tooltip.type-warning.place-bottom:after {
-  border-bottom-color: #F0AD4E;
-  border-bottom-style: solid;
-  border-bottom-width: 6px;
-}
-.__react_component_tooltip.type-warning.place-left:after {
-  border-left-color: #F0AD4E;
-  border-left-style: solid;
-  border-left-width: 6px;
-}
-.__react_component_tooltip.type-warning.place-right:after {
-  border-right-color: #F0AD4E;
-  border-right-style: solid;
-  border-right-width: 6px;
-}
-.__react_component_tooltip.type-warning.border {
-  border: 1px solid #fff;
-}
-.__react_component_tooltip.type-warning.border.place-top:before {
-  border-top: 8px solid #fff;
-}
-.__react_component_tooltip.type-warning.border.place-bottom:before {
-  border-bottom: 8px solid #fff;
-}
-.__react_component_tooltip.type-warning.border.place-left:before {
-  border-left: 8px solid #fff;
-}
-.__react_component_tooltip.type-warning.border.place-right:before {
-  border-right: 8px solid #fff;
-}
-.__react_component_tooltip.type-error {
-  color: #fff;
-  background-color: #BE6464;
-}
-.__react_component_tooltip.type-error.place-top:after {
-  border-top-color: #BE6464;
-  border-top-style: solid;
-  border-top-width: 6px;
-}
-.__react_component_tooltip.type-error.place-bottom:after {
-  border-bottom-color: #BE6464;
-  border-bottom-style: solid;
-  border-bottom-width: 6px;
-}
-.__react_component_tooltip.type-error.place-left:after {
-  border-left-color: #BE6464;
-  border-left-style: solid;
-  border-left-width: 6px;
-}
-.__react_component_tooltip.type-error.place-right:after {
-  border-right-color: #BE6464;
-  border-right-style: solid;
-  border-right-width: 6px;
-}
-.__react_component_tooltip.type-error.border {
-  border: 1px solid #fff;
-}
-.__react_component_tooltip.type-error.border.place-top:before {
-  border-top: 8px solid #fff;
-}
-.__react_component_tooltip.type-error.border.place-bottom:before {
-  border-bottom: 8px solid #fff;
-}
-.__react_component_tooltip.type-error.border.place-left:before {
-  border-left: 8px solid #fff;
-}
-.__react_component_tooltip.type-error.border.place-right:before {
-  border-right: 8px solid #fff;
-}
-.__react_component_tooltip.type-info {
-  color: #fff;
-  background-color: #337AB7;
-}
-.__react_component_tooltip.type-info.place-top:after {
-  border-top-color: #337AB7;
-  border-top-style: solid;
-  border-top-width: 6px;
-}
-.__react_component_tooltip.type-info.place-bottom:after {
-  border-bottom-color: #337AB7;
-  border-bottom-style: solid;
-  border-bottom-width: 6px;
-}
-.__react_component_tooltip.type-info.place-left:after {
-  border-left-color: #337AB7;
-  border-left-style: solid;
-  border-left-width: 6px;
-}
-.__react_component_tooltip.type-info.place-right:after {
-  border-right-color: #337AB7;
-  border-right-style: solid;
-  border-right-width: 6px;
-}
-.__react_component_tooltip.type-info.border {
-  border: 1px solid #fff;
-}
-.__react_component_tooltip.type-info.border.place-top:before {
-  border-top: 8px solid #fff;
-}
-.__react_component_tooltip.type-info.border.place-bottom:before {
-  border-bottom: 8px solid #fff;
-}
-.__react_component_tooltip.type-info.border.place-left:before {
-  border-left: 8px solid #fff;
-}
-.__react_component_tooltip.type-info.border.place-right:before {
-  border-right: 8px solid #fff;
-}
-.__react_component_tooltip.type-light {
-  color: #222;
-  background-color: #fff;
-}
-.__react_component_tooltip.type-light.place-top:after {
-  border-top-color: #fff;
-  border-top-style: solid;
-  border-top-width: 6px;
-}
-.__react_component_tooltip.type-light.place-bottom:after {
-  border-bottom-color: #fff;
-  border-bottom-style: solid;
-  border-bottom-width: 6px;
-}
-.__react_component_tooltip.type-light.place-left:after {
-  border-left-color: #fff;
-  border-left-style: solid;
-  border-left-width: 6px;
-}
-.__react_component_tooltip.type-light.place-right:after {
-  border-right-color: #fff;
-  border-right-style: solid;
-  border-right-width: 6px;
-}
-.__react_component_tooltip.type-light.border {
-  border: 1px solid #222;
-}
-.__react_component_tooltip.type-light.border.place-top:before {
-  border-top: 8px solid #222;
-}
-.__react_component_tooltip.type-light.border.place-bottom:before {
-  border-bottom: 8px solid #222;
-}
-.__react_component_tooltip.type-light.border.place-left:before {
-  border-left: 8px solid #222;
-}
-.__react_component_tooltip.type-light.border.place-right:before {
-  border-right: 8px solid #222;
-}
-.__react_component_tooltip.place-top {
-  margin-top: -10px;
-}
-.__react_component_tooltip.place-top:before {
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  bottom: -8px;
-  left: 50%;
-  margin-left: -10px;
-}
-.__react_component_tooltip.place-top:after {
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  bottom: -6px;
-  left: 50%;
-  margin-left: -8px;
-}
-.__react_component_tooltip.place-bottom {
-  margin-top: 10px;
-}
-.__react_component_tooltip.place-bottom:before {
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  top: -8px;
-  left: 50%;
-  margin-left: -10px;
-}
-.__react_component_tooltip.place-bottom:after {
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  top: -6px;
-  left: 50%;
-  margin-left: -8px;
-}
-.__react_component_tooltip.place-left {
-  margin-left: -10px;
-}
-.__react_component_tooltip.place-left:before {
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  right: -8px;
-  top: 50%;
-  margin-top: -5px;
-}
-.__react_component_tooltip.place-left:after {
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  right: -6px;
-  top: 50%;
-  margin-top: -4px;
-}
-.__react_component_tooltip.place-right {
-  margin-left: 10px;
-}
-.__react_component_tooltip.place-right:before {
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  left: -8px;
-  top: 50%;
-  margin-top: -5px;
-}
-.__react_component_tooltip.place-right:after {
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  left: -6px;
-  top: 50%;
-  margin-top: -4px;
-}
-.__react_component_tooltip .multi-line {
-  display: block;
-  padding: 2px 0px;
-  text-align: center;
-}</style><style id="spin-keyframes">
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-</style><style>
-      .ejoy-sub-active{
-        color: #1296ba !important;
-      }
-      
-      .ejoy-sub-hovered{
-        color: #1296ba !important;
-      }
-      .ejoy-sub-clzz{
-        cursor: pointer;
+    <style>
+        :root {
+            --primary-color: {{ config.primary_color|default:"#1da1f2" }};
+            --secondary-color: {{ config.secondary_color|default:"#f7941d" }};
+        }
+        .text-primary-custom { color: var(--primary-color) !important; }
+        .bg-primary-custom { background-color: var(--primary-color) !important; }
+        .btn-custom { background-color: var(--secondary-color); color: #fff; }
         
-        lineHeight: 1.2;
-          font-size: 28px;
-          color: #FFCC00; background: rgba(17, 17, 17, 0.7);
+        /* Style cho FAQ Accordion */
+        .accordion-button:not(.collapsed) {
+            color: var(--primary-color);
+            background-color: #e7f1ff;
+        }
+    </style>
+
+    <script type="text/javascript" src="{% static 'landing/js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'landing/js/jquery-migrate.min.js' %}"></script>
+</head>
+
+<body class="site home-page p-sticky">
+
+    <header id="header">
+        <div class="container">
+            <div class="row">
+                <div class="main-menu-container col-md-12">
+                    <div class="logo-mobile">
+                        <a href="/" class="logo-container">
+                            {% if config.logo %}
+                                <img src="{{ config.logo.url }}" class="logo" alt="{{ config.project_name }}">
+                            {% else %}
+                                <img src="{% static 'landing/img/logo.svg' %}" class="logo" alt="Logo Mặc định">
+                            {% endif %}
+                        </a>
+                    </div>
+
+                    <div class="main-menu-wrap row">
+                        <div class="logo-h">
+                            <a href="/" class="logo-container">
+                                {% if config.logo %}
+                                    <img id="final-logo" src="{{ config.logo.url }}" class="logo" alt="{{ config.project_name }}">
+                                {% else %}
+                                    <img id="final-logo" src="{% static 'landing/img/logo.svg' %}" class="logo" alt="Logo">
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="navi-head">
+                            <ul class="main-menu">
+                                <li><a href="#gioi-thieu">Giới thiệu</a></li>
+                                <li><a href="#loi-ich">Lợi ích</a></li>
+                                <li><a href="#faq">Hỏi đáp</a></li>
+                                <li><a href="#lien-he" class="btn btn-custom text-white px-3 py-2 rounded-pill">Đăng ký tư vấn</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="fullpage" class="homepage">
         
-      }
-      .ejoy-sub-clzz:hover{
-        color: #1296ba !important;
-      }
-      .ej-trans-sub{
-        position: absolute;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999999;
-        cursor: move;
-      }
-      .ej-trans-sub > span{
-        color: #3CF9ED;
-        font-size: 18px;
-        text-align: center;
-        padding: 0 16px;
-        line-height: 1.5;
-        background: rgba(32, 26, 25, 0.8);
-        // text-shadow: 0px 1px 4px black;
-        padding: 0 8px;
-        
-        lineHeight: 1.2;
-        font-size: 16px;
-        color: #0CB1C7; background: rgba(67, 65, 65, 0.7);
-      
-      }
-      .ej-full-screen-video{
-        position: absolute;
-        width: 30px;
-        height: 30px;
-        top: 30px;
-        right: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 99999999;
-        cursor: pointer;
-      }
-      .ej-main-sub{
-        position: absolute;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 99999999;
-        cursor: move;
-        padding: 0 8px;
-      }
-      .ej-main-sub > span{
-        color: white;
-        font-size: 20px;
-        line-height: 1.5;
-        text-align: center;
-        background: rgba(32, 26, 25, 0.8);
-        padding: 2px 8px;
-        
-        lineHeight: 1.2;
-          font-size: 28px;
-          color: #FFCC00; background: rgba(17, 17, 17, 0.7);
-        
-      }
+        <div class="section slider-top animatedParent animateOnce">
+            <div class="slider_banner">
+                {% for slide in slides %}
+                <div class="item-slide">
+                    <div class="img-sl">
+                        <picture>
+                            <source media="(min-width: 1200px)" srcset="{{ slide.image.url }}">
+                            <img class="img-responsive" src="{{ slide.image_mobile.url|default:slide.image.url }}" alt="{{ slide.title }}">
+                        </picture>
+                    </div>
+                    <div class="txt-banner">
+                        {% if slide.title %}
+                            <h3 class="name-banner fadeInUpShort delay-250 animated go">{{ slide.title }}</h3>
+                        {% endif %}
+                        
+                        {% if slide.description %}
+                            <div class="des-banner fadeInUpShort delay-500 animated go">{{ slide.description }}</div>
+                        {% endif %}
 
-      .ej-main-sub .ejoy-sub-clzz{
-        background: transparent !important
-      }
-
-      .tran-subtitle > span{
-        cursor: pointer;
-        padding-left: 10px;
-        top: 2px;
-        position: relative;
-      }
-
-      .tran-subtitle > span > span{
-        position: absolute;
-        top: -170%;
-        background: rgba(0,0,0,0.5);
-        font-size: 13px;
-        line-height: 20px;
-        padding: 2px 8px;
-        color: white;
-        display: none;
-        border-radius: 4px;
-        white-space: nowrap;
-        left: -50%;
-        font-weight: normal;
-      }
-
-      .viewPopupPro {
-        z-index: 2147483647;
-        cursor: auto;
-        position: absolute;
-        z-index: 2147483647;
-        background: #111111;
-        transition: opacity 1s;
-        width: 172px;
-        height: 66px;
-        opacity: 1;
-        border-radius: 6px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .titlePopupPro {
-        font-style: normal;
-        font-weight: 400;
-        font-size: 10px;
-        line-height: 12px;
-        color: #E5E5E5;
-        text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
-      }
-  
-      .viewGoPro {
-        background: #FFCC00;
-        border-radius: 72.6257px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 8px;
-        padding-left: 10px;
-        cursor: pointer;
-  
-      }
-
-      .viewGoPro svg {
-        pointer-events: none;
-      }
-      
-      .textGoPro {
-        font-style: normal;
-        font-weight: 600;
-        font-size: 10px;
-        line-height: 12px;
-        pointer-events: none;
-        text-align: center;
-        color: #FFFFFF;
-        padding: 4px 14px 4px 4px;
-      }
-
-      .viewPopupPro{
-        top: auto !important;
-        bottom: 15px !important;
-      }
-
-      .view-icon-copy-main-sub:hover > span,
-      .view-icon-edit-sub:hover > span,
-      .view-icon-exit-full-sub:hover > span,
-      .view-icon-full-sub:hover > span,
-      .iconCrownGoPro:hover > span,
-      .view-icon-copy-tran-sub:hover > span {
-        display: block;
-      }
-
-      .iconCrownGoPro{
-        padding-left: 0px !important;
-        padding-right: 8px !important;
-      }
-      .iconCrownGoPro svg{
-        width: 17px;
-        height: 17px;
-      }
-      .view-icon-full-sub, .view-icon-exit-full-sub {
-        display: flex;
-      }
-
-      .view-icon-full-sub > svg, .view-icon-exit-full-sub > svg {
-        pointer-events: none;
-      }
-
-      .tran-subtitle > span > svg{
-        width: 16px;
-        height: 16px;
-        pointer-events: none;
-        display: inline-flex !important;
-        vertical-align: baseline !important;
-      }
-      
-      .view-icon-copy-main-sub > svg{
-        pointer-events: none;
-        color: #FFCC00
-      }
-
-      .iconCrownGoPro{
-        padding-left: 0 !important;
-        padding-right: 8px !important;
-      }
-      .view-icon-copy-tran-sub > svg{
-        pointer-events: none;
-        color: #0CB1C7
-      }
-      </style></head>
-
-<body class="site home-page cookies-set cookies-refused p-sticky">
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NN2ZB8Q"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-  <div id="preloader" style="background: transparent; pointer-events: none; display: none;">
-    <div class="logo-container">
-      <img id="preloader-logo" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/logo.svg" alt="Logo" class="visible" style="will-change: transform; transform-origin: center center; transition: none; transform: translate3d(-501px, -254.5px, 0px) scale(0.6); display: none;">
-    </div>
-  </div>
-  <header id="header">
-    <div class="container">
-      <div class="row">
-        <div class="overlay-mobile js-toggle-menu"></div>
-
-        <div class="main-menu-container  col-md-12">
-          <div class="logo-mobile">
-            <a href="https://www.namlongvn.com/" class="logo-container">
-              <img id="mobile-logo" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/logo.svg" class="logo" alt="Nam Long Group">
-            </a>
-          </div>
-          <div class="toggle-menu-container">
-            <div class="w_search_form">
-              <a href="https://www.namlongvn.com/#search" class="search_form"></a>
-            </div>
-            <button class="toggle-menu js-toggle-menu">
-              <span class="line"></span>
-              <span class="line"></span>
-              <span class="line"></span>
-            </button>
-          </div>
-          <div class="main-menu-wrap row">
-            <!--<div class="js-toggle-menu close-btn-mobile">X</div>-->
-            <a href="https://www.namlongvn.com/" class="mobile-logo-container">
-              <img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/logo.svg" class="mobile-logo w-100" alt="Nam Long Group">
-            </a>
-            <div class="logo-h">
-              <a href="https://www.namlongvn.com/" class="logo-container">
-                <img id="final-logo" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/logo.svg" class="logo" alt="Nam Long Group" style="visibility: visible; opacity: 1; transition: none;">
-              </a>
-            </div>
-            <div class="navi-head">
-              <ul id="menu-header-menu-vie" class="main-menu"><li data-slug="menu-109" class=" menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item menu-109 menu-item-has-children"><a href="https://www.namlongvn.com/gioi-thieu/">Giới thiệu</a>
-<div class="submenu">
-	<div class="top-menu">
-		<span class="t-menu">Giới thiệu</span>
-<div class="left-menu"><div class="item-menu"><a href="https://www.namlongvn.com/gioi-thieu#s-vision">Sứ mệnh, tầm nhìn và giá trị cốt lõi</a><a href="https://www.namlongvn.com/gioi-thieu#s-legacy">Hành trình phát triển</a><a href="https://www.namlongvn.com/gioi-thieu#s-directors">Hội Đồng Quản Trị</a><a href="https://www.namlongvn.com/gioi-thieu#s-management">Ban Tổng Giám đốc</a></div></div><div class="right-menu"><div class="sub-right">Chung tay kiến tạo môi trường sống, sản phẩm giá trị vì cộng đồng</div><div class="view-more"><a href="https://www.namlongvn.com/#">Khám phá thêm</a></div></div></div> <!-- end top-menu --><div class="bottom-menu"><div class="view-more"><a href="https://www.namlongvn.com/#" class="by-interest">Tìm kiếm theo nhu cầu</a></div></div></div> <!-- end submenu --></li><li data-slug="menu-110" class="js-menu-linh-vuc menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item menu-110 menu-item-has-children"><a href="https://www.namlongvn.com/linh-vuc-kinh-doanh/">Lĩnh vực kinh doanh</a>
-<div class="submenu">
-	<div class="top-menu">
-		<span class="t-menu">Lĩnh vực kinh doanh</span>
-<div class="left-menu"><div class="item-menu"><a href="https://www.namlongvn.com/dau-tu-quan-ly-dau-tu/">Đầu tư &amp; Quản lý đầu tư</a><a href="https://www.namlongvn.com/phat-trien-nha-o-vua-tui-tien/">Giải pháp Nhà ở vừa túi tiền</a><a href="https://www.namlongvn.com/phat-trien-khu-do-thi-nha-o/">Phát triển Khu đô thị &amp; Nhà ở</a><a href="https://www.namlongvn.com/dich-vu-xay-dung/">Dịch vụ Xây dựng</a><a href="https://www.namlongvn.com/dau-tu-phat-trien-bat-dong-san-thuong-mai/">Đầu tư &amp; Phát triển bất động sản thương mại</a></div></div><div class="right-menu"><div class="sub-right">Phát triển xuyên suốt chuỗi giá trị bất động sản và thúc đẩy tăng trưởng bền vững</div><div class="view-more"><a href="https://www.namlongvn.com/linh-vuc-kinh-doanh">Khám phá thêm</a></div></div></div> <!-- end top-menu --><div class="bottom-menu"><div class="view-more"><a href="https://www.namlongvn.com/#" class="by-interest">Tìm kiếm theo nhu cầu</a></div></div></div> <!-- end submenu --></li><li data-slug="menu-354" class="js-menu-du-an menu-item menu-item-type-post_type menu-item-object-page menu-item menu-354"><a href="https://www.namlongvn.com/phat-trien-khu-do-thi-nha-o/">Dự án</a></li><li data-slug="menu-112" class=" menu-item menu-item-type-post_type menu-item-object-page menu-item menu-112"><a href="https://www.namlongvn.com/quan-he-nha-dau-tu/">Quan hệ nhà đầu tư</a></li><li data-slug="menu-113" class="mn-sustain menu-item menu-item-type-post_type menu-item-object-page menu-item menu-113"><a href="https://www.namlongvn.com/phat-trien-ben-vung/">Phát triển bền vững</a></li><li data-slug="menu-114" class=" menu-item menu-item-type-post_type menu-item-object-page menu-item menu-114"><a href="https://www.namlongvn.com/tin-tuc/">Tin tức</a></li><li data-slug="menu-115" class=" menu-item menu-item-type-post_type menu-item-object-page menu-item menu-115"><a href="https://www.namlongvn.com/tuyen-dung/">Tuyển dụng</a></li><li data-slug="menu-116" class=" menu-item menu-item-type-post_type menu-item-object-page menu-item menu-116"><a href="https://www.namlongvn.com/lien-he/">Liên hệ</a></li></ul>              <div class="bottom-menu bt-menu-mobile">
-                <div class="view-more"><a href="https://www.namlongvn.com/#" class="by-interest">Tìm kiếm theo nhu cầu</a></div>
-              </div>
-              <div class="w_search_form">
-                <a href="https://www.namlongvn.com/#search" class="search_form"></a>
-              </div>
-              <div class="lang">
-                <a href="https://www.namlongvn.com/" class="act-l">VI</a>
-                <a href="https://www.namlongvn.com/en/homepage/" class="">EN</a>
-              </div>
-            </div>
-          </div>
-          <div class="menu-interest">
-            <div class="back-interest">Tìm kiếm theo nhu cầu</div>
-            <div class="main-m-inter">
-              <div class="left-inter">
-                <div class="tab-inter active" onclick="showTab(&#39;investor&#39;)">Nhà đầu tư &amp; Đối tác</div>
-                <div class="tab-inter" onclick="showTab(&#39;homebuyers&#39;)">Người mua nhà</div>
-              </div>
-              <div class="c-interest">
-                <div id="investor" class="cont-interest active">
-                  <label class="menu-mb">Nhà đầu tư &amp; Đối tác</label>
-                  <h3>Nâng cao giá trị cho Khách hàng, Đối tác và Cổ đông</h3>
-                  <div class="view-more"><a href="https://www.namlongvn.com/quan-he-nha-dau-tu/">Xem thêm</a></div>
-                  <div class="l-by-inter">
-                    <a href="https://www.namlongvn.com/gioi-thieu/">Giới thiệu</a>
-<a href="https://www.namlongvn.com/linh-vuc-kinh-doanh/">Lĩnh vực kinh doanh</a>
-<a href="https://www.namlongvn.com/quan-he-nha-dau-tu/">Quan hệ nhà đầu tư</a>
-<a href="https://www.namlongvn.com/phat-trien-ben-vung/">Phát triển bền vững</a>
-<a href="https://www.namlongvn.com/tin-tuc/">Tin tức</a>
-                  </div>
+                        {% if slide.cta_text %}
+                            <a href="{{ slide.cta_link }}" class="btn btn-lg btn-custom mt-4 fadeInUpShort delay-750 animated go">
+                                {{ slide.cta_text }}
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
-
-                <div id="homebuyers" class="cont-interest">
-                  <label class="menu-mb">Người mua nhà</label>
-                  <h3>Hơn 30 năm đồng hành cùng đô thị Việt Nam</h3>
-                  <div class="view-more"><a href="https://www.namlongvn.com/phat-trien-khu-do-thi-nha-o/">Xem thêm</a></div>
-                  <div class="l-by-inter">
-                    <a href="https://www.namlongvn.com/gioi-thieu/">Giới thiệu</a>
-<a href="https://www.namlongvn.com/phat-trien-khu-do-thi-nha-o/">Phát triển Khu đô thị &amp; Nhà ở</a>
-<a href="https://www.namlongvn.com/phat-trien-nha-o-vua-tui-tien/">Giải pháp Nhà ở vừa túi tiền</a>
-<a href="https://www.namlongvn.com/tin-tuc/">Tin tức</a>
-                  </div>
+                {% empty %}
+                <div class="item-slide">
+                    <div class="img-sl">
+                        <img class="img-responsive" src="{% static 'landing/img/banner-home-1-mb.jpg' %}" alt="Default Banner">
+                    </div>
                 </div>
-              </div>
+                {% endfor %}
             </div>
-          </div>
-
-
-          <div class="bg-menubottom"></div>
         </div>
-      </div>
 
-    </div>
-
-  </header>
-
-<div id="fullpage" class="homepage">
-      <div class="section slider-top animatedParent animateOnce">
-      <div class="slider_banner slick-initialized slick-slider slick-dotted" data-arrows="true" data-autoplay="true"><div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 5404px;"><div class="slick-slide" data-slick-index="0" aria-hidden="true" style="width: 1351px; position: relative; left: 0px; top: 0px; z-index: 998; opacity: 0; transition: opacity 600ms linear;" role="tabpanel" id="slick-slide00" tabindex="-1" aria-describedby="slick-slide-control00"><div><div style="width: 100%; display: inline-block;">
-            <div class="img-sl">
-              <picture>
-                <source media="(min-width: 1200px)" srcset="https://www.namlongvn.com/wp-content/uploads/2025/11/33-nam-kien-tao.jpg">
-                <source media="(min-width: 768px)" srcset="https://www.namlongvn.com/wp-content/uploads/2025/11/web_1000x6002.png">
-                <img class="img-responsive" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/33-nam-kien-tao-mb.jpg" alt="33 năm kiến tạo">
-              </picture>
+        <div id="loi-ich" class="section about animatedParent animateOnce">
+            <div class="container">
+                <div class="row align-center">
+                    <div class="col-md-12">
+                        <div class="h-two text-center">
+                            <h1 class="title fadeInUpShort delay-250 animated go">Vì sao chọn <br>{{ config.project_name }}?</h1>
+                        </div>
+                        
+                        <div class="row mt-5 justify-content-center">
+                            {% for benefit in benefits %}
+                            <div class="col-md-4 mb-4 fadeInUpShort delay-{{ forloop.counter|add:2 }}00 animated go">
+                                <div class="card h-100 border-0 shadow-sm text-center p-4 hover-shadow">
+                                    <div class="mb-3 text-primary-custom">
+                                        <i class="{{ benefit.icon_class }} fa-3x"></i>
+                                    </div>
+                                    <h4 class="card-title fw-bold">{{ benefit.title }}</h4>
+                                    <p class="card-text text-muted">{{ benefit.description }}</p>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="text-center text-muted">Đang cập nhật lợi ích...</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="txt-banner">
-              
-                          </div>
-          </div></div></div><div class="slick-slide" data-slick-index="1" aria-hidden="true" style="width: 1351px; position: relative; left: -1351px; top: 0px; z-index: 998; opacity: 0; transition: opacity 600ms linear;" role="tabpanel" id="slick-slide01" aria-describedby="slick-slide-control01" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-            <div class="img-sl">
-              <picture>
-                <source media="(min-width: 1200px)" srcset="https://www.namlongvn.com/wp-content/uploads/2025/11/banner-home-1-1.jpg">
-                <source media="(min-width: 768px)" srcset="https://www.namlongvn.com/wp-content/uploads/2025/11/banner-home-1-ip.jpg">
-                <img class="img-responsive" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/banner-home-1-mb.jpg" alt="Nam Long Group">
-              </picture>
+        <div class="section s-business animatedParent animateOnce">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="container pl-0 pr-0 h-one">
+                            <h2 class="title title-number fadeInUpShort delay-250 animated go">Quy mô dự án</h2>
+                        </div>
+                        <div class="s-number-business w-count-num ani-up">
+                             <div class="item-num w-anima text-center">
+                                <div class="num-left"><div class="item-count"><span class="count">500</span>+</div><div class="t-num">Căn hộ</div></div>
+                                <div class="des-num">Nhà ở <br>Xã hội</div>
+                             </div>
+                             <div class="item-num w-anima text-center">
+                                <div class="num-left"><div class="item-count"><span class="count">30</span>+</div><div class="t-num">Tiện ích</div></div>
+                                <div class="des-num">Nội khu <br>Đẳng cấp</div>
+                             </div>
+                             <div class="item-num w-anima text-center">
+                                <div class="num-left"><div class="item-count"><span class="count">100</span>%</div><div class="t-num">Pháp lý</div></div>
+                                <div class="des-num">Minh bạch <br>Rõ ràng</div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="txt-banner">
-                              <h3 class="name-banner fadeInUpShort delay-250 animated go">
-                  Tập đoàn <br>Bất động sản tích hợp                </h3>
-              
-                              <div class="des-banner fadeInUpShort delay-500 animated go">
-                  Thúc đẩy tăng trưởng bền vững, lấy con người, cộng đồng <br>và thế hệ tương lai làm trung tâm cho mọi hoạt động.                </div>
-                          </div>
-          </div></div></div><div class="slick-slide" data-slick-index="2" aria-hidden="true" style="width: 1351px; position: relative; left: -2702px; top: 0px; z-index: 998; opacity: 0; transition: opacity 600ms linear;" role="tabpanel" id="slick-slide02" aria-describedby="slick-slide-control02" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-            <div class="img-sl">
-              <picture>
-                <source media="(min-width: 1200px)" srcset="https://www.namlongvn.com/wp-content/uploads/2025/11/banner-home-2-1.jpg">
-                <source media="(min-width: 768px)" srcset="https://www.namlongvn.com/wp-content/uploads/2025/11/banner-home-2-ip.jpg">
-                <img class="img-responsive" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/banner-home-2-mb.jpg" alt="Nam Long Group">
-              </picture>
+        <div id="faq" class="section py-5 bg-light">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="title text-primary-custom">Câu hỏi thường gặp</h2>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="accordion" id="accordionFAQ">
+                            {% for faq in faqs %}
+                            <div class="accordion-item mb-2 border-0 shadow-sm">
+                                <h2 class="accordion-header" id="heading{{ faq.id }}">
+                                    <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ faq.id }}">
+                                        <strong>{{ faq.question }}</strong>
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ faq.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" data-bs-parent="#accordionFAQ">
+                                    <div class="accordion-body text-muted">
+                                        {{ faq.answer|linebreaks }}
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <p class="text-center">Chưa có câu hỏi nào.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="txt-banner">
-                              <h3 class="name-banner fadeInUpShort delay-250 animated go">
-                  Tập đoàn <br>Bất động sản tích hợp                </h3>
-              
-                              <div class="des-banner fadeInUpShort delay-500 animated go">
-                  Thúc đẩy tăng trưởng bền vững, lấy con người, cộng đồng <br>và thế hệ tương lai làm trung tâm cho mọi hoạt động.                </div>
-                          </div>
-          </div></div></div><div class="slick-slide slick-current slick-active" data-slick-index="3" aria-hidden="false" style="width: 1351px; position: relative; left: -4053px; top: 0px; z-index: 999; opacity: 1;" role="tabpanel" id="slick-slide03" aria-describedby="slick-slide-control03"><div><div style="width: 100%; display: inline-block;">
-            <div class="img-sl">
-              <picture>
-                <source media="(min-width: 1200px)" srcset="https://www.namlongvn.com/wp-content/uploads/2025/11/banner-home-3-1.jpg">
-                <source media="(min-width: 768px)" srcset="https://www.namlongvn.com/wp-content/uploads/2025/11/banner-home-3-ip.jpg">
-                <img class="img-responsive" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/banner-home-3-mb.jpg" alt="Nam Long Group">
-              </picture>
+    </div> <footer id="lien-he" class="section section-footer animatedParent animateOnce">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 l-company fadeInUpShort delay-250 animated">
+                    {% if config.logo %}
+                        <img class="img-responsive logo-f" src="{{ config.logo.url }}" alt="Logo Footer">
+                    {% else %}
+                        <img class="img-responsive logo-f" src="{% static 'landing/img/logo-w.svg' %}" alt="Logo Footer">
+                    {% endif %}
+                    
+                    <div class="d-company-f mt-4">
+                        <h3>{{ config.project_name|upper }}</h3>
+                        <p><strong>Địa chỉ:</strong> {{ config.address }}</p>
+                        <p><strong>Hotline:</strong> <a href="tel:{{ config.hotline }}" class="text-white">{{ config.hotline }}</a></p>
+                        <p><strong>Email: </strong> <a href="mailto:{{ config.email }}" class="text-white">{{ config.email }}</a></p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 r-company fadeInUpShort delay-500 animated">
+                    <div class="r-footer">
+                        <h4 class="text-white mb-3">Đăng ký nhận thông tin</h4>
+                        <p class="text-white-50 mb-4">Để lại thông tin để nhận bảng giá và ưu đãi mới nhất.</p>
+                        <form action="#" method="POST" class="row g-2">
+                            {% csrf_token %}
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Họ và tên" required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="tel" class="form-control" placeholder="Số điện thoại" required>
+                            </div>
+                            <div class="col-12">
+                                <input type="email" class="form-control" placeholder="Email">
+                            </div>
+                            <div class="col-12 mt-3">
+                                <button type="submit" class="btn btn-custom w-100 fw-bold py-2">GỬI ĐĂNG KÝ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            <div class="txt-banner">
-                              <h3 class="name-banner fadeInUpShort delay-250 animated go">
-                  Tập đoàn <br>Bất động sản tích hợp                </h3>
-              
-                              <div class="des-banner fadeInUpShort delay-500 animated go">
-                  Thúc đẩy tăng trưởng bền vững, lấy con người, cộng đồng <br>và thế hệ tương lai làm trung tâm cho mọi hoạt động.                </div>
-                          </div>
-          </div></div></div></div></div><ul class="slick-dots" style="" role="tablist"><li class="" role="presentation"><button type="button" role="tab" id="slick-slide-control00" aria-controls="slick-slide00" aria-label="1 of 4" tabindex="-1">1</button></li><li role="presentation" class=""><button type="button" role="tab" id="slick-slide-control01" aria-controls="slick-slide01" aria-label="2 of 4" tabindex="-1">2</button></li><li role="presentation" class=""><button type="button" role="tab" id="slick-slide-control02" aria-controls="slick-slide02" aria-label="3 of 4" tabindex="-1">3</button></li><li role="presentation" class="slick-active"><button type="button" role="tab" id="slick-slide-control03" aria-controls="slick-slide03" aria-label="4 of 4" tabindex="0" aria-selected="true">4</button></li></ul></div>
-    </div>
-  
-  <div class="section about animatedParent animateOnce">
-    <div class="container">
-      <div class="row align-center">
-        <div class="col-md-12">
-          <div class="h-two">
-            <h1 class="title fadeInUpShort delay-250 animated go">Lĩnh vực <br> kinh doanh</h1>
-            <div class="view-more text-right fadeInUpShort delay-250 animated go"><a href="https://www.namlongvn.com/linh-vuc-kinh-doanh/">Xem thêm</a></div>
-          </div>
-          <div class="des-ab-comp fadeInUpShort delay-500 animated go">
-            <p>Phát triển xuyên suốt chuỗi giá trị bất động sản và thúc đẩy tăng trưởng bền vững thông qua các mảng Kinh doanh trọng tâm: Đầu tư &amp; Quản lý Đầu tư; Phát triển Khu đô thị &amp; Nhà ở đa phân khúc; Đầu tư &amp; Phát triển Bất động sản Thương mại; Giải pháp Nhà ở vừa túi tiền; Dịch vụ Xây dựng.</p>          </div>
-          <div class="w-field fadeInUpShort delay-750 animated go">
-            <div class="s-linhvuc slidedots slick-initialized slick-slider slick-dotted"><button class="slick-prev slick-arrow" aria-label="Previous" type="button" style="">Previous</button><div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 3976px; transform: translate3d(-1420px, 0px, 0px);"><div class="slick-slide slick-cloned" data-slick-index="-4" id="" aria-hidden="true" style="width: 284px;" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/phat-trien-khu-do-thi-nha-o/" class="anima-img" tabindex="-1">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/township-residential.jpg" alt="Township &amp; Residential Development"></div>
-                    <div class="overlay">
-                      <h3>Phát triển Khu Đô thị &amp; <br>Nhà ở</h3>
-                    </div>
-                  </a>
-                </div></div></div><div class="slick-slide slick-cloned" data-slick-index="-3" id="" aria-hidden="true" style="width: 284px;" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/dau-tu-phat-trien-bat-dong-san-thuong-mai/" class="anima-img" tabindex="-1">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/commercial-real-estate.jpg" alt="Commercial Real Estate Development"></div>
-                    <div class="overlay">
-                      <h3>Đầu tư &amp; Phát triển <br>Bất động sản Thương mại</h3>
-                    </div>
-                  </a>
-                </div></div></div><div class="slick-slide slick-cloned" data-slick-index="-2" id="" aria-hidden="true" style="width: 284px;" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/phat-trien-nha-o-vua-tui-tien/" class="anima-img" tabindex="-1">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/affordable-housing-solutions.jpg" alt=""></div>
-                    <div class="overlay">
-                      <h3>Giải pháp Nhà ở <br>vừa túi tiền</h3>
-                    </div>
-                  </a>
-                </div></div></div><div class="slick-slide slick-cloned" data-slick-index="-1" id="" aria-hidden="true" style="width: 284px;" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/dich-vu-xay-dung/" class="anima-img" tabindex="-1">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/construction-services.jpg" alt=""></div>
-                    <div class="overlay">
-                      <h3>Dịch vụ <br>Xây dựng </h3>
-                    </div>
-                  </a>
-                </div></div></div><div class="slick-slide" data-slick-index="0" aria-hidden="true" style="width: 284px;" role="tabpanel" id="slick-slide10" aria-describedby="slick-slide-control10" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/dau-tu-quan-ly-dau-tu/" class="anima-img" tabindex="-1">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/Investment-Portfolio-Management.jpg" alt="Investment &amp; Portfolio Management"></div>
-                    <div class="overlay">
-                      <h3>Đầu tư &amp; <br>Quản lý Đầu tư</h3>
-                    </div>
-                  </a>
-                </div></div></div><div class="slick-slide" data-slick-index="1" aria-hidden="true" style="width: 284px;" role="tabpanel" id="slick-slide11" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/phat-trien-khu-do-thi-nha-o/" class="anima-img" tabindex="-1">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/township-residential.jpg" alt="Township &amp; Residential Development"></div>
-                    <div class="overlay">
-                      <h3>Phát triển Khu Đô thị &amp; <br>Nhà ở</h3>
-                    </div>
-                  </a>
-                </div></div></div><div class="slick-slide" data-slick-index="2" aria-hidden="true" style="width: 284px;" role="tabpanel" id="slick-slide12" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/dau-tu-phat-trien-bat-dong-san-thuong-mai/" class="anima-img" tabindex="-1">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/commercial-real-estate.jpg" alt="Commercial Real Estate Development"></div>
-                    <div class="overlay">
-                      <h3>Đầu tư &amp; Phát triển <br>Bất động sản Thương mại</h3>
-                    </div>
-                  </a>
-                </div></div></div><div class="slick-slide slick-current slick-active" data-slick-index="3" aria-hidden="false" style="width: 284px;" role="tabpanel" id="slick-slide13" aria-describedby="slick-slide-control11"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/phat-trien-nha-o-vua-tui-tien/" class="anima-img" tabindex="0">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/affordable-housing-solutions.jpg" alt=""></div>
-                    <div class="overlay">
-                      <h3>Giải pháp Nhà ở <br>vừa túi tiền</h3>
-                    </div>
-                  </a>
-                </div></div></div><div class="slick-slide slick-active" data-slick-index="4" aria-hidden="false" style="width: 284px;" role="tabpanel" id="slick-slide14"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/dich-vu-xay-dung/" class="anima-img" tabindex="0">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/construction-services.jpg" alt=""></div>
-                    <div class="overlay">
-                      <h3>Dịch vụ <br>Xây dựng </h3>
-                    </div>
-                  </a>
-                </div></div></div><div class="slick-slide slick-cloned slick-active" data-slick-index="5" id="" aria-hidden="false" style="width: 284px;" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/dau-tu-quan-ly-dau-tu/" class="anima-img" tabindex="0">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/Investment-Portfolio-Management.jpg" alt="Investment &amp; Portfolio Management"></div>
-                    <div class="overlay">
-                      <h3>Đầu tư &amp; <br>Quản lý Đầu tư</h3>
-                    </div>
-                  </a>
-                </div></div></div><div class="slick-slide slick-cloned slick-active" data-slick-index="6" id="" aria-hidden="false" style="width: 284px;" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/phat-trien-khu-do-thi-nha-o/" class="anima-img" tabindex="0">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/township-residential.jpg" alt="Township &amp; Residential Development"></div>
-                    <div class="overlay">
-                      <h3>Phát triển Khu Đô thị &amp; <br>Nhà ở</h3>
-                    </div>
-                  </a>
-                </div></div></div><div class="slick-slide slick-cloned" data-slick-index="7" id="" aria-hidden="true" style="width: 284px;" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/dau-tu-phat-trien-bat-dong-san-thuong-mai/" class="anima-img" tabindex="-1">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/commercial-real-estate.jpg" alt="Commercial Real Estate Development"></div>
-                    <div class="overlay">
-                      <h3>Đầu tư &amp; Phát triển <br>Bất động sản Thương mại</h3>
-                    </div>
-                  </a>
-                </div></div></div><div class="slick-slide slick-cloned" data-slick-index="8" id="" aria-hidden="true" style="width: 284px;" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/phat-trien-nha-o-vua-tui-tien/" class="anima-img" tabindex="-1">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/affordable-housing-solutions.jpg" alt=""></div>
-                    <div class="overlay">
-                      <h3>Giải pháp Nhà ở <br>vừa túi tiền</h3>
-                    </div>
-                  </a>
-                </div></div></div><div class="slick-slide slick-cloned" data-slick-index="9" id="" aria-hidden="true" style="width: 284px;" tabindex="-1"><div><div style="width: 100%; display: inline-block;">
-                  <a href="https://www.namlongvn.com/dich-vu-xay-dung/" class="anima-img" tabindex="-1">
-                    <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/construction-services.jpg" alt=""></div>
-                    <div class="overlay">
-                      <h3>Dịch vụ <br>Xây dựng </h3>
-                    </div>
-                  </a>
-                </div></div></div></div></div><button class="slick-next slick-arrow" aria-label="Next" type="button" style="">Next</button><ul class="slick-dots" style="" role="tablist"><li class="" role="presentation"><button type="button" role="tab" id="slick-slide-control10" aria-controls="slick-slide10" aria-label="1 of 2" tabindex="-1">1</button></li><li role="presentation" class="slick-active"><button type="button" role="tab" id="slick-slide-control11" aria-controls="slick-slide13" aria-label="2 of 2" tabindex="-1">2</button></li></ul></div>
-          </div>
         </div>
-      </div>
-    </div>
-
-  </div>
-  <div class="section news animatedParent animateOnce">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="h-two">
-            <h2 class="title fadeInUpShort delay-250 animated go">Tin tức</h2>
-            <div class="view-more text-right fadeInUpShort delay-250 animated go"><a href="https://www.namlongvn.com/tin-tuc/">Xem thêm</a>
+        <div class="container footer-bottom">
+            <div class="row align-center">
+                <div class="col-md-6 bottom-l copyright">Bản quyền ©2025 {{ config.project_name }}. Developed by WETECHX.</div>
             </div>
-          </div>
-          <div class="s-news w-item-news ani-up slick-initialized slick-slider"><div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 4966px; transform: translate3d(-1146px, 0px, 0px);"><div class="slick-slide slick-cloned" data-slick-index="-3" id="" aria-hidden="true" style="width: 382px;" tabindex="-1"><div><div class="item-news w-anima fadeInUpShort animated go" style="width: 100%; display: inline-block;">
-                <a href="https://www.namlongvn.com/tin-tuc/nam-long-trao-84-suat-hoc-bong-swing-for-dreams-2025-tong-gia-tri-840-trieu-dong-cho-sinh-vien/" class="anima-img" tabindex="-1">
-                  <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/nam-long-trao-84-suat-hoc-bong-swing-for-dreams-2025-tong-gia-tri-840-trieu-dong-cho-sinh-vien-9.jpg" class="img-responsive" alt="">
-                  </div>
-                  <span>29/10/2025</span>
-                  <h4>Nam Long trao 84 suất học bổng “Swing For Dreams” 2025, tổng giá trị 840 triệu đồng cho sinh viên</h4>
-                </a>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="-2" id="" aria-hidden="true" style="width: 382px;" tabindex="-1"><div><div class="item-news w-anima fadeInUpShort animated go" style="width: 100%; display: inline-block;">
-                <a href="https://www.namlongvn.com/tin-tuc/nam-long-nlg-tang-toc-ngoan-muc-loi-nhuan-9-thang-gap-23-lan-so-voi-cung-ky/" class="anima-img" tabindex="-1">
-                  <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/e2-sunset-1092x614-1.jpg" class="img-responsive" alt="">
-                  </div>
-                  <span>29/10/2025</span>
-                  <h4>Nam Long (NLG) tăng tốc ngoạn mục, lợi nhuận 9 tháng gấp 23 lần so với cùng kỳ</h4>
-                </a>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="-1" id="" aria-hidden="true" style="width: 382px;" tabindex="-1"><div><div class="item-news w-anima fadeInUpShort animated go" style="width: 100%; display: inline-block;">
-                <a href="https://www.namlongvn.com/tin-tuc/chu-tich-nam-long-nhan-giai-thuong-nhan-vat-bat-dong-san-cua-nam-tai-propertyguru-vietnam-property-awards-2025/" class="anima-img" tabindex="-1">
-                  <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/chu-tich-nam-long-nhan-giai-thuong-nhan-vat-bat-dong-san-cua-nam-tai-property-guru-vietnam-property-awards-2025-2-1.jpg" class="img-responsive" alt="">
-                  </div>
-                  <span>27/10/2025</span>
-                  <h4>Chủ tịch Nam Long nhận giải thưởng “Nhân vật bất động sản của năm” tại PropertyGuru Vietnam Property Awards 2025</h4>
-                </a>
-              </div></div></div><div class="slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" style="width: 382px;"><div><div class="item-news w-anima fadeInUpShort animated go" style="width: 100%; display: inline-block;">
-                <a href="https://www.namlongvn.com/tin-tuc/dang-sau-nhung-khu-do-thi-dang-song-mang-thuong-hieu-nam-long/" class="anima-img" tabindex="0">
-                  <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/nam-long-33-nam-kien-dinh-kien-tao-di-san-tu-triet-ly-nhan-van-1.jpg" class="img-responsive" alt="">
-                  </div>
-                  <span>24/11/2025</span>
-                  <h4>Đằng sau những khu đô thị đáng sống mang thương hiệu Nam Long</h4>
-                </a>
-              </div></div></div><div class="slick-slide slick-active" data-slick-index="1" aria-hidden="false" style="width: 382px;"><div><div class="item-news w-anima fadeInUpShort animated go" style="width: 100%; display: inline-block;">
-                <a href="https://www.namlongvn.com/tin-tuc/nam-long-33-nam-kien-dinh-kien-tao-di-san-tu-triet-ly-nhan-van/" class="anima-img" tabindex="0">
-                  <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/nam-long-33-nam-kien-dinh-kien-tao-di-san-tu-triet-ly-nhan-van-1.jpg" class="img-responsive" alt="">
-                  </div>
-                  <span>11/11/2025</span>
-                  <h4>Nam Long – 33 năm kiên định kiến tạo di sản từ triết lý nhân văn</h4>
-                </a>
-              </div></div></div><div class="slick-slide slick-active" data-slick-index="2" aria-hidden="false" style="width: 382px;"><div><div class="item-news w-anima fadeInUpShort animated go" style="width: 100%; display: inline-block;">
-                <a href="https://www.namlongvn.com/tin-tuc/nam-long-trao-84-suat-hoc-bong-swing-for-dreams-2025-tong-gia-tri-840-trieu-dong-cho-sinh-vien/" class="anima-img" tabindex="0">
-                  <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/nam-long-trao-84-suat-hoc-bong-swing-for-dreams-2025-tong-gia-tri-840-trieu-dong-cho-sinh-vien-9.jpg" class="img-responsive" alt="">
-                  </div>
-                  <span>29/10/2025</span>
-                  <h4>Nam Long trao 84 suất học bổng “Swing For Dreams” 2025, tổng giá trị 840 triệu đồng cho sinh viên</h4>
-                </a>
-              </div></div></div><div class="slick-slide" data-slick-index="3" aria-hidden="true" style="width: 382px;" tabindex="-1"><div><div class="item-news w-anima fadeInUpShort animated go" style="width: 100%; display: inline-block;">
-                <a href="https://www.namlongvn.com/tin-tuc/nam-long-nlg-tang-toc-ngoan-muc-loi-nhuan-9-thang-gap-23-lan-so-voi-cung-ky/" class="anima-img" tabindex="-1">
-                  <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/e2-sunset-1092x614-1.jpg" class="img-responsive" alt="">
-                  </div>
-                  <span>29/10/2025</span>
-                  <h4>Nam Long (NLG) tăng tốc ngoạn mục, lợi nhuận 9 tháng gấp 23 lần so với cùng kỳ</h4>
-                </a>
-              </div></div></div><div class="slick-slide" data-slick-index="4" aria-hidden="true" style="width: 382px;" tabindex="-1"><div><div class="item-news w-anima fadeInUpShort animated go" style="width: 100%; display: inline-block;">
-                <a href="https://www.namlongvn.com/tin-tuc/chu-tich-nam-long-nhan-giai-thuong-nhan-vat-bat-dong-san-cua-nam-tai-propertyguru-vietnam-property-awards-2025/" class="anima-img" tabindex="-1">
-                  <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/chu-tich-nam-long-nhan-giai-thuong-nhan-vat-bat-dong-san-cua-nam-tai-property-guru-vietnam-property-awards-2025-2-1.jpg" class="img-responsive" alt="">
-                  </div>
-                  <span>27/10/2025</span>
-                  <h4>Chủ tịch Nam Long nhận giải thưởng “Nhân vật bất động sản của năm” tại PropertyGuru Vietnam Property Awards 2025</h4>
-                </a>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="5" id="" aria-hidden="true" style="width: 382px;" tabindex="-1"><div><div class="item-news w-anima fadeInUpShort animated go" style="width: 100%; display: inline-block;">
-                <a href="https://www.namlongvn.com/tin-tuc/dang-sau-nhung-khu-do-thi-dang-song-mang-thuong-hieu-nam-long/" class="anima-img" tabindex="-1">
-                  <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/nam-long-33-nam-kien-dinh-kien-tao-di-san-tu-triet-ly-nhan-van-1.jpg" class="img-responsive" alt="">
-                  </div>
-                  <span>24/11/2025</span>
-                  <h4>Đằng sau những khu đô thị đáng sống mang thương hiệu Nam Long</h4>
-                </a>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="6" id="" aria-hidden="true" style="width: 382px;" tabindex="-1"><div><div class="item-news w-anima fadeInUpShort animated go" style="width: 100%; display: inline-block;">
-                <a href="https://www.namlongvn.com/tin-tuc/nam-long-33-nam-kien-dinh-kien-tao-di-san-tu-triet-ly-nhan-van/" class="anima-img" tabindex="-1">
-                  <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/nam-long-33-nam-kien-dinh-kien-tao-di-san-tu-triet-ly-nhan-van-1.jpg" class="img-responsive" alt="">
-                  </div>
-                  <span>11/11/2025</span>
-                  <h4>Nam Long – 33 năm kiên định kiến tạo di sản từ triết lý nhân văn</h4>
-                </a>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="7" id="" aria-hidden="true" style="width: 382px;" tabindex="-1"><div><div class="item-news w-anima fadeInUpShort animated go" style="width: 100%; display: inline-block;">
-                <a href="https://www.namlongvn.com/tin-tuc/nam-long-trao-84-suat-hoc-bong-swing-for-dreams-2025-tong-gia-tri-840-trieu-dong-cho-sinh-vien/" class="anima-img" tabindex="-1">
-                  <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/nam-long-trao-84-suat-hoc-bong-swing-for-dreams-2025-tong-gia-tri-840-trieu-dong-cho-sinh-vien-9.jpg" class="img-responsive" alt="">
-                  </div>
-                  <span>29/10/2025</span>
-                  <h4>Nam Long trao 84 suất học bổng “Swing For Dreams” 2025, tổng giá trị 840 triệu đồng cho sinh viên</h4>
-                </a>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="8" id="" aria-hidden="true" style="width: 382px;" tabindex="-1"><div><div class="item-news w-anima fadeInUpShort animated go" style="width: 100%; display: inline-block;">
-                <a href="https://www.namlongvn.com/tin-tuc/nam-long-nlg-tang-toc-ngoan-muc-loi-nhuan-9-thang-gap-23-lan-so-voi-cung-ky/" class="anima-img" tabindex="-1">
-                  <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/e2-sunset-1092x614-1.jpg" class="img-responsive" alt="">
-                  </div>
-                  <span>29/10/2025</span>
-                  <h4>Nam Long (NLG) tăng tốc ngoạn mục, lợi nhuận 9 tháng gấp 23 lần so với cùng kỳ</h4>
-                </a>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="9" id="" aria-hidden="true" style="width: 382px;" tabindex="-1"><div><div class="item-news w-anima fadeInUpShort animated go" style="width: 100%; display: inline-block;">
-                <a href="https://www.namlongvn.com/tin-tuc/chu-tich-nam-long-nhan-giai-thuong-nhan-vat-bat-dong-san-cua-nam-tai-propertyguru-vietnam-property-awards-2025/" class="anima-img" tabindex="-1">
-                  <div class="thumb-over"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/chu-tich-nam-long-nhan-giai-thuong-nhan-vat-bat-dong-san-cua-nam-tai-property-guru-vietnam-property-awards-2025-2-1.jpg" class="img-responsive" alt="">
-                  </div>
-                  <span>27/10/2025</span>
-                  <h4>Chủ tịch Nam Long nhận giải thưởng “Nhân vật bất động sản của năm” tại PropertyGuru Vietnam Property Awards 2025</h4>
-                </a>
-              </div></div></div></div></div></div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="section s-business animatedParent animateOnce">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="container pl-0 pr-0 h-one">
-            <h2 class="title title-number fadeInUpShort delay-250 animated go">Những con số nổi bật</h2>
-          </div>
-          <div class="s-number-business w-count-num ani-up commit-marquee slick-initialized slick-slider"><div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 5759px; transform: translate3d(-3101px, 0px, 0px);"><div class="slick-slide slick-cloned" data-slick-index="-3" id="" aria-hidden="true" style="width: 443px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block;">
-                <div class="num-left">
-                  <div class="item-count"><span class="count">681</span>+</div>
-                  <div class="t-num">Hecta quỹ đất sạch</div>
-                </div>
-                <div class="des-num">sẵn sàng <br>phát triển</div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="-2" id="" aria-hidden="true" style="width: 443px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block;">
-                <div class="num-left">
-                  <div class="item-count"><span class="count">800</span>+</div>
-                  <div class="t-num">Nhân sự</div>
-                </div>
-                <div class="des-num">đồng hành <br>kiến tạo <br>tương lai</div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="-1" id="" aria-hidden="true" style="width: 443px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block;">
-                <div class="num-left">
-                  <div class="item-count"><span class="count">31.000</span>+</div>
-                  <div class="t-num">Gia đình</div>
-                </div>
-                <div class="des-num">tin chọn</div>
-              </div></div></div><div class="slick-slide" data-slick-index="0" aria-hidden="true" style="width: 443px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block;">
-                <div class="num-left">
-                  <div class="item-count"><span class="count">32</span>+</div>
-                  <div class="t-num">Năm</div>
-                </div>
-                <div class="des-num">kiến tạo <br>giá trị vì <br>cộng đồng</div>
-              </div></div></div><div class="slick-slide" data-slick-index="1" aria-hidden="true" style="width: 443px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block;">
-                <div class="num-left">
-                  <div class="item-count"><span class="count">11</span>+</div>
-                  <div class="t-num">Khu đô thị tích hợp</div>
-                </div>
-                <div class="des-num">trên <br>toàn quốc</div>
-              </div></div></div><div class="slick-slide" data-slick-index="2" aria-hidden="true" style="width: 443px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block;">
-                <div class="num-left">
-                  <div class="item-count"><span class="count">681</span>+</div>
-                  <div class="t-num">Hecta quỹ đất sạch</div>
-                </div>
-                <div class="des-num">sẵn sàng <br>phát triển</div>
-              </div></div></div><div class="slick-slide" data-slick-index="3" aria-hidden="true" style="width: 443px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block;">
-                <div class="num-left">
-                  <div class="item-count"><span class="count">800</span>+</div>
-                  <div class="t-num">Nhân sự</div>
-                </div>
-                <div class="des-num">đồng hành <br>kiến tạo <br>tương lai</div>
-              </div></div></div><div class="slick-slide slick-current slick-active" data-slick-index="4" aria-hidden="false" style="width: 443px;"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block;">
-                <div class="num-left">
-                  <div class="item-count"><span class="count">31.000</span>+</div>
-                  <div class="t-num">Gia đình</div>
-                </div>
-                <div class="des-num">tin chọn</div>
-              </div></div></div><div class="slick-slide slick-cloned slick-active" data-slick-index="5" id="" aria-hidden="false" style="width: 443px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block;">
-                <div class="num-left">
-                  <div class="item-count"><span class="count">32</span>+</div>
-                  <div class="t-num">Năm</div>
-                </div>
-                <div class="des-num">kiến tạo <br>giá trị vì <br>cộng đồng</div>
-              </div></div></div><div class="slick-slide slick-cloned slick-active" data-slick-index="6" id="" aria-hidden="false" style="width: 443px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block;">
-                <div class="num-left">
-                  <div class="item-count"><span class="count">11</span>+</div>
-                  <div class="t-num">Khu đô thị tích hợp</div>
-                </div>
-                <div class="des-num">trên <br>toàn quốc</div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="7" id="" aria-hidden="true" style="width: 443px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block;">
-                <div class="num-left">
-                  <div class="item-count"><span class="count">681</span>+</div>
-                  <div class="t-num">Hecta quỹ đất sạch</div>
-                </div>
-                <div class="des-num">sẵn sàng <br>phát triển</div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="8" id="" aria-hidden="true" style="width: 443px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block;">
-                <div class="num-left">
-                  <div class="item-count"><span class="count">800</span>+</div>
-                  <div class="t-num">Nhân sự</div>
-                </div>
-                <div class="des-num">đồng hành <br>kiến tạo <br>tương lai</div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="9" id="" aria-hidden="true" style="width: 443px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block;">
-                <div class="num-left">
-                  <div class="item-count"><span class="count">31.000</span>+</div>
-                  <div class="t-num">Gia đình</div>
-                </div>
-                <div class="des-num">tin chọn</div>
-              </div></div></div></div></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="section s-commitment animatedParent animateOnce">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="h-one">
-            <h2 class="title fadeInUpShort delay-250 animated go">Cam kết Phát triển <br>bền vững</h2>
-            <div class="des-t fadeInUpShort delay-500 animated go">
-              <p>Kiến tạo giá trị dài hạn cho khách hàng, đóng góp cho sự phát triển của xã hội và xây dựng một tổ chức vững mạnh. Mỗi hành động, mỗi sáng kiến của Nam Long đều hướng đến một tương lai bền vững và tốt đẹp của cộng đồng và quốc gia.</p>            </div>
-          </div>
-          <div class="slide-commit commit-marquee w-count-num fadeInUpShort delay-750 animated slick-initialized slick-slider go"><div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 7201px; transform: translate3d(-1137px, 0px, 0px);"><div class="slick-slide slick-cloned" data-slick-index="-3" id="" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>7.000+</span>
-                                      </div>
-                  <div class="t-num">căn hộ vừa túi tiền EHome</div>
-                  <div class="des-num">đã hoàn thành</div>
-                </div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="-2" id="" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>6.500+</span>
-                                      </div>
-                  <div class="t-num">cư dân</div>
-                  <div class="des-num">Tham gia các hoạt động gắn kết cộng đồng tại các khu đô thị</div>
-                </div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="-1" id="" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>1.600+</span>
-                                      </div>
-                  <div class="t-num">học sinh có hoàn cảnh <br>khó khăn</div>
-                  <div class="des-num">theo đuổi con đường học vấn và lan toả giá trị tốt đẹp thông qua chương trình học bổng Swing for Dreams</div>
-                </div>
-              </div></div></div><div class="slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" style="width: 359px;"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>5.000+</span>
-                                      </div>
-                  <div class="t-num">nhà ở xã hội EHomeS</div>
-                  <div class="des-num">được phát triển</div>
-                </div>
-              </div></div></div><div class="slick-slide slick-active" data-slick-index="1" aria-hidden="false" style="width: 359px;"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>7.000+</span>
-                                      </div>
-                  <div class="t-num">căn hộ vừa túi tiền EHome</div>
-                  <div class="des-num">đã hoàn thành</div>
-                </div>
-              </div></div></div><div class="slick-slide slick-active" data-slick-index="2" aria-hidden="false" style="width: 359px;"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>6.500+</span>
-                                      </div>
-                  <div class="t-num">cư dân</div>
-                  <div class="des-num">Tham gia các hoạt động gắn kết cộng đồng tại các khu đô thị</div>
-                </div>
-              </div></div></div><div class="slick-slide" data-slick-index="3" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>1.600+</span>
-                                      </div>
-                  <div class="t-num">học sinh có hoàn cảnh <br>khó khăn</div>
-                  <div class="des-num">theo đuổi con đường học vấn và lan toả giá trị tốt đẹp thông qua chương trình học bổng Swing for Dreams</div>
-                </div>
-              </div></div></div><div class="slick-slide" data-slick-index="4" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>5.000+</span>
-                                      </div>
-                  <div class="t-num">nhà ở xã hội EHomeS</div>
-                  <div class="des-num">được phát triển</div>
-                </div>
-              </div></div></div><div class="slick-slide" data-slick-index="5" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>7.000+</span>
-                                      </div>
-                  <div class="t-num">căn hộ vừa túi tiền EHome</div>
-                  <div class="des-num">đã hoàn thành</div>
-                </div>
-              </div></div></div><div class="slick-slide" data-slick-index="6" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>6.500+</span>
-                                      </div>
-                  <div class="t-num">cư dân</div>
-                  <div class="des-num">Tham gia các hoạt động gắn kết cộng đồng tại các khu đô thị</div>
-                </div>
-              </div></div></div><div class="slick-slide" data-slick-index="7" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>1.600+</span>
-                                      </div>
-                  <div class="t-num">học sinh có hoàn cảnh <br>khó khăn</div>
-                  <div class="des-num">theo đuổi con đường học vấn và lan toả giá trị tốt đẹp thông qua chương trình học bổng Swing for Dreams</div>
-                </div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="8" id="" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>5.000+</span>
-                                      </div>
-                  <div class="t-num">nhà ở xã hội EHomeS</div>
-                  <div class="des-num">được phát triển</div>
-                </div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="9" id="" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>7.000+</span>
-                                      </div>
-                  <div class="t-num">căn hộ vừa túi tiền EHome</div>
-                  <div class="des-num">đã hoàn thành</div>
-                </div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="10" id="" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>6.500+</span>
-                                      </div>
-                  <div class="t-num">cư dân</div>
-                  <div class="des-num">Tham gia các hoạt động gắn kết cộng đồng tại các khu đô thị</div>
-                </div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="11" id="" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>1.600+</span>
-                                      </div>
-                  <div class="t-num">học sinh có hoàn cảnh <br>khó khăn</div>
-                  <div class="des-num">theo đuổi con đường học vấn và lan toả giá trị tốt đẹp thông qua chương trình học bổng Swing for Dreams</div>
-                </div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="12" id="" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>5.000+</span>
-                                      </div>
-                  <div class="t-num">nhà ở xã hội EHomeS</div>
-                  <div class="des-num">được phát triển</div>
-                </div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="13" id="" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>7.000+</span>
-                                      </div>
-                  <div class="t-num">căn hộ vừa túi tiền EHome</div>
-                  <div class="des-num">đã hoàn thành</div>
-                </div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="14" id="" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>6.500+</span>
-                                      </div>
-                  <div class="t-num">cư dân</div>
-                  <div class="des-num">Tham gia các hoạt động gắn kết cộng đồng tại các khu đô thị</div>
-                </div>
-              </div></div></div><div class="slick-slide slick-cloned" data-slick-index="15" id="" aria-hidden="true" style="width: 359px;" tabindex="-1"><div><div class="item-num w-anima text-center" style="width: 100%; display: inline-block; height: 300.188px;">
-                <div class="num-left">
-                  <div class="item-count">
-                                          <span>1.600+</span>
-                                      </div>
-                  <div class="t-num">học sinh có hoàn cảnh <br>khó khăn</div>
-                  <div class="des-num">theo đuổi con đường học vấn và lan toả giá trị tốt đẹp thông qua chương trình học bổng Swing for Dreams</div>
-                </div>
-              </div></div></div></div></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Search Form -->
-<div id="search">
-  <div class="search-container">
-    <form role="search" id="searchform" class="js-search-form" action="https://www.namlongvn.com/" method="get">
-      <input type="search" name="s" value="" class="search-input" placeholder="Bạn muốn tìm kiếm điều gì?">
-      <button type="submit" class="search-button"></button>
-      <button type="button" style="display:none" class="reset-button"></button>
-    </form>
-    <ul class="autocomplete">
-      <li></li>
-    </ul>
+    </footer>
 
-    <!-- Container để hiển thị kết quả tìm kiếm AJAX -->
-    <div id="ajax-search-results" style="display: none;">
-      <h3 class="search-results-title">Search Results: <span id="search-term-display"></span></h3>
-      <div id="results-list">
-        <!-- Kết quả bài viết sẽ được chèn vào đây -->
-        <p>Đang tải kết quả...</p>
-      </div>
-      <div class="ajax-pagination-controls">
-        <button class="ajax-page-btn prev-page" disabled="">&lt;</button>
-        <span class="ajax-page-info">Trang 1 / ?</span>
-        <button class="ajax-page-btn next-page" disabled="">&gt;</button>
-      </div>
-    </div>
+    <div class="gotop"></div>
 
-    <div class="google-search-button-container" style="text-align: center;">
-      <!-- Nút Google Search sẽ được chèn vào đây -->
-    </div>
+    <script type="text/javascript" src="{% static 'landing/js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'landing/js/slick.js' %}"></script>
+    <script type="text/javascript" src="{% static 'landing/js/wow.js' %}"></script>
+    <script type="text/javascript" src="{% static 'landing/js/custom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'landing/js/css3-animate-it.js' %}"></script>
 
+    <script>
+        $(document).ready(function(){
+            $('.slider_banner').slick({
+                dots: true,
+                infinite: true,
+                speed: 500,
+                fade: true,
+                cssEase: 'linear',
+                autoplay: true,
+                autoplaySpeed: 3000,
+                arrows: false
+            });
 
-    <div class="t-search">Những tìm kiếm nổi bật</div>
-    <div class="s-return">
-      <ul>
-                  <li><a href="https://www.namlongvn.com/?s=Ph%C3%A1t%20tri%E1%BB%83n%20khu%20%C4%91%C3%B4%20th%E1%BB%8B%20&amp;%20nh%C3%A0%20%E1%BB%9F">Phát triển khu đô thị &amp; nhà ở</a></li>
-                  <li><a href="https://www.namlongvn.com/?s=Ph%C3%A1t%20tri%E1%BB%83n%20nh%C3%A0%20%E1%BB%9F%20v%E1%BB%ABa%20t%C3%BAi%20ti%E1%BB%81n">Phát triển nhà ở vừa túi tiền</a></li>
-                  <li><a href="https://www.namlongvn.com/?s=D%E1%BB%B1%20%C3%A1n%20Akari%20city">Dự án Akari city</a></li>
-                  <li><a href="https://www.namlongvn.com/?s=D%E1%BB%B1%20%C3%A1n%20Izumi%20City">Dự án Izumi City</a></li>
-                  <li><a href="https://www.namlongvn.com/?s=Khu%20%C4%91%C3%B4%20th%E1%BB%8B%20Waterpoint">Khu đô thị Waterpoint</a></li>
-              </ul>
-
-
-    </div>
-  </div>
-</div>
-<footer class="section section-footer animatedParent animateOnce">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 l-company fadeInUpShort delay-250 animated">
-        <img class="img-responsive logo-f" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/logo-w.svg" alt="Nam Long Group">
-        <div class="mobile-footer">
-          <h3 class="t-footer"><a href="https://www.namlongvn.com/">Liên hệ</a></h3>
-          <div class="connect-social">
-            <ul class="social-w">
-              <li><a class="link-social l-facebook" href="https://www.facebook.com/namlonggroup.nlg" target="_blank" rel="noreferrer nofollow" aria-label="facebook">
-                  <div class="icon facebook"></div>
-                </a></li>
-              <li><a class="link-social l-youtube" href="https://www.youtube.com/namlongic" target="_blank" rel="noreferrer nofollow" aria-label="youtube">
-                  <div class="icon youtube"></div>
-                </a></li>
-              <li><a class="link-social l-linkedin" href="https://www.linkedin.com/company/namlong" target="_blank" rel="noreferrer nofollow" aria-label="linkedin">
-                  <div class="icon linkedin"></div>
-                </a></li>
-              <li><a class="link-social l-zalo" href="https://zalo.me/1676058629598277837" target="_blank" rel="noreferrer nofollow" aria-label="zalo">
-                  <div class="icon zalo"></div>
-                </a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="d-company-f">
-          <h3>TẬP ĐOÀN Nam Long (HOSE: NLG)</h3>
-          <p><strong>MST:</strong> 0301438936</p>
-          <p><strong>Địa chỉ:</strong> Số 6 Nguyễn Khắc Viện, P. Tân Mỹ, <span class="d-block-m">TP. Hồ Chí Minh<span></span></span></p>
-          <p><strong>Hotline:</strong> <a href="tel:19002698">19002698</a></p>
-          <p><strong>Email: </strong>info@namlongvn.com</p>
-          <a href="https://www.namlongvn.com/chinh-sach-bao-mat-du-lieu-ca-nhan/" class="protection" rel="nofollow">Chính sách bảo mật dữ liệu cá nhân</a>
-        </div>
-      </div>
-      <div class="col-md-6 r-company register fadeInUpShort delay-500 animated">
-        <!--<h3 class="t-footer"><a href="https://www.namlongvn.com/lien-he/">Liên hệ</a></h3>-->
-        <!--<p class="wpcf7-contact-form-not-found"><strong>Lỗi:</strong> Không tìm thấy biểu mẫu liên hệ.</p>-->
-        <div class="r-footer">
-          <div class="menu-footer">
-            <a href="https://www.namlongvn.com/gioi-thieu/">Giới thiệu</a>
-<a href="https://www.namlongvn.com/linh-vuc-kinh-doanh/">Lĩnh vực kinh doanh</a>
-<a href="https://www.namlongvn.com/phat-trien-khu-do-thi-nha-o/">Dự án</a>
-<a href="https://www.namlongvn.com/quan-he-nha-dau-tu/">Quan hệ nhà đầu tư</a>
-<a href="https://www.namlongvn.com/phat-trien-ben-vung/">Phát triển bền vững</a>
-<a href="https://www.namlongvn.com/tin-tuc/">Tin tức</a>
-<a href="https://www.namlongvn.com/tuyen-dung/">Tuyển dụng</a>
-<a href="https://www.namlongvn.com/lien-he/">Liên hệ</a>
-          </div>
-          <div class="connect-social">
-            <ul class="social-w">
-              <li><a class="link-social l-facebook" href="https://www.facebook.com/namlonggroup.nlg" target="_blank" rel="noreferrer nofollow" aria-label="facebook">
-                  <div class="icon facebook"></div>
-                </a></li>
-              <li><a class="link-social l-youtube" href="https://www.youtube.com/namlongic" target="_blank" rel="noreferrer nofollow" aria-label="youtube">
-                  <div class="icon youtube"></div>
-                </a></li>
-              <li><a class="link-social l-linkedin" href="https://www.linkedin.com/company/namlong" target="_blank" rel="noreferrer nofollow" aria-label="linkedin">
-                  <div class="icon linkedin"></div>
-                </a></li>
-              <li><a class="link-social l-zalo" href="https://zalo.me/1676058629598277837" target="_blank" rel="noreferrer nofollow" aria-label="zalo">
-                  <div class="icon zalo"></div>
-                </a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container footer-bottom">
-    <div class="row align-center">
-      <div class="col-md-6 bottom-l copyright">Bản quyền ©2025 Nam Long Group</div>
-      <div class="col-md-6 bottom-r text-right privacy"><a href="https://www.namlongvn.com/#" target="_blank" rel="nofollow"><img src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/dmca.svg" class="img-responsive" alt="DMCA"></a></div>
-    </div>
-  </div>
-</footer>
-
-<div class="gotop" style=""></div>
-<script type="speculationrules">
-{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"\/*"},{"not":{"href_matches":["\/wp-*.php","\/wp-admin\/*","\/wp-content\/uploads\/*","\/wp-content\/*","\/wp-content\/plugins\/*","\/wp-content\/themes\/namlong\/*","\/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
-</script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/hooks.min.js.download" id="wp-hooks-js"></script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/i18n.min.js.download" id="wp-i18n-js"></script>
-<script type="text/javascript" id="wp-i18n-js-after">
-/* <![CDATA[ */
-wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
-/* ]]> */
-</script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/index.js.download" id="swv-js"></script>
-<script type="text/javascript" id="contact-form-7-js-translations">
-/* <![CDATA[ */
-( function( domain, translations ) {
-	var localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
-	localeData[""].domain = domain;
-	wp.i18n.setLocaleData( localeData, domain );
-} )( "contact-form-7", {"translation-revision-date":"2024-08-11 13:44:17+0000","generator":"GlotPress\/4.0.1","domain":"messages","locale_data":{"messages":{"":{"domain":"messages","plural-forms":"nplurals=1; plural=0;","lang":"vi_VN"},"This contact form is placed in the wrong place.":["Bi\u1ec3u m\u1eabu li\u00ean h\u1ec7 n\u00e0y \u0111\u01b0\u1ee3c \u0111\u1eb7t sai v\u1ecb tr\u00ed."],"Error:":["L\u1ed7i:"]}},"comment":{"reference":"includes\/js\/index.js"}} );
-/* ]]> */
-</script>
-<script type="text/javascript" id="contact-form-7-js-before">
-/* <![CDATA[ */
-var wpcf7 = {
-    "api": {
-        "root": "https:\/\/www.namlongvn.com\/wp-json\/",
-        "namespace": "contact-form-7\/v1"
-    }
-};
-/* ]]> */
-</script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/index(1).js.download" id="contact-form-7-js"></script>
-<script type="text/javascript" id="smart-search-script-js-extra">
-/* <![CDATA[ */
-var smartSearch = {"api_url":"https:\/\/www.namlongvn.com\/wp-json\/","lang":"vi","home_url":"https:\/\/www.namlongvn.com\/"};
-/* ]]> */
-</script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/script.js.download" id="smart-search-script-js"></script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/jquery.min(1).js.download" id="namlong_jquery-3.5.0.min-js"></script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/bootbox.min.js.download" id="namlong_bootbox.min-js"></script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/bootstrap.bundle.min.js.download" id="namlong_bootstrap.min-js"></script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/css3-animate-it.js.download" id="namlong_css3-animate-it-js"></script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/ekko-lightbox.min.js.download" id="namlong_ekko-lightbox.min-js"></script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/wow.js.download" id="namlong_wow-js"></script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/script-custom.js.download" id="namlong_script-custom-js"></script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/autocomplete.js.download" id="namlong_autocomplete-js"></script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/homepage.js.download" id="namlong_homepage-js"></script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/slick.js.download" id="namlong_slick-js"></script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/jquery.waypoints.min.js.download" id="namlong_waypoints-js"></script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/custom.js.download" id="namlong_custom-js"></script>
-<script type="text/javascript" id="custom-script-js-extra">
-/* <![CDATA[ */
-var autocomplete = {"rest_url":"https:\/\/www.namlongvn.com\/wp-json\/","lang":"vi"};
-/* ]]> */
-</script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/autocomplete(1).js.download" id="custom-script-js"></script>
-<script type="text/javascript" id="custom-js-js-extra">
-/* <![CDATA[ */
-var stock = {"trading":"\u0110ang giao d\u1ecbch","closed":"\u0110\u00f3ng c\u1eeda","cp":"cp","vnd":"VN\u0110"};
-/* ]]> */
-</script>
-<script type="text/javascript" src="./Tập đoàn Nam Long_ Trang Chính Thức Của Nam Long Group_files/custom(1).js.download" id="custom-js-js"></script>
-
-		<!-- Cookie Notice plugin v2.5.7 by Hu-manity.co https://hu-manity.co/ -->
-		<div id="cookie-notice" role="dialog" class="cookie-notice-hidden cookie-revoke-hidden cn-position-bottom cn-effect-fade" aria-label="Cookie Notice" style="background-color: rgb(50, 50, 58); display: none;"><div class="cookie-notice-container" style="color: #fff"><span id="cn-notice-text" class="cn-text-container">Trang web này sử dụng cookie để cải thiện hiệu suất trang web, nâng cao trải nghiệm người dùng và hỗ trợ phân tích. Bạn có thể quản lý tùy chọn của mình hoặc chấp nhận tất cả cookie để có chức năng tối ưu.</span><span id="cn-notice-buttons" class="cn-buttons-container"><button id="cn-accept-cookie" data-cookie-set="accept" class="cn-set-cookie cn-button" aria-label="Chỉ những Cookies cần thiết" style="background-color: #98221f">Chỉ những Cookies cần thiết</button><button id="cn-refuse-cookie" data-cookie-set="refuse" class="cn-set-cookie cn-button" aria-label="Chấp nhận Cookies" style="background-color: #98221f">Chấp nhận Cookies</button></span><span id="cn-close-notice" data-cookie-set="accept" class="cn-close-icon" title="Chấp nhận Cookies"></span></div>
-			
-		</div>
-		<!-- / Cookie Notice plugin --><script>
-  function showTab(tabId) {
-    document.querySelectorAll('.tab-inter').forEach(tab => tab.classList.remove('active'));
-    document.querySelectorAll('.cont-interest').forEach(content => content.classList.remove('active'));
-
-    document.getElementById(tabId).classList.add('active');
-    event.target.classList.add('active');
-  }
-</script>
-
-
-
-</body><div id="eJOY__extension_ai_adv_root" class="eJOY__extension_ai_adv_root_class"><div class="wrapperAiAssEjoy "><div class="containerSumEjoyIcon containerSumEjoyIconShow"><div class="viewIconEjoy gl-tooltip-ejoy gl-tooltip-ejoy-left" tooltip-data="eJOY AI Assistant"><div class="viewIconEjoyItem"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="26" viewBox="0 0 24 26" fill="none"><mask id="mask0_427_34" maskUnits="userSpaceOnUse" x="16" y="3" width="8" height="8" style="mask-type: luminance;"><path d="M24 3H16V11H24V3Z" fill="white"></path></mask><g mask="url(#mask0_427_34)"><path d="M23.8012 7.00309L21.0136 8.01539L20.0012 10.8031L18.9889 8.01539L16.2012 7.00309L18.9889 5.9908L20.0012 3.20309L21.0136 5.9908L23.8012 7.00309Z" fill="url(#paint0_linear_427_34)"></path></g><mask id="mask1_427_34" maskUnits="userSpaceOnUse" x="0" y="10" width="6" height="6" style="mask-type: luminance;"><path d="M6 10H0V16H6V10Z" fill="white"></path></mask><g mask="url(#mask1_427_34)"><path d="M5.8494 13.0023L3.7587 13.7616L2.9994 15.8523L2.2402 13.7616L0.149399 13.0023L2.2402 12.2431L2.9994 10.1523L3.7587 12.2431L5.8494 13.0023Z" fill="url(#paint1_linear_427_34)"></path></g><mask id="mask2_427_34" maskUnits="userSpaceOnUse" x="16" y="20" width="4" height="4" style="mask-type: luminance;"><path d="M20 20H16V24H20V20Z" fill="white"></path></mask><g mask="url(#mask2_427_34)"><path d="M19.8996 22.0016L18.5058 22.5077L17.9996 23.9016L17.4934 22.5077L16.0996 22.0016L17.4934 21.4954L17.9996 20.1016L18.5058 21.4954L19.8996 22.0016Z" fill="url(#paint2_linear_427_34)"></path></g><g filter="url(#filter0_d_427_34)"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.8671 20.3327C14.8098 20.2537 16.4674 18.0538 16.368 15.5257C15.9553 11.8147 11.5502 10.6201 13.3135 5.666C9.7712 8.7188 7.228 12.6272 7.3363 15.408C7.3847 18.1053 8.9455 20.3327 11.8671 20.3327ZM14.5512 16.5696C15.0045 16.5696 15.3306 16.2001 15.3719 15.7489C15.4799 15.431 15.3719 13.9738 14.2947 13.0395C14.4695 14.2529 13.6329 15.261 13.7305 15.7489C13.7305 16.2022 14.0979 16.5696 14.5512 16.5696Z" fill="#1DA1F2"></path></g><defs><filter id="filter0_d_427_34" x="2.47583" y="0.80886" width="18.7535" height="24.381" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feflood flood-opacity="0" result="BackgroundImageFix"></feflood><fecolormatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"></fecolormatrix><feoffset></feoffset><fegaussianblur stdDeviation="2.42857"></fegaussianblur><fecolormatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0"></fecolormatrix><feblend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_427_34"></feblend><feblend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_427_34" result="shape"></feblend></filter><lineargradient id="paint0_linear_427_34" x1="20.0012" y1="3.20309" x2="20.0012" y2="10.8031" gradientUnits="userSpaceOnUse"><stop stop-color="#1DA1F2"></stop><stop offset="1" stop-color="#6CD2FF"></stop></lineargradient><lineargradient id="paint1_linear_427_34" x1="2.9994" y1="10.1523" x2="2.9994" y2="15.8523" gradientUnits="userSpaceOnUse"><stop stop-color="#1DA1F2"></stop><stop offset="1" stop-color="#6CD2FF"></stop></lineargradient><lineargradient id="paint2_linear_427_34" x1="17.9996" y1="20.1016" x2="17.9996" y2="23.9016" gradientUnits="userSpaceOnUse"><stop stop-color="#1DA1F2"></stop><stop offset="1" stop-color="#6CD2FF"></stop></lineargradient></defs></svg></div><div class="moveIconEjoyAi"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.45139 0.667969C4.64931 0.667969 4 1.31727 4 2.11936C4 2.92144 4.64931 3.57075 5.45139 3.57075C6.25347 3.57075 6.90278 2.92144 6.90278 2.11936C6.90278 1.31727 6.25347 0.667969 5.45139 0.667969ZM4 8.00868C4 7.2066 4.64931 6.55729 5.45139 6.55729C6.25347 6.55729 6.90278 7.2066 6.90278 8.00868C6.90278 8.81076 6.25347 9.46007 5.45139 9.46007C4.64931 9.46007 4 8.81076 4 8.00868ZM4 13.8837C4 13.0816 4.64931 12.4323 5.45139 12.4323C6.25347 12.4323 6.90278 13.0816 6.90278 13.8837C6.90278 14.6858 6.25347 15.3351 5.45139 15.3351C4.64931 15.3351 4 14.6858 4 13.8837Z" fill="#666666"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M10.7854 0.667969C9.98329 0.667969 9.33398 1.31727 9.33398 2.11936C9.33398 2.92144 9.98329 3.57075 10.7854 3.57075C11.5875 3.57075 12.2368 2.92144 12.2368 2.11936C12.2368 1.31727 11.5875 0.667969 10.7854 0.667969ZM9.33398 8.00868C9.33398 7.2066 9.98329 6.55729 10.7854 6.55729C11.5875 6.55729 12.2368 7.2066 12.2368 8.00868C12.2368 8.81076 11.5875 9.46007 10.7854 9.46007C9.98329 9.46007 9.33398 8.81076 9.33398 8.00868ZM9.33398 13.8837C9.33398 13.0816 9.98329 12.4323 10.7854 12.4323C11.5875 12.4323 12.2368 13.0816 12.2368 13.8837C12.2368 14.6858 11.5875 15.3351 10.7854 15.3351C9.98329 15.3351 9.33398 14.6858 9.33398 13.8837Z" fill="#666666"></path></svg></div></div><div class="viewCloseIconEjoy"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="black" fill-opacity="0.25"></circle><path fill-rule="evenodd" clip-rule="evenodd" d="M8.71289 3.58672C8.87135 3.74518 8.87135 4.00209 8.71289 4.16054L6.72363 6.14981L8.71289 8.13907C8.87135 8.29752 8.87135 8.55444 8.71289 8.71289C8.55444 8.87135 8.29752 8.87135 8.13907 8.71289L6.14981 6.72363L4.16054 8.71289C4.00209 8.87135 3.74518 8.87135 3.58672 8.71289C3.42826 8.55443 3.42826 8.29752 3.58672 8.13907L5.57598 6.14981L3.58672 4.16054C3.42826 4.00209 3.42826 3.74518 3.58672 3.58672C3.74518 3.42826 4.00209 3.42826 4.16054 3.58672L6.14981 5.57598L8.13907 3.58672C8.29752 3.42826 8.55444 3.42826 8.71289 3.58672Z" fill="white"></path></svg></div></div><div class="eJOY__container eJOY__container_scroll  "><div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-left: 12px;"><div><div style="border-radius: 3px; padding: 4px 8px; color: rgb(255, 255, 255); font-size: 12px; font-style: normal; font-weight: 400; line-height: 12px; background: rgba(29, 161, 242, 0.65);">Beta</div></div><div style="display: flex; justify-content: center; padding-right: 12px; flex-direction: column;"><span style="color: rgb(140, 140, 140); font-size: 10px; font-style: normal; font-weight: 600; line-height: 12px; padding-bottom: 1px;">0 / 10</span><span style="color: rgb(140, 140, 140); font-size: 8px; font-style: normal; font-weight: 400; line-height: 10px;">used queries</span></div></div></div></div></div><div id="eJOY__extension_root" class="eJOY__extension_root_class" style="all: unset;"><template shadowrootmode="open">
-        <style>
-          @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
-          .wrapperEjoy{font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;-webkit-user-select:text;-moz-user-select:text;user-select:text}.container{position:absolute;display:none;z-index:2147483647;color:#000;font-size:14px;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;transition:width 1s ease-in-out}.container button{background-color:transparent}.main{position:relative;flex-grow:1}.main_content{background-color:#fff;min-height:100px;width:304px;height:100%;display:flex;flex-direction:column;border-radius:5px;top:0;box-shadow:0 4px 8px #0003,0 6px 20px #00000030;border-color:transparent;z-index:2;box-sizing:border-box;padding:0 0 8px}.view_main{overflow-y:auto;overflow-x:hidden}.view_main_old{height:calc(100% - 65px);display:flex;flex-direction:column}.view_main_old_with_promote{height:calc(100% - 95px);display:flex;flex-direction:column}.icon{cursor:pointer}.viewLoading{background:#fff;box-shadow:0 0 4px #727272;width:30px;height:30px;display:flex;justify-content:center;align-items:center;border-radius:5px}.icon:hover{transform:scale(1.1)}.triangle{position:absolute;width:0;height:0;bottom:-21px;border-bottom:25px solid transparent;border-left:35px solid #fff;filter:drop-shadow(-1px 7px 4px rgba(0,0,0,.2))}.header_container{background-color:#1da1f2;letter-spacing:-.2px;font-size:12px;text-align:left;max-height:33px;line-height:normal;border-radius:5px 5px 0 0}.header_bar{background-color:transparent;height:100%;display:flex;overflow:hidden;text-align:center;border-radius:5px 5px 0 0}.header_btn{height:100%;width:33.3%;color:#fff;background-color:transparent;cursor:pointer;padding:8px}.header_btn:hover{background-color:#196594}.header_btn_new{display:flex;align-items:center;justify-content:center;color:#fff;background-color:transparent;cursor:pointer;padding:8px}.header_btn_new .clzzTooltip{display:none;position:absolute;top:-30px;white-space:nowrap;background:#424141b5;padding:4px 12px;border-radius:5px;font-weight:600}.header_btn_new:hover{background-color:#196594}.header_btn_new:hover .clzzTooltipShow{display:block}.header_close_icon_container{position:absolute;top:11.4px;right:-20px;cursor:pointer;width:12px;height:12px;border-radius:50%;background-color:#fff;box-shadow:1px 1px 10px #000}.header_close_icon{padding:3px}.header_triangle_top{position:absolute;width:0;height:0;bottom:-21px;border-bottom:25px solid transparent;border-left:35px solid #fff;filter:drop-shadow(-1px 7px 4px rgba(0,0,0,.2))}.word_container{padding:8px 7px 8px 16px;line-height:1.17}.word_content{min-height:28px;max-height:116px;padding-bottom:0;display:flex;flex-wrap:wrap;overflow-wrap:break-word;align-items:center}.word_content_long{overflow:auto;overflow-x:hidden}.word_content::-webkit-scrollbar{width:4px;border-radius:100px}.word_content::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);border-radius:100px}.word_content::-webkit-scrollbar-thumb{background-color:#9f9f9f;outline:1px solid #e5e5e5;border-radius:100px}.word_speaker_container{cursor:pointer;align-self:flex-start;opacity:.7;height:28px;display:flex;justify-content:center;align-items:center}.word_speaker_container:hover{opacity:1}.word_word{min-width:10px;font-size:24px;font-weight:700;letter-spacing:1.2px;text-align:left;color:#000}.word_incorect{font-size:12px;font-weight:300;letter-spacing:1.2px;text-align:left;color:#000;margin-left:5px}.word_pronun{font-style:italic;margin-left:8px}.word_loading_container{margin-left:20px;margin-top:7px;overflow:hidden}.word_loading{height:20px;width:20px;animation:spin 1.5s linear .3s infinite}@keyframes spin{to{transform:rotate(360deg)}}.word_pop_symbol_container{position:relative}.word_pop_symbol{width:33px;height:15px;background-color:#fc0;margin-left:8px;transform:skew(-25deg);display:flex;justify-content:center;align-items:center;border-radius:2px}.word_pop_symbol img{z-index:1;transform:skew(25deg)}.word_tooltip_container{position:fixed;margin-top:14px;margin-left:30px;opacity:0;display:none;transition:opacity .3s ease;z-index:1000000000000;background-color:#fff;height:40px;width:120px;border-radius:5px;box-shadow:-1px -4px 8px #0003,0 6px 20px #0003;font-size:11px;font-weight:400;font-style:normal;font-stretch:normal;line-height:1.25;letter-spacing:normal;text-align:left;padding:5px}.word_tooltip_triangle{position:absolute;width:0;height:0;top:-14px;border-top:15px solid transparent;border-left:15px solid #fff;filter:drop-shadow(-1px -1px 1px rgba(0,0,0,.2))}.word_pop_symbol_container:hover .word_tooltip_container{opacity:1;display:block}.word_tooltip_container p{margin-top:5px}.content_container{padding:0 7px 0 13px;overflow-y:auto;overflow-x:hidden;flex-grow:1}.content_container_new_scroll{padding:0 7px 0 13px;flex-grow:1}.content_container .content_inner{position:relative;min-height:150px;padding-top:5px}.content_inner_list{width:284px;box-sizing:border-box;padding-left:8px}.content_container::-webkit-scrollbar,.selectWbConSelect::-webkit-scrollbar,.selectWbConSelect .selectWbConSelectMain::-webkit-scrollbar{width:4px;border-radius:100px}.content_container::-webkit-scrollbar-track,.selectWbConSelect::-webkit-scrollbar-track,.selectWbConSelect .selectWbConSelectMain::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px rgba(95,85,85,.3);border-radius:100px}.content_container::-webkit-scrollbar-thumb,.selectWbConSelect::-webkit-scrollbar-thumb,.selectWbConSelect .selectWbConSelectMain::-webkit-scrollbar-thumb{background-color:#9f9f9f;outline:1px solid #e5e5e5;border-radius:100px;text-align:center}.content_pos{color:#faa918;font-size:16px;font-weight:600;line-height:1.17;letter-spacing:-.3px;text-align:left}.content_more_btn{width:94%;height:24px;border-radius:16px;margin-top:20px;background-color:#d8d8d8;cursor:pointer;text-align:center;display:flex;justify-content:center;align-items:center}.content_more_btn:hover{background-color:#949494}.tran_container{width:256px;min-height:40px;border-radius:5px;background-color:#d8d8d8;margin-top:4px;margin-bottom:4px;overflow:hidden}.tran_content{padding:11px 8px 12px;display:flex;flex-direction:column}.tran_content .tran_content_top{display:flex;margin-bottom:8px;justify-content:space-between}.tran_tran_content{display:flex}.tran_tran{width:77%;font-weight:600;line-height:1.14;letter-spacing:-.2px;flex-grow:1;flex-wrap:wrap;overflow-wrap:break-word;text-align:left;color:#333}.tran_btn_add{all:initial;margin-left:4px;cursor:pointer;width:48px;height:20px;float:left;background-color:#1da1f2;border-radius:2px;display:flex!important;color:#fff;justify-content:space-around;font-family:Open Sans,sans-serif;align-items:center;font-size:12px;font-weight:300;font-style:normal;font-stretch:normal;line-height:1.33;letter-spacing:.8px;text-overflow:ellipsis}.tran_btn_edit{all:initial;margin-right:10px;cursor:pointer;opacity:.7}.tran_btn_add:hover,.btn_edit:hover{transform:scale(1.1)}.tran_extra_data{width:100%;font-weight:300;font-size:14px;line-height:1.33;letter-spacing:-.2px;flex-wrap:wrap;overflow-wrap:break-word;text-align:left;color:#666;padding-top:2px;white-space:pre-wrap}.tran_footer{display:flex;width:100%;justify-content:flex-end}.tran_vote_container{min-width:88px;height:16px;border-radius:8px;background-color:#d8d8d8;border:solid 1px #979797;margin-bottom:-27px;font-size:8px;font-weight:400;font-style:italic;font-stretch:normal;line-height:normal;letter-spacing:normal;text-align:justify;color:#000;display:flex;justify-content:space-around;align-items:center}.OOPS_container{height:129px;border-radius:5px;background-color:#d8d8d8;display:flex;justify-content:center;flex-direction:column;text-align:center}.OOPS_img{align-self:center}.OOPS_oops_text{font-size:14px;font-weight:700}.OOPS_alert_text{font-size:12px;font-family:300;line-height:1.33;letter-spacing:-.2px}.btnSayItCon{padding:8px}.btnToAdvTranslation{position:absolute;right:-32px;width:32px;height:32px;top:33px;background:#fff;border-radius:0 5px 5px 0;cursor:pointer;box-shadow:3px 2px 4px #00000080;padding:0;display:flex;justify-content:center;align-items:center}.btnSpeak{position:absolute;right:-32px;width:32px;height:32px;top:66px;background:#fff;border-radius:0 5px 5px 0;cursor:pointer;box-shadow:3px 2px 4px #00000080;padding:0;display:flex;justify-content:center;align-items:center}.btnGoProIconRight{top:132px}.btnGoSupportRight{top:99px}.btnSayIt{display:flex;justify-content:center;align-items:center;height:18px;border-radius:5px;padding:0 4px;background-color:#f70;cursor:pointer}.btnSayItIcon{display:flex;padding-right:4px}.btnSayItIcon svg{width:12px;height:12px}.btnSayItText{font-size:12px;font-weight:600;font-style:normal;font-stretch:normal;line-height:1.3333333333333333;letter-spacing:normal;color:#fff}.word_pron{margin-top:8px;display:flex;align-items:center}.custom_container{position:relative;z-index:99999999999999999}.custom_add_translation{display:flex;justify-content:flex-end;align-items:center}.custom_input{flex-grow:1;padding:0 21px 0 0}.custom_input input{width:100%;min-height:35px;border-radius:5px;background-color:#d8d8d8;border:none;font-weight:600;line-height:1.14;letter-spacing:-.2px;flex-grow:1;flex-wrap:wrap;overflow-wrap:break-word;text-align:left;color:#000;font-size:14px;padding:0 8px}.custom_content{flex-grow:1}.icon_plus{cursor:pointer;display:flex}.icon_plus svg{width:16px;height:16px}.hidden{display:none}.tooltip_custom_add{position:absolute}[tooltip]{position:relative;display:inline-block}[tooltip]:before{content:"";position:absolute;pointer-events:none;top:-7px;left:50%;transform:translate(-50%);border-width:5px 6px 0 6px;border-style:solid;border-color:#808080 transparent transparent transparent;z-index:99;opacity:0}[tooltip-position=left]:before{left:0%;top:50%;margin-left:-12px;transform:translatey(-50%) rotate(-90deg)}[tooltip-position=top-left]:before{left:90%}[tooltip-position=top-right]:before{left:14%}[tooltip-position=top]:before{left:50%}[tooltip-position=buttom]:before{top:100%;margin-top:8px;transform:translate(-50%) translatey(-100%) rotate(-180deg)}[tooltip-position=right]:before{left:100%;top:50%;margin-left:1px;transform:translatey(-50%) rotate(90deg)}[tooltip]:after{content:attr(tooltip);position:absolute;left:50%;top:-6px;transform:translate(-50%) translateY(-100%);background:gray;text-align:center;color:#fff;font-size:10px;min-width:180px;border-radius:5px;pointer-events:none;padding:4px;z-index:99;opacity:0;white-space:pre-wrap}[tooltip-position=left]:after{left:0%;top:50%;margin-left:-8px;transform:translate(-100%) translateY(-50%)}[tooltip-position=top]:after{left:50%}[tooltip-position=top-left]:after{left:-90%}[tooltip-position=top-right]:after{left:90%}[tooltip-position=buttom]:after{top:100%;margin-top:8px;transform:translate(-50%) translateY(0)}[tooltip-position=right]:after{left:100%;top:50%;margin-left:8px;transform:translate(0) translateY(-50%)}[tooltip]:hover:after,[tooltip]:hover:before{opacity:1}.selectWbCon{display:flex;justify-content:flex-end;position:relative;align-items:center;padding:8px 8px 0;font-size:12px;color:#666}.selectWbConLeft{font-style:normal;font-weight:400;font-size:12px;line-height:16px;display:flex;cursor:pointer;color:#666;align-items:center;padding-right:4px}.selectWbConRight{font-style:normal;font-weight:600;font-size:12px;line-height:16px;display:flex;cursor:pointer;color:#666;align-items:center;padding-right:3px;white-space:nowrap}.selectWbIcon{display:flex;cursor:pointer}.selectWbConSelect{position:absolute;bottom:31px;visibility:hidden;background:#fff;z-index:9999999999;min-width:200px;max-width:300px;max-height:300px;overflow:auto;filter:drop-shadow(-1px 7px 4px rgba(0,0,0,.2));box-shadow:0 4px 8px #0003,0 6px 20px #00000030;border-radius:5px}.selectWbConSelect.isShow{visibility:visible}.selectWbConSelect.hidden{visibility:hidden}.itemOptionSelectWb{cursor:pointer;padding:6px 8px;font-style:normal;font-weight:400;font-size:12px;line-height:16px;display:flex;color:#666;align-items:center}.itemOptionSelectWb.active{color:#1da1f2}.itemOptionSelectWb:hover{background:#1da1f2;color:#fff}.selectWb{border:none;font-size:14px;font-weight:400;color:#666;background:transparent}.viewIconFilter{display:flex;justify-content:center;align-items:center}.iconFilter{width:24px;height:23px;background:#1da1f2;-webkit-mask-size:cover;mask-size:cover;display:flex;justify-content:center;align-items:center;margin-right:8px}.iconFilter span{font-size:12px;line-height:1.2;align-items:center;font-weight:700;color:#fff}.nameFilter{font-style:normal;font-weight:600;font-size:14px;line-height:16px;display:flex;align-items:center;color:#333}.iconItemGoPro svg{width:38px;transition:all .5s}.iconItemGoPro path{fill:#b2b2b2;transition:all .5s}.iconItemGoProActive svg{width:56px}.iconItemGoProActive path{fill:#1da1f2}.switch{position:relative;display:inline-block;cursor:pointer;width:30px;height:17px}.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#ccc;transition:background-color .4s,transform .4s}.slider:before{position:absolute;content:"";height:13px;width:13px;left:2px;bottom:2px;background-color:#fff;transition:background-color .4s,transform .4s}.round{border-radius:30px}.round:before{border-radius:50%}.active .slider{background-color:#1da1f2}.active .slider:before{transform:translate(13px)}.view_main::-webkit-scrollbar,.selectWbConSelect::-webkit-scrollbar,.selectWbConSelect .selectWbConSelectMain::-webkit-scrollbar{width:4px;border-radius:100px}.view_main::-webkit-scrollbar-track,.selectWbConSelect::-webkit-scrollbar-track,.selectWbConSelect .selectWbConSelectMain::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px rgba(95,85,85,.3);border-radius:100px}.view_main::-webkit-scrollbar-thumb,.selectWbConSelect::-webkit-scrollbar-thumb,.selectWbConSelect .selectWbConSelectMain::-webkit-scrollbar-thumb{background-color:#9f9f9f;border-radius:100px;text-align:center}.scale-animation{height:20px;width:20px;animation:scale-infi 1.5s linear .3s infinite}@keyframes scale-infi{0%{transform:rotate(1)}50%{transform:rotate(1.5)}}.notify_onboarding_container{position:absolute;width:272px;min-height:65px;flex-direction:column;left:16px;padding-bottom:8px;display:flex;align-items:center;bottom:45px;text-align:center;background:#fff;box-shadow:0 2px 10px #0003;border-radius:5px;border:1px solid #1DA1F2}.notify_onboarding_close{display:flex;cursor:pointer;align-self:self-end;justify-content:flex-end}.notify_onboarding_close>svg{padding:10px 10px 0 0}.notify_onboarding_title{font-style:normal;font-weight:400;font-size:12px;padding:0 16px;line-height:16px;color:#333}.notify_onboarding_btn{justify-content:center;font-style:normal;font-weight:400;font-size:12px;display:flex;align-items:center;padding:6px 24px;line-height:14px;cursor:pointer;background:#1da1f2;color:#fff;border-radius:72.6px;margin-top:10px;margin-bottom:10px}.notify_onboarding_btn>span{padding-left:8px}.notify_onboarding_arrow{position:absolute;bottom:-21px;left:0}[class*=icono]{position:relative;display:inline-block;vertical-align:middle;color:#c4c4c4;box-sizing:border-box}[class*=icono-white]{color:#fff}[class*=icono]:after,[class*=icono]:before{content:"";box-sizing:border-box}[class*=icono-arrow4]{width:0;height:0;border:7px solid transparent;border-top:7px solid;border-right:7px solid;margin:15px}[class*=icono-arrow4][class*=-left]{transform:rotate(45deg)}[class*=icono-arrow4][class*=-left][class*=-up]{transform:none}[class*=icono-arrow4][class*=-left][class*=-down]{transform:rotate(90deg)}[class*=icono-arrow4][class*=-right]{transform:rotate(-135deg)}[class*=icono-arrow4][class*=-right][class*=-up]{transform:rotate(-90deg)}[class*=icono-arrow4][class*=-right][class*=-down]{transform:rotate(180deg)}[class*=icono-arrow4][class*=-up]{transform:rotate(-45deg)}[class*=icono-arrow4][class*=-down]{transform:rotate(135deg)}.searchMeaningGg_container{border-radius:4px;padding:8px 0;display:flex;justify-content:center;align-items:center;flex-direction:column}.searchMeaningGg_text{font-style:normal;font-weight:400;font-size:14px;line-height:16px;cursor:pointer}.searchMeaningGg_text span{color:#1da1f2}.searchMeaningGg_btn{border-radius:100px;padding:8px 36px;margin-top:16px;font-style:normal;font-size:14px;line-height:16px;text-align:center;color:#1da1f2;cursor:pointer}.view_similar{display:flex;flex-wrap:wrap}.view_similar .imilar_text{font-style:normal;font-weight:400;font-size:10px;line-height:16px;display:flex;padding-right:10px;align-items:center;text-align:center;color:#397447}.view_similar .imilar_item{background-color:#fff;border:1px solid #dadce0;line-height:16px;font-size:9px;margin:3px 4px 3px 0;padding:0 10px;border-radius:32px;float:left;max-width:250px;cursor:pointer;position:relative;overflow:hidden;text-align:center;text-overflow:ellipsis;white-space:nowrap;color:#3c4043}.view_similar .imilar_item.imilar_item_disable{cursor:text;color:#bdc1c6!important;cursor:default;background-color:#f1f3f4;border:1px solid #f8f9fa}.google_Dictionary_title{background:#e6e7eb;font-style:normal;font-weight:500;font-size:12px;line-height:16px;display:flex;align-items:center;letter-spacing:.05em;text-transform:uppercase;color:#3b3c40;padding:4px 9px}.google_Dictionary_desc{font-style:normal;font-weight:400;font-size:10px;line-height:16px;cursor:pointer;display:flex;align-items:center;text-align:center;color:#626262;padding-top:8px;padding-bottom:4px}.google_Dictionary_pharse{font-style:normal;font-weight:400;font-size:12px;line-height:16px;display:flex;align-items:center;text-align:center;color:#8c8c8c;padding-bottom:4px;padding-left:26px}.google_Dictionary_content_pos{text-align:left;font-style:italic;font-weight:400;font-size:12px;line-height:20px;color:#8c8c8c}.google_Dictionary_pharse_link{font-style:normal;font-weight:400;font-size:12px;line-height:16px;cursor:pointer;display:flex;align-items:center;text-align:center;color:#0f59c5;padding-left:4px}.dataGetMeaningEmpty{background:#d8d8d8;border-radius:4px;font-style:normal;font-weight:400;font-size:12px;line-height:16px;color:#3b3c40;width:"100%";min-width:124px;min-height:124px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}.dataGetMeaningEmpty span{padding:16px 11px 0}.item_lookup_container{min-height:34px;display:flex;flex-direction:row;padding:8px 12px;align-items:center;cursor:pointer}.item_lookup_logo{height:34px;width:34px;display:flex;justify-content:center;align-items:center;background-color:#11a37f}.item_lookup_logo_small{height:16px;width:16px;border-radius:3px;font-weight:600}.item_lookup_logo_bg_none{background-color:transparent}.item_lookup_logo img{height:34px;width:34px}.item_lookup_logo_small svg{height:10px;width:10px}.item_lookup_logo svg path{fill:#fff}.item_lookup_text{font-style:normal;font-weight:400;font-size:14px;line-height:20px;display:flex;align-items:center;color:#666;flex:1;padding-left:12px}.item_lookup_text_small{font-size:12px;line-height:16px;font-weight:600}.item_lookup_more{cursor:pointer}.viewIcon{display:flex;justify-content:center;position:relative;align-items:center;background:#fff;border:1px solid #1DA1F2;border-radius:3px}.viewIcon img{background:#1da1f2;border-radius:1px 0 0 1px}.itemDropDown{color:#333;font-size:14px;line-height:16px;padding:0 8px;position:relative}.btnAddImg{position:relative;height:100%;justify-content:center;align-items:center;display:flex}.btnAddImg>img,.itemArrowDropDownImg{position:absolute;top:0;left:0;width:100%;height:100%;cursor:pointer;opacity:0;background:transparent}.itemDropDownWithLine{border-right:1px solid #B2B2B2}.itemArrowDropDown{padding:0 6px;cursor:pointer;height:100%;display:flex;position:relative;justify-content:center;align-items:center}.viewContentItemDrop{max-width:362px;position:absolute;right:0;flex-shrink:0;display:flex;flex-direction:column;background:#fff;padding-bottom:6px;border-radius:4px;box-shadow:0 2px 12px #0003}.viewContentItemDropTop{top:105%}.viewContentItemDropBottom{bottom:105%}.viewItemHoverTitle{color:#333;font-size:14px;font-style:normal;font-weight:600;display:flex;align-items:center;justify-content:space-between;padding:12px 12px 6px;line-height:16px}.viewItemDrop{height:32px;display:flex;padding:0 0 0 12px;align-items:center;cursor:pointer;position:relative;background:#fff}.viewItemPin{height:24px;width:24px;display:flex;align-items:center;cursor:pointer;background:#fff}.viewItemDrop>span{flex-grow:1;font-size:14px;padding:0 12px;line-height:16px}.viewItemDrop:hover{background:#f0f0f0}.viewIconShow{opacity:0}.viewItemDrop:hover .viewIconShow{opacity:1}.viewIconPin{display:flex;padding:6px;transition:opacity .5s;justify-content:center;align-items:center;cursor:pointer}.viewIconPinDisable{display:none}.viewIconPinActive{opacity:1!important}.viewIconPinDisable img{cursor:not-allowed!important}.itemArrowDropDown>svg,.viewItemDrop>svg,.viewItemDrop>span,.viewIconPin svg{pointer-events:none}.viewIconPin:hover svg path{fill:#1da1f2}#PopupSyncNotifyContent{position:absolute;font-family:Open Sans,Arial,sans-serif!important;left:0;right:0;bottom:0;top:0;margin:auto;background:#0000005c;display:flex;z-index:2147483647;flex-direction:column;justify-content:space-around;align-items:center}.PopupSyncNotifyContent-main{background:#fff;border-radius:10px;align-items:center;display:flex;width:600px;height:500px;position:relative;flex-direction:column;justify-content:space-evenly;padding:32px 33px 27px}.PopupSyncNotifyContent-viewTitle{color:#333;font-family:Open Sans;font-size:24px;font-style:normal;font-weight:600;line-height:32px}.PopupSyncNotifyContent-viewDesc{margin-top:16px;font-style:normal;font-weight:400;font-size:16px;line-height:24px;display:flex;align-items:center;text-align:center;padding-bottom:32px;color:#333}.PopupSyncNotifyContent-main-close{position:absolute;top:-30px;right:0;cursor:pointer}.PopupSyncNotifyContent-viewViewBtn{display:flex;flex-direction:column;justify-content:center;align-items:center}.PopupSyncNotifyContent-viewViewBtn1{flex-direction:column;justify-content:center;cursor:pointer;background:#1da1f2;border-radius:72.6px;padding:10px 46px;min-width:189px;font-style:normal;font-weight:400;font-size:16px;line-height:20px;display:flex;align-items:center;text-align:center;color:#fff}.PopupSyncNotifyContent-viewViewBtn1 img{width:22px}.PopupSyncNotifyContent-viewViewBtn2{margin-top:16px;cursor:pointer;flex-direction:column;justify-content:center;background:#7ac70c;border-radius:72.6px;padding:10px 46px;min-width:189px;font-style:normal;font-weight:400;font-size:16px;line-height:20px;display:flex;align-items:center;text-align:center;color:#fff}.PopupSyncNotifyContent-viewViewBtn3{margin-top:16px;cursor:pointer;flex-direction:column;justify-content:center;background:#e6e6e6;border-radius:72.6px;padding:10px 46px;min-width:189px;font-style:normal;font-weight:400;font-size:16px;line-height:20px;display:flex;align-items:center;text-align:center;color:#1da1f2}.PopupSyncNotifyContent-viewItems{display:flex;flex-direction:column;justify-content:center;align-items:center}.ejoyViewNotifyAddWord{border-radius:8px;position:fixed;left:50%;transform:translate(-50%);bottom:16px;z-index:9999;background:#fff;box-shadow:0 2px 10px #0003;display:flex;padding:8px 16px!important;align-items:center;gap:54px}.ejoyViewNotifyAddWord span{color:var(--standard-standard-high-day, #2C2C2C);font-size:16px;font-style:normal;font-weight:600;line-height:20px}.ejoyViewNotifyAddWord button{display:flex;flex-direction:column;justify-content:center;cursor:pointer;align-items:center;padding:10px 12px;gap:8px;color:var(--Primary-Azuare, #1DA1F2);text-align:right;font-size:16px;font-style:normal;font-weight:400;border:none;background:transparent;line-height:20px}.ejoyStatusEndGeneralSub{align-items:center;background:#fff;border-radius:8px;bottom:20px;box-shadow:0 4px 8px #0003,0 6px 20px #00000030;color:#333;display:flex;font-size:16px;font-style:normal;font-weight:400;justify-content:center;line-height:20px;padding:16px;position:fixed;left:50%;transform:translate(-50%);text-align:center;z-index:999999}.ejoyStatusEndGeneralSub svg{margin-right:6px}.ejoyBtnCloseShowGeneral{cursor:pointer;display:flex;padding-left:32px}.selectWbConPopup{display:flex;align-items:center;padding:8px 8px 0;font-size:12px;color:#666;position:fixed;top:0;right:0;bottom:0;left:0;justify-content:center;background:#00000082;z-index:999999}.selectWbConSelectPopup{visibility:hidden;background:#fff;z-index:999;min-width:255px;max-width:300px;height:330px;display:flex;flex-direction:column;filter:drop-shadow(-1px 7px 4px rgba(0,0,0,.2));box-shadow:0 4px 8px #0003,0 6px 20px #00000030;border-radius:5px}.selectWbConSelectMainPopup{overflow:auto;overflow-x:hidden;flex:1}.selectWbConSelectPopup.isShow{visibility:visible}.selectWbConSelectPopup.hidden{visibility:hidden}.itemOptionSelectWbPopup{cursor:pointer;padding:6px 8px;font-style:normal;font-weight:400;font-size:12px;line-height:16px;display:flex;color:#666;align-items:center}.itemOptionSelectWbPopup.active{color:#1da1f2}.itemOptionSelectWbPopup:hover{text-decoration:underline}.conPopupInline{position:fixed;top:0;left:0;z-index:999999999999;right:0;bottom:0;background:#000000b3;overflow:hidden;display:flex;justify-content:center;align-items:center}.conPopupInlineMain{position:relative;width:488px;height:382px;flex-shrink:0;border-radius:10px;background:#fff}.closeIconPopupPro{position:absolute;color:#fff;top:-30px;right:0;cursor:pointer}.btnHoverTooltip{height:24px;display:flex;justify-content:center;align-items:center}.btnHoverTooltip span{display:none;position:absolute;bottom:150%;white-space:nowrap;padding:8px;pointer-events:none;justify-content:flex-end;align-items:center;border-radius:4px;background:var(--Shades-of-gray-Medium-dark, #404040);color:var(--5-surface-primary, #FFF);text-align:right;font-size:14px;font-style:normal;font-weight:400;line-height:16px}.btnHoverTooltip:hover span{display:flex}.isNotifyEjoy{position:absolute;top:1px;right:3px;width:4px;pointer-events:none;height:4px;border-radius:2px;background:#e53838}
-          #popup_eJOY{all:initial;position:fixed;left:0;right:0;bottom:0;top:0;margin:auto;background-color:#000c;z-index:99999999999999999999999999999999;outline:none;display:flex;justify-content:center;align-items:center}.view_desc{display:flex;min-width:279px;align-items:center;justify-content:flex-start}.popup_main_go_pro{position:relative;margin:auto;width:623px;border-radius:10px;background-color:#fff;display:flex;max-width:100%;flex-direction:column;justify-content:flex-start;align-items:center;font-size:16px;font-weight:400;font-style:normal;font-stretch:normal;line-height:1.5;letter-spacing:-.4px;text-align:center;color:#000;animation:alertPop .2s ease-out;background:#fff;font-family:Open Sans,Arial,sans-serif}.popup_main{position:absolute;left:0;right:0;bottom:0;top:0;margin:auto;height:201px;width:415px;max-width:100%;border-radius:5px;background-color:#fff;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;font-size:16px;font-weight:400;font-style:normal;font-stretch:normal;line-height:1.5;letter-spacing:-.4px;text-align:center;color:#000;animation:alertPop .2s ease-out}.popup_main_login{position:absolute;font-family:Open Sans,Arial,sans-serif!important;left:0;right:0;bottom:0;top:0;margin:auto;height:342px;width:392px;max-width:100%;border-radius:5px;background-color:#fff;display:flex;flex-direction:column;justify-content:space-around;align-items:center;font-size:16px;font-weight:400;font-style:normal;font-stretch:normal;line-height:1.5;letter-spacing:-.4px;text-align:center;color:#000;animation:alertPop .2s ease-out}.popup_main_login span,.popup_main_login button{font-family:Open Sans,Arial,sans-serif!important}@keyframes alertPop{0%{transform:scale(0)}to{transform:scale(1)}}#popup_eJOY header{font-size:24px;font-weight:600;margin-top:10px}#popup_eJOY p{width:342px}.popup_line{width:414px;height:1px;background-color:#d8d8d8;margin-top:6px}.popup_close_btn{position:absolute;top:18px;right:29px;width:12px;height:12px;border-radius:50%;background-color:#b4b4b4;display:flex;justify-content:center;align-items:center;cursor:pointer}.btn_login{background-color:#1da1f2}#popup_eJOY .titleTxt{font-style:normal;font-weight:600;font-size:32px;max-width:100%;line-height:40px;text-align:center;color:#333;padding-top:16px}#popup_eJOY .descTxt{font-style:normal;font-weight:400;font-size:18px;line-height:28px;text-align:center;color:#333;padding-top:16px;max-width:100%;width:403px}#popup_eJOY .descTxt span:first-child{color:#1da1f2;text-decoration:none;cursor:pointer}#popup_eJOY .viewIcon{width:100%;display:flex;justify-content:center;align-items:center;padding:16px 0 40px}#popup_eJOY .viewItem{display:flex;flex-direction:column;justify-content:center;align-items:center;margin:0 20px;cursor:pointer}#popup_eJOY .itemICon{background:linear-gradient(360deg,#71c5f6 -3.99%,#61ccdf 95.66%);border-radius:18px;width:80px;height:80px;display:flex;justify-content:center;align-items:center;margin-bottom:8px}#popup_eJOY .itemText{font-style:normal;font-weight:300;font-size:12px;line-height:15px;text-align:center;letter-spacing:-.0738461px;color:#000;width:90px}#popup_eJOY .def_ai_title{color:#333;text-align:center;font-family:Open Sans,Arial,sans-serif!important;font-size:18px;font-style:normal;font-weight:600;line-height:20px}#popup_eJOY .def_ai_desc{color:#333;text-align:center;font-family:Open Sans,Arial,sans-serif!important;font-size:16px;font-style:normal;font-weight:400;line-height:20px}#popup_eJOY .buy_pro_def_ai{color:#fff;text-align:center;font-family:Open Sans,Arial,sans-serif!important;font-size:14px;font-style:normal;font-weight:600;line-height:16px;border-radius:40px;background:#fc0;padding:8px;width:306px}#popup_eJOY .buy_pro_def_ai_disable{color:#fff;text-align:center;padding:8px;font-family:Open Sans,Arial,sans-serif!important;font-size:14px;font-style:normal;font-weight:600;line-height:16px;border-radius:40px;background:#1da1f2;width:306px}#popup_eJOY .popup_def_ai{position:absolute;padding:10px;left:0;right:0;bottom:0;top:0;margin:auto;height:442px;width:488px;max-width:100%;border-radius:10px;background-color:#fff;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;font-size:16px;font-weight:400;font-style:normal;font-stretch:normal;line-height:1.5;letter-spacing:-.4px;text-align:center;color:#000;animation:alertPop .2s ease-out}#popup_eJOY .close_ai_def_btn{position:absolute;top:10px;right:10px}#popup_eJOY button{border-radius:16px;color:#fff;padding:6px 16px;background-color:#f70;display:flex;justify-content:center;align-items:center;cursor:pointer;outline:none;font-weight:600;font-size:16px;margin-top:24px;border:none}#popup_eJOY .btn_button_disableAi{margin:12px 0;background:var(--1-primary-azure, #1DA1F2);width:306px}#popup_eJOY .btn_button_fix_width{width:306px;display:flex;justify-content:center;align-items:center}.popup_main_login button{padding:6px 49px!important}.popup_main_login .popup_close_btn{top:8px!important;right:9px!important}@media only screen and (max-width: 400px){#popup_eJOY .popup_main_go_pro{border-radius:0}#popup_eJOY .titleTxt{font-size:18px;line-height:24px;padding-top:16px}#popup_eJOY .descTxt{font-size:14px;line-height:16px;padding-top:10px}#popup_eJOY .viewIcon{padding:16px 0 13px}}.popup_main_onboarding{position:absolute;left:0;right:0;bottom:0;top:0;margin:auto;height:520px;width:773px;max-width:100%;border-radius:10px;background-color:#fff;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;font-size:16px;font-weight:400;font-style:normal;font-stretch:normal;line-height:1.5;letter-spacing:-.4px;text-align:center;color:#000;animation:alertPop .2s ease-out}.popup_main_onboarding_no_ani{animation:none}.onboarding_popup_close{position:absolute;top:-25px;right:10px;width:12px;height:12px;border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer}.onboarding_btn{display:flex;flex-direction:column;justify-content:center;align-items:center}.onboarding_content{width:100%;height:100%;justify-content:space-around;align-items:center;display:flex;flex-direction:column;padding:10px 0 50px}.onboarding_text{font-style:normal;font-weight:600;font-size:18px;line-height:24px;font-family:sans-serif;display:flex;align-items:center;text-align:center;color:#333;padding:0 40px}.onboarding_btn>button{margin:16px 0!important;line-height:20px!important;padding:10px 20px!important;border-radius:72.6px!important;min-width:264px!important;font-weight:400!important}.onboarding_btn_no_remind{height:40px!important;min-width:264px!important;border:1px solid #B3B3B3!important;border-radius:72.6px!important;font-style:normal!important;margin:16px 0!important;font-weight:600!important;font-size:16px!important;line-height:20px!important;padding:10px 40px!important;display:flex!important;align-items:center!important;text-align:center!important;color:#b3b3b3!important;background:transparent!important}.onboarding_content_remind{width:100%;height:100%;font-family:sans-serif;align-items:center;display:flex;flex-direction:column}.onboarding_remind_main{display:flex;justify-content:space-around;width:100%;margin-top:40px}.onboarding_btn_back{font-style:normal;font-weight:400;font-size:16px;align-self:flex-start;line-height:20px;padding-top:16px;padding-left:16px;display:flex;align-items:center;cursor:pointer;text-align:center;color:#b3b3b3}.onboarding_remind_main_right_view_time{text-align:left;display:flex;padding:8px 0;font-family:Open Sans,Arial,sans-serif;font-family:sans-serif}.onboarding_remind_main_right_view_time>span{font-style:normal;font-weight:400;padding-right:8px;font-size:14px;min-width:94px;line-height:16px;display:flex;align-items:center;color:#8c8c8c}.onboarding_remind_main_right_view_time_main{display:flex}.onboarding_remind_main_right_view_time_main_item{display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer}.onboarding_remind_main_right_view_time_input_time{padding:2px 8px!important;border:1px solid #B3B3B3!important;border-radius:3px!important;box-sizing:border-box!important}.onboarding_remind_main_right_view_time_main_item span:first-child{margin:0 2px 2px;background:#fff;border:1px solid #B3B3B3;box-sizing:border-box;min-width:31px;border-radius:3px;font-style:normal;font-weight:400;font-size:10px;line-height:16px;display:flex;justify-content:center;align-items:center;text-align:center;color:#333}.onboarding_remind_main_right_view_time_main_item .span_check{border:1px solid #B2B2B2;width:10px;height:10px;border-radius:100px}.popup_main_onboarding .onboarding_btn button{margin-top:0!important}.onboarding_success_icon{border-radius:90.3704px;border:15px solid #7AC70C;width:92px;height:92px;display:flex;justify-content:center;align-items:center}.onboarding_success_text{font-style:normal;font-weight:400;font-size:16px;font-family:Open Sans,Arial,sans-serif;line-height:20px;display:flex;align-items:center;text-align:center;color:#333}.popup_main_success_onboarding{width:398px;height:245px}.onboarding_success_content{padding:16px}
-        </style>
-        <div id="eJOY__extension_shadow"><div class="wrapperEjoy"><div class="container" style="display: none;"><div class="viewIcon"><div class="btnHoverTooltip"><img src="chrome-extension://amfojhdiedpdnlijjbhjnhokbnohfdfb/img/logo/icon@2x.png" width="24" alt="" height="24" class="icon"><span>Dictionary</span></div><div class="itemArrowDropDown"><div class="btnHoverTooltip"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 4L6 9L11 4H1Z" fill="#8C8C8C"></path></svg><img class="itemArrowDropDownImg"><span>AI features</span></div><i class="isNotifyEjoy"></i></div></div></div><span style="position: absolute; top: 1px; left: 1px; opacity: 0; pointer-events: none; background-color: rgb(229, 56, 56); border: 1px solid rgb(229, 56, 56); border-radius: 16px; display: flex; justify-content: center; color: rgb(255, 255, 255); z-index: 2147483647; font-size: 8px; min-width: 12px; min-height: 12px; line-height: 11px; align-items: center;">1</span><span style="position: absolute; top: 1px; opacity: 0; pointer-events: none; background-color: rgba(2, 2, 2, 0.9); border-radius: 4px; padding: 4px 10px; display: flex; min-width: 100px; justify-content: center; color: rgb(255, 255, 255); z-index: 2147483647; font-size: 12px; min-height: 12px; line-height: 16px; align-items: center;"></span></div></div></template></div></html>
+            // Scroll to top
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 200) {
+                    $('.gotop').fadeIn();
+                } else {
+                    $('.gotop').fadeOut();
+                }
+            });
+            $('.gotop').click(function() {
+                $('html, body').animate({scrollTop: 0}, 800);
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>
