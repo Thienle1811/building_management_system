@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # --- Local Apps (Các module của dự án PMS) ---
     'apps.buildings',       # Quản lý Tòa nhà & Căn hộ (Core)
     'apps.residents',       # Quản lý Cư dân (Task chính hôm nay)
+    'apps.landing',
 ]
 
 MIDDLEWARE = [
