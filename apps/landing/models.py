@@ -61,3 +61,16 @@ class FAQ(BaseModel):
     class Meta:
         ordering = ['order']
         verbose_name = "Hỏi đáp (FAQ)"
+
+class ProcessStep(BaseModel):
+    """Section: Quy trình đăng ký (5 bước)"""
+    landing = models.ForeignKey(LandingConfig, on_delete=models.CASCADE, related_name='process_steps')
+    step_number = models.CharField(max_length=10, verbose_name="Bước số (VD: 01)")
+    title = models.CharField(max_length=100, verbose_name="Tên bước")
+    description = models.TextField(verbose_name="Mô tả ngắn")
+    icon_class = models.CharField(max_length=50, help_text="VD: fas fa-file-signature", verbose_name="Icon FontAwesome")
+    order = models.IntegerField(default=0, verbose_name="Thứ tự")
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Bước Quy trình"

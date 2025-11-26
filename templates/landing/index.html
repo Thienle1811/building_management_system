@@ -12,38 +12,61 @@
         <link rel="shortcut icon" href="{% static 'landing/img/favicon.ico' %}">
     {% endif %}
 
-    <link rel="stylesheet" id="wp-block-library-css" href="{% static 'landing/css/style.min.css' %}" type="text/css" media="all">
-    <link rel="stylesheet" id="contact-form-7-css" href="{% static 'landing/css/styles.css' %}" type="text/css" media="all">
-    <link rel="stylesheet" id="cookie-notice-front-css" href="{% static 'landing/css/front.min.css' %}" type="text/css" media="all">
-    <link rel="stylesheet" id="smart-search-style-css" href="{% static 'landing/css/style.css' %}" type="text/css" media="all">
-    <link rel="stylesheet" id="namlong_animations-css" href="{% static 'landing/css/animations.css' %}" type="text/css" media="all">
-    <link rel="stylesheet" id="namlong_bootstrap.min-css" href="{% static 'landing/css/bootstrap.min.css' %}" type="text/css" media="all">
-    <link rel="stylesheet" id="namlong_template-css" href="{% static 'landing/css/template.css' %}" type="text/css" media="all">
-    <link rel="stylesheet" id="namlong_menu-css" href="{% static 'landing/css/menu.css' %}" type="text/css" media="all">
-    <link rel="stylesheet" id="namlong_homepage-css" href="{% static 'landing/css/homepage.css' %}" type="text/css" media="all">
-    <link rel="stylesheet" id="namlong_ekko-lightbox-css" href="{% static 'landing/css/ekko-lightbox.css' %}" type="text/css" media="all">
-    <link rel="stylesheet" id="namlong_slick-css" href="{% static 'landing/css/slick.css' %}" type="text/css" media="all">
-    <link rel="stylesheet" id="namlong_slick-theme-css" href="{% static 'landing/css/slick-theme.css' %}" type="text/css" media="all">
-    <link rel="stylesheet" id="namlong_custom-css" href="{% static 'landing/css/custom.css' %}" type="text/css" media="all">
+    <link rel="stylesheet" href="{% static 'landing/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'landing/css/style.min.css' %}">
+    <link rel="stylesheet" href="{% static 'landing/css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'landing/css/template.css' %}">
+    <link rel="stylesheet" href="{% static 'landing/css/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'landing/css/homepage.css' %}">
+    <link rel="stylesheet" href="{% static 'landing/css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'landing/css/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'landing/css/custom.css' %}">
 
     <style>
         :root {
             --primary-color: {{ config.primary_color|default:"#1da1f2" }};
             --secondary-color: {{ config.secondary_color|default:"#f7941d" }};
         }
-        .text-primary-custom { color: var(--primary-color) !important; }
-        .bg-primary-custom { background-color: var(--primary-color) !important; }
-        .btn-custom { background-color: var(--secondary-color); color: #fff; }
+        /* Button & Elements */
+        .btn-custom { background-color: var(--secondary-color); color: #fff !important; border: none; padding: 8px 20px; border-radius: 50px; font-weight: bold; transition: all 0.3s; }
+        .btn-custom:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .img-responsive { max-width: 100%; height: auto; }
+        .item-news .thumb-over img { width: 100%; height: 220px; object-fit: cover; }
+        .accordion-button:not(.collapsed) { color: var(--primary-color); background-color: #e7f1ff; }
+        .slider-benefits .item-benefit { margin: 0 10px; outline: none; }
+        .slider-benefits .slick-track { display: flex; }
         
-        /* Style cho FAQ Accordion */
-        .accordion-button:not(.collapsed) {
-            color: var(--primary-color);
-            background-color: #e7f1ff;
+        /* Style riêng cho Quy trình (Process) */
+        .process-step-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: 100%;
+            transition: transform 0.3s;
+            border-bottom: 4px solid var(--primary-color);
+            position: relative;
+        }
+        .process-step-box:hover { transform: translateY(-5px); }
+        .step-icon {
+            width: 60px; height: 60px;
+            background: var(--secondary-color);
+            color: #fff;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; margin: 0 auto 15px;
+        }
+        .step-number {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            background: var(--primary-color); color: #fff;
+            padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;
+            border: 2px solid #fff;
         }
     </style>
 
-    <script type="text/javascript" src="{% static 'landing/js/jquery.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'landing/js/jquery-migrate.min.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="{% static 'landing/js/jquery.min.js' %}"></script>
+    <script src="{% static 'landing/js/jquery-migrate.min.js' %}"></script>
 </head>
 
 <body class="site home-page p-sticky">
@@ -55,18 +78,22 @@
                     <div class="logo-mobile">
                         <a href="/" class="logo-container">
                             {% if config.logo %}
-                                <img src="{{ config.logo.url }}" class="logo" alt="{{ config.project_name }}">
+                                <img src="{{ config.logo.url }}" class="logo" alt="Logo">
                             {% else %}
-                                <img src="{% static 'landing/img/logo.svg' %}" class="logo" alt="Logo Mặc định">
+                                <img src="{% static 'landing/img/logo.svg' %}" class="logo" alt="Logo">
                             {% endif %}
                         </a>
                     </div>
-
+                    <div class="toggle-menu-container">
+                        <button class="toggle-menu js-toggle-menu">
+                            <span class="line"></span><span class="line"></span><span class="line"></span>
+                        </button>
+                    </div>
                     <div class="main-menu-wrap row">
                         <div class="logo-h">
                             <a href="/" class="logo-container">
                                 {% if config.logo %}
-                                    <img id="final-logo" src="{{ config.logo.url }}" class="logo" alt="{{ config.project_name }}">
+                                    <img id="final-logo" src="{{ config.logo.url }}" class="logo" alt="Logo">
                                 {% else %}
                                     <img id="final-logo" src="{% static 'landing/img/logo.svg' %}" class="logo" alt="Logo">
                                 {% endif %}
@@ -75,9 +102,11 @@
                         <div class="navi-head">
                             <ul class="main-menu">
                                 <li><a href="#gioi-thieu">Giới thiệu</a></li>
-                                <li><a href="#loi-ich">Lợi ích</a></li>
+                                <li><a href="#loi-ich">Lĩnh vực kinh doanh</a></li>
+                                <li><a href="#quy-trinh">Quy trình</a></li>
+                                <li><a href="#tin-tuc">Tin tức</a></li>
                                 <li><a href="#faq">Hỏi đáp</a></li>
-                                <li><a href="#lien-he" class="btn btn-custom text-white px-3 py-2 rounded-pill">Đăng ký tư vấn</a></li>
+                                <li><a href="#lien-he" class="btn-custom mt-2 mt-lg-0 ms-lg-3">Liên hệ tư vấn</a></li>
                             </ul>
                         </div>
                     </div>
@@ -102,11 +131,9 @@
                         {% if slide.title %}
                             <h3 class="name-banner fadeInUpShort delay-250 animated go">{{ slide.title }}</h3>
                         {% endif %}
-                        
                         {% if slide.description %}
                             <div class="des-banner fadeInUpShort delay-500 animated go">{{ slide.description }}</div>
                         {% endif %}
-
                         {% if slide.cta_text %}
                             <a href="{{ slide.cta_link }}" class="btn btn-lg btn-custom mt-4 fadeInUpShort delay-750 animated go">
                                 {{ slide.cta_text }}
@@ -116,9 +143,7 @@
                 </div>
                 {% empty %}
                 <div class="item-slide">
-                    <div class="img-sl">
-                        <img class="img-responsive" src="{% static 'landing/img/banner-home-1-mb.jpg' %}" alt="Default Banner">
-                    </div>
+                    <div class="img-sl"><img class="img-responsive" src="{% static 'landing/img/banner-home-1-mb.jpg' %}" alt="Banner Default"></div>
                 </div>
                 {% endfor %}
             </div>
@@ -131,21 +156,59 @@
                         <div class="h-two text-center">
                             <h1 class="title fadeInUpShort delay-250 animated go">Vì sao chọn <br>{{ config.project_name }}?</h1>
                         </div>
-                        
-                        <div class="row mt-5 justify-content-center">
-                            {% for benefit in benefits %}
-                            <div class="col-md-4 mb-4 fadeInUpShort delay-{{ forloop.counter|add:2 }}00 animated go">
-                                <div class="card h-100 border-0 shadow-sm text-center p-4 hover-shadow">
-                                    <div class="mb-3 text-primary-custom">
-                                        <i class="{{ benefit.icon_class }} fa-3x"></i>
+                        <div class="des-ab-comp fadeInUpShort delay-500 animated go">
+                            <p>Phát triển xuyên suốt chuỗi giá trị bất động sản và thúc đẩy tăng trưởng bền vững.</p>
+                        </div>
+                        <div class="w-field fadeInUpShort delay-750 animated go">
+                            <div class="slider-benefits slidedots">
+                                {% for benefit in benefits %}
+                                <div class="item-benefit">
+                                    <div class="anima-img position-relative text-white overflow-hidden rounded shadow-sm">
+                                        <div class="thumb-over" style="background: var(--primary-color); height: 300px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="{{ benefit.icon_class }} fa-5x"></i>
+                                        </div>
+                                        <div class="overlay position-absolute top-0 start-0 w-100 h-100 p-4 d-flex flex-column justify-content-end" style="background: rgba(0,0,0,0.4);">
+                                            <h3 class="fw-bold text-white">{{ benefit.title }}</h3>
+                                            <p class="small text-white-50">{{ benefit.description|truncatechars:80 }}</p>
+                                        </div>
                                     </div>
-                                    <h4 class="card-title fw-bold">{{ benefit.title }}</h4>
-                                    <p class="card-text text-muted">{{ benefit.description }}</p>
                                 </div>
+                                {% empty %}
+                                <p class="text-center">Đang cập nhật...</p>
+                                {% endfor %}
                             </div>
-                            {% empty %}
-                            <div class="text-center text-muted">Đang cập nhật lợi ích...</div>
-                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tin-tuc" class="section news animatedParent animateOnce">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="h-two">
+                            <h2 class="title fadeInUpShort delay-250 animated go">Tin tức & Sự kiện</h2>
+                        </div>
+                        <div class="s-news w-item-news ani-up">
+                            <div class="item-news w-anima">
+                                <a href="#" class="anima-img">
+                                    <div class="thumb-over"><img src="{% static 'landing/img/nam-long-trao-84-suat-hoc-bong-swing-for-dreams-2025-tong-gia-tri-840-trieu-dong-cho-sinh-vien-9.jpg' %}" class="img-responsive"></div>
+                                    <span>25/11/2025</span><h4>Lễ mở bán đợt 1 dự án Nhà ở xã hội Hồng Loan</h4>
+                                </a>
+                            </div>
+                            <div class="item-news w-anima">
+                                <a href="#" class="anima-img">
+                                    <div class="thumb-over"><img src="{% static 'landing/img/e2-sunset-1092x614-1.jpg' %}" class="img-responsive"></div>
+                                    <span>20/11/2025</span><h4>Tiến độ thi công thần tốc: Cất nóc tòa H1</h4>
+                                </a>
+                            </div>
+                            <div class="item-news w-anima">
+                                <a href="#" class="anima-img">
+                                    <div class="thumb-over"><img src="{% static 'landing/img/nam-long-33-nam-kien-dinh-kien-tao-di-san-tu-triet-ly-nhan-van-1.jpg' %}" class="img-responsive"></div>
+                                    <span>15/11/2025</span><h4>Hướng dẫn hồ sơ đăng ký mua nhà ở xã hội</h4>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -160,31 +223,74 @@
                             <h2 class="title title-number fadeInUpShort delay-250 animated go">Quy mô dự án</h2>
                         </div>
                         <div class="s-number-business w-count-num ani-up">
-                             <div class="item-num w-anima text-center">
-                                <div class="num-left"><div class="item-count"><span class="count">500</span>+</div><div class="t-num">Căn hộ</div></div>
-                                <div class="des-num">Nhà ở <br>Xã hội</div>
-                             </div>
-                             <div class="item-num w-anima text-center">
-                                <div class="num-left"><div class="item-count"><span class="count">30</span>+</div><div class="t-num">Tiện ích</div></div>
-                                <div class="des-num">Nội khu <br>Đẳng cấp</div>
-                             </div>
-                             <div class="item-num w-anima text-center">
-                                <div class="num-left"><div class="item-count"><span class="count">100</span>%</div><div class="t-num">Pháp lý</div></div>
-                                <div class="des-num">Minh bạch <br>Rõ ràng</div>
-                             </div>
+                            <div class="item-num w-anima text-center">
+                                <div class="num-left"><div class="item-count"><span class="count">5</span>+</div><div class="t-num">Block căn hộ</div></div>
+                                <div class="des-num">thiết kế <br>hiện đại</div>
+                            </div>
+                            <div class="item-num w-anima text-center">
+                                <div class="num-left"><div class="item-count"><span class="count">1.200</span>+</div><div class="t-num">Căn hộ</div></div>
+                                <div class="des-num">đáp ứng <br>nhu cầu</div>
+                            </div>
+                            <div class="item-num w-anima text-center">
+                                <div class="num-left"><div class="item-count"><span class="count">100</span>%</div><div class="t-num">Tiện ích</div></div>
+                                <div class="des-num">đồng bộ <br>khép kín</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="faq" class="section py-5 bg-light">
+        <div id="quy-trinh" class="section py-5" style="background-color: #f8f9fa;">
             <div class="container">
-                <div class="text-center mb-5">
-                    <h2 class="title text-primary-custom">Câu hỏi thường gặp</h2>
+                <div class="h-two text-center mb-5">
+                    <h2 class="title text-primary-custom">Lộ trình sở hữu nhà</h2>
+                    <p class="text-muted">Quy trình minh bạch - Thủ tục đơn giản - Hỗ trợ tận tâm</p>
                 </div>
                 <div class="row justify-content-center">
-                    <div class="col-md-8">
+                    {% for step in process_steps %}
+                    <div class="col-md-2 col-6 mb-4">
+                        <div class="process-step-box text-center">
+                            <span class="step-number">Bước {{ step.step_number }}</span>
+                            <div class="step-icon">
+                                <i class="{{ step.icon_class }}"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2" style="font-size: 16px;">{{ step.title }}</h5>
+                            <p class="small text-muted mb-0">{{ step.description }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-center">Vui lòng nhập quy trình trong Admin...</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div id="cam-ket" class="section s-commitment animatedParent animateOnce">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="h-one">
+                            <h2 class="title fadeInUpShort delay-250 animated go">Cam kết Bền vững</h2>
+                        </div>
+                        <div class="slide-commit w-count-num fadeInUpShort delay-750 animated go">
+                             <div class="item-num w-anima text-center">
+                                <div class="num-left"><div class="item-count"><span>50</span>+</div><div class="t-num">năm</div><div class="des-num">thời hạn sở hữu</div></div>
+                            </div>
+                            <div class="item-num w-anima text-center">
+                                <div class="num-left"><div class="item-count"><span>4.8</span>%</div><div class="t-num">lãi suất</div><div class="des-num">ưu đãi vay vốn</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="faq" class="section py-5" style="background: #f9f9f9;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <h3 class="mb-4 fw-bold" style="color: var(--primary-color);">Hỏi đáp thường gặp</h3>
                         <div class="accordion" id="accordionFAQ">
                             {% for faq in faqs %}
                             <div class="accordion-item mb-2 border-0 shadow-sm">
@@ -194,21 +300,45 @@
                                     </button>
                                 </h2>
                                 <div id="collapse{{ faq.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" data-bs-parent="#accordionFAQ">
-                                    <div class="accordion-body text-muted">
+                                    <div class="accordion-body text-muted small">
                                         {{ faq.answer|linebreaks }}
                                     </div>
                                 </div>
                             </div>
-                            {% empty %}
-                            <p class="text-center">Chưa có câu hỏi nào.</p>
                             {% endfor %}
+                        </div>
+                    </div>
+
+                    <div id="lien-he" class="col-md-6">
+                        <div class="p-4 bg-white rounded shadow-sm border-top border-4 border-warning">
+                            <h3 class="mb-3 fw-bold text-center">Đăng ký tư vấn miễn phí</h3>
+                            <form action="#" method="POST">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <input type="text" class="form-control py-2" placeholder="Họ và tên của bạn" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="tel" class="form-control py-2" placeholder="Số điện thoại liên hệ" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="email" class="form-control py-2" placeholder="Email (không bắt buộc)">
+                                </div>
+                                <div class="mb-3">
+                                    <select class="form-select py-2">
+                                        <option selected>Nhu cầu của bạn?</option>
+                                        <option value="1">Mua ở</option>
+                                        <option value="2">Đầu tư/Cho thuê</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-custom w-100 py-2 fw-bold fs-5">GỬI ĐĂNG KÝ NGAY</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-    </div> <footer id="lien-he" class="section section-footer animatedParent animateOnce">
+    </div> <footer class="section section-footer animatedParent animateOnce">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 l-company fadeInUpShort delay-250 animated">
@@ -217,7 +347,6 @@
                     {% else %}
                         <img class="img-responsive logo-f" src="{% static 'landing/img/logo-w.svg' %}" alt="Logo Footer">
                     {% endif %}
-                    
                     <div class="d-company-f mt-4">
                         <h3>{{ config.project_name|upper }}</h3>
                         <p><strong>Địa chỉ:</strong> {{ config.address }}</p>
@@ -225,70 +354,42 @@
                         <p><strong>Email: </strong> <a href="mailto:{{ config.email }}" class="text-white">{{ config.email }}</a></p>
                     </div>
                 </div>
-                
-                <div class="col-md-6 r-company fadeInUpShort delay-500 animated">
+                <div class="col-md-6 r-company fadeInUpShort delay-500 animated text-md-end">
                     <div class="r-footer">
-                        <h4 class="text-white mb-3">Đăng ký nhận thông tin</h4>
-                        <p class="text-white-50 mb-4">Để lại thông tin để nhận bảng giá và ưu đãi mới nhất.</p>
-                        <form action="#" method="POST" class="row g-2">
-                            {% csrf_token %}
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Họ và tên" required>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="tel" class="form-control" placeholder="Số điện thoại" required>
-                            </div>
-                            <div class="col-12">
-                                <input type="email" class="form-control" placeholder="Email">
-                            </div>
-                            <div class="col-12 mt-3">
-                                <button type="submit" class="btn btn-custom w-100 fw-bold py-2">GỬI ĐĂNG KÝ</button>
-                            </div>
-                        </form>
+                        <p class="text-white-50">Kết nối với chúng tôi</p>
+                        <div class="social-links">
+                            <a href="#" class="text-white me-3 fs-4"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="text-white me-3 fs-4"><i class="fab fa-youtube"></i></a>
+                            <a href="#" class="text-white fs-4"><i class="fab fa-zalo"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="container footer-bottom">
             <div class="row align-center">
-                <div class="col-md-6 bottom-l copyright">Bản quyền ©2025 {{ config.project_name }}. Developed by WETECHX.</div>
+                <div class="col-md-6 bottom-l copyright">Bản quyền ©2025 {{ config.project_name }}.</div>
             </div>
         </div>
     </footer>
 
     <div class="gotop"></div>
 
-    <script type="text/javascript" src="{% static 'landing/js/bootstrap.bundle.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'landing/js/slick.js' %}"></script>
-    <script type="text/javascript" src="{% static 'landing/js/wow.js' %}"></script>
-    <script type="text/javascript" src="{% static 'landing/js/custom.js' %}"></script>
-    <script type="text/javascript" src="{% static 'landing/js/css3-animate-it.js' %}"></script>
+    <script src="{% static 'landing/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'landing/js/slick.js' %}"></script>
+    <script src="{% static 'landing/js/wow.js' %}"></script>
+    <script src="{% static 'landing/js/custom.js' %}"></script>
+    <script src="{% static 'landing/js/css3-animate-it.js' %}"></script>
 
     <script>
         $(document).ready(function(){
-            $('.slider_banner').slick({
-                dots: true,
-                infinite: true,
-                speed: 500,
-                fade: true,
-                cssEase: 'linear',
-                autoplay: true,
-                autoplaySpeed: 3000,
-                arrows: false
-            });
-
-            // Scroll to top
-            $(window).scroll(function() {
-                if ($(this).scrollTop() > 200) {
-                    $('.gotop').fadeIn();
-                } else {
-                    $('.gotop').fadeOut();
-                }
-            });
-            $('.gotop').click(function() {
-                $('html, body').animate({scrollTop: 0}, 800);
-                return false;
-            });
+            $('.slider_banner').slick({ dots: true, infinite: true, speed: 500, fade: true, cssEase: 'linear', autoplay: true, autoplaySpeed: 3000, arrows: false });
+            $('.slider-benefits').slick({ slidesToShow: 3, slidesToScroll: 1, autoplay: true, autoplaySpeed: 2000, dots: true, arrows: true, responsive: [{ breakpoint: 768, settings: { slidesToShow: 1 } }] });
+            $('.s-news').slick({ slidesToShow: 3, slidesToScroll: 1, autoplay: true, dots: false, arrows: true, responsive: [{ breakpoint: 768, settings: { slidesToShow: 1 } }] });
+            $('.s-number-business, .slide-commit').slick({ slidesToShow: 4, slidesToScroll: 1, autoplay: true, dots: false, arrows: false, responsive: [{ breakpoint: 768, settings: { slidesToShow: 2 } }] });
+            
+            $(window).scroll(function() { if ($(this).scrollTop() > 200) { $('.gotop').fadeIn(); } else { $('.gotop').fadeOut(); } });
+            $('.gotop').click(function() { $('html, body').animate({scrollTop: 0}, 800); return false; });
         });
     </script>
 </body>
