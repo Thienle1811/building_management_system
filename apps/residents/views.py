@@ -9,6 +9,7 @@ from .serializers import ResidentSerializer
 from .forms import ResidentForm, VehicleForm
 from apps.buildings.models import Building
 from django.shortcuts import get_object_or_404
+from apps.contracts.models import Contract
 
 # --- PHẦN 1: API (Dành cho Mobile App) ---
 class ResidentViewSet(viewsets.ModelViewSet):
@@ -101,33 +102,30 @@ def resident_create(request):
     return render(request, 'residents/resident_form.html', context)
 
 def resident_update(request, pk):
-    """
-    Hàm xử lý Sửa thông tin cư dân:
-    1. Lấy thông tin cư dân theo ID (pk)
-    2. Hiển thị form với dữ liệu cũ
-    3. Lưu lại khi bấm Save
-    """
     resident = get_object_or_404(Resident, pk=pk)
-    VehicleFormSet = formset_factory(VehicleForm, extra=0) # extra=0 để không hiện thêm dòng trống thừa
+    VehicleFormSet = formset_factory(VehicleForm, extra=0)
+
+    # 1. Lấy lịch sử hợp đồng của cư dân này
+    contracts = resident.contracts.all().select_related('apartment').order_by('-start_date')
 
     if request.method == 'POST':
         form = ResidentForm(request.POST, request.FILES, instance=resident)
         vehicle_formset = VehicleFormSet(request.POST, prefix='vehicles')
         
-        # Logic update xe hơi phức tạp một chút (tạm thời ta chỉ update thông tin cư dân trước)
-        # Để đơn giản cho bài học hôm nay, ta sẽ chỉ cho phép sửa thông tin Cư dân.
         if form.is_valid():
             form.save()
+            # (Phần xử lý xe giữ nguyên hoặc cập nhật tùy ý)
             return redirect('resident_list_web')
     else:
         form = ResidentForm(instance=resident)
-        # Load dữ liệu xe hiện có (chưa xử lý formset xe ở bước này để tránh lỗi phức tạp)
         vehicle_formset = VehicleFormSet(prefix='vehicles') 
 
     context = {
         'form': form,
         'vehicle_formset': vehicle_formset,
-        'title': 'Cập nhật thông tin' # Đổi tiêu đề form
+        'title': f'Thông tin cư dân: {resident.full_name}',
+        'contracts': contracts, # <--- TRUYỀN DANH SÁCH HỢP ĐỒNG SANG HTML
+        'resident': resident    # <--- Truyền đối tượng resident để dùng ở HTML
     }
     return render(request, 'residents/resident_form.html', context)
 

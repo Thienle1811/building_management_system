@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Quản lý Hợp đồng{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary"><i class="fas fa-file-contract me-2"></i>Quản lý Hợp đồng</h2>
+    <a href="{% url 'contract_create' %}" class="btn btn-success shadow-sm">
+        <i class="fas fa-plus me-2"></i>Tạo Hợp đồng mới
+    </a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body bg-light">
+        <form method="GET" class="row g-3">
+            <div class="col-md-5">
+                <input type="text" name="q" class="form-control" 
+                       placeholder="Tìm theo Mã HĐ, Tên cư dân, Mã căn hộ..." 
+                       value="{{ search_query }}">
+            </div>
+            <div class="col-md-3">
+                <select name="status" class="form-select">
+                    <option value="">-- Tất cả trạng thái --</option>
+                    <option value="ACTIVE" {% if status_filter == 'ACTIVE' %}selected{% endif %}>Đang hiệu lực</option>
+                    <option value="PENDING" {% if status_filter == 'PENDING' %}selected{% endif %}>Chờ duyệt</option>
+                    <option value="EXPIRED" {% if status_filter == 'EXPIRED' %}selected{% endif %}>Đã hết hạn</option>
+                    <option value="TERMINATED" {% if status_filter == 'TERMINATED' %}selected{% endif %}>Đã hủy</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search me-1"></i> Tìm kiếm
+                </button>
+            </div>
+            {% if search_query or status_filter %}
+            <div class="col-md-2">
+                <a href="{% url 'contract_list' %}" class="btn btn-outline-secondary w-100">
+                    <i class="fas fa-sync-alt me-1"></i> Xóa lọc
+                </a>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0 align-middle">
+                <thead class="table-dark text-white">
+                    <tr>
+                        <th class="ps-3">Mã Hợp đồng</th>
+                        <th>Căn hộ</th>
+                        <th>Người đứng tên</th>
+                        <th>Loại</th>
+                        <th>Thời hạn</th>
+                        <th>Trạng thái</th>
+                        <th class="text-center">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contract in contracts %}
+                    <tr>
+                        <td class="fw-bold text-primary ps-3">
+                            <i class="fas fa-file-alt me-1 text-muted"></i> {{ contract.code }}
+                        </td>
+                        <td>
+                            <span class="badge bg-info text-dark">{{ contract.apartment.apartment_code }}</span>
+                        </td>
+                        <td>
+                            <strong>{{ contract.resident.full_name }}</strong>
+                        </td>
+                        <td>{{ contract.get_contract_type_display }}</td>
+                        <td class="small">
+                            {{ contract.start_date|date:"d/m/Y" }} <i class="fas fa-arrow-right mx-1 text-muted"></i> {{ contract.end_date|date:"d/m/Y" }}
+                        </td>
+                        <td>
+                            {% if contract.status == 'ACTIVE' %}
+                                <span class="badge bg-success">Đang hiệu lực</span>
+                            {% elif contract.status == 'PENDING' %}
+                                <span class="badge bg-warning text-dark">Chờ duyệt</span>
+                            {% elif contract.status == 'EXPIRED' %}
+                                <span class="badge bg-secondary">Hết hạn</span>
+                            {% else %}
+                                <span class="badge bg-danger">Đã hủy</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            {% if contract.contract_file %}
+                                <a href="{{ contract.contract_file.url }}" target="_blank" class="btn btn-sm btn-outline-info me-1" title="Xem file">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            {% endif %}
+                            <a href="{% url 'contract_update' contract.id %}" class="btn btn-sm btn-outline-warning me-1" title="Sửa">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'contract_delete' contract.id %}" class="btn btn-sm btn-outline-danger" title="Xóa">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center py-5 text-muted">
+                            <i class="fas fa-folder-open fa-3x mb-3 opacity-50"></i><br>
+                            Không tìm thấy hợp đồng nào.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

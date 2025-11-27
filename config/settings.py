@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'apps.buildings',       # Quản lý Tòa nhà & Căn hộ (Core)
     'apps.residents',       # Quản lý Cư dân (Task chính hôm nay)
     'apps.landing',
+    'apps.contracts',
 ]
 
 MIDDLEWARE = [

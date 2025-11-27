@@ -22,6 +22,8 @@ urlpatterns = [
     path('residents/', include('apps.residents.urls_web')), 
     # Landing Page (Trang chủ)
     path('', include('apps.landing.urls')),
+    path('contracts/', include('apps.contracts.urls')),
+    path('api/v1/mobile/', include('apps.contracts.urls_api')),
 ]
 
 # Cấu hình để xem được ảnh upload trong môi trường dev (Debug mode)

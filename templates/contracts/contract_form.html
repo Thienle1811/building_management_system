@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-file-signature me-2"></i>{{ title }}</h4>
+            </div>
+            <div class="card-body p-4">
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Mã Hợp đồng <span class="text-danger">*</span></label>
+                            {{ form.code }}
+                            <div class="text-danger small">{{ form.code.errors }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Trạng thái</label>
+                            {{ form.status }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Căn hộ <span class="text-danger">*</span></label>
+                            {{ form.apartment }}
+                            <div class="text-danger small">{{ form.apartment.errors }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Người đứng tên <span class="text-danger">*</span></label>
+                            {{ form.resident }}
+                            <div class="text-danger small">{{ form.resident.errors }}</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Loại hợp đồng</label>
+                            {{ form.contract_type }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Tiền đặt cọc (VNĐ)</label>
+                            {{ form.deposit_amount }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Ngày bắt đầu <span class="text-danger">*</span></label>
+                            {{ form.start_date }}
+                            <div class="text-danger small">{{ form.start_date.errors }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Ngày kết thúc <span class="text-danger">*</span></label>
+                            {{ form.end_date }}
+                            <div class="text-danger small">{{ form.end_date.errors }}</div>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-bold">File đính kèm (PDF/Ảnh)</label>
+                            {{ form.contract_file }}
+                            {% if form.instance.contract_file %}
+                                <div class="mt-2 small text-muted">
+                                    Hiện tại: <a href="{{ form.instance.contract_file.url }}" target="_blank">{{ form.instance.contract_file.name }}</a>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Ghi chú thêm</label>
+                            {{ form.note }}
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-4 pt-3 border-top">
+                        <a href="{% url 'contract_list' %}" class="btn btn-secondary me-2">
+                            <i class="fas fa-times me-1"></i> Hủy bỏ
+                        </a>
+                        <button type="submit" class="btn btn-success fw-bold px-4">
+                            <i class="fas fa-save me-1"></i> Lưu Hợp đồng
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

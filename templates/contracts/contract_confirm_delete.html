@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Xóa Hợp đồng{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card border-danger shadow">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Xác nhận Xóa</h5>
+            </div>
+            <div class="card-body text-center p-5">
+                <h4 class="text-danger mb-3">Bạn có chắc chắn muốn xóa hợp đồng này?</h4>
+                <p class="lead text-muted mb-4">
+                    Hợp đồng số: <strong>{{ contract.code }}</strong><br>
+                    Căn hộ: {{ contract.apartment.apartment_code }} - {{ contract.resident.full_name }}
+                </p>
+                <div class="alert alert-warning small">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Hành động này sẽ chuyển hợp đồng vào thùng rác (Soft Delete) và có thể khôi phục nếu cần.
+                </div>
+                
+                <form method="POST" class="mt-4">
+                    {% csrf_token %}
+                    <a href="{% url 'contract_list' %}" class="btn btn-secondary px-4 me-2">
+                        <i class="fas fa-arrow-left me-1"></i> Quay lại
+                    </a>
+                    <button type="submit" class="btn btn-danger px-4 fw-bold">
+                        <i class="fas fa-trash-alt me-1"></i> Đồng ý Xóa
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
