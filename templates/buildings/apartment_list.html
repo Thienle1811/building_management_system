@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Danh sách Căn hộ{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary"><i class="far fa-building me-2"></i>Danh sách Căn hộ</h2>
+    <div>
+        <a href="{% url 'apartment_import' %}" class="btn btn-success shadow-sm">
+            <i class="fas fa-file-import me-1"></i> Import Excel
+        </a>
+    </div>
+</div>
+
+<div class="card mb-4 bg-light border-0">
+    <div class="card-body">
+        <form method="GET" class="row g-2 align-items-center">
+            <div class="col-auto fw-bold">Lọc theo Tòa nhà:</div>
+            <div class="col-md-4">
+                <select name="building" class="form-select" onchange="this.form.submit()">
+                    <option value="">-- Tất cả --</option>
+                    {% for b in buildings %}
+                        <option value="{{ b.id }}" {% if b.id == selected_building %}selected{% endif %}>
+                            {{ b.name }} ({{ b.code }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0 align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="ps-3">Mã Căn hộ</th>
+                        <th>Tầng</th>
+                        <th>Loại phòng</th>
+                        <th>Diện tích</th>
+                        <th>Hướng</th>
+                        <th>Giá (VNĐ)</th>
+                        <th>Trạng thái</th>
+                        <th>Chủ sở hữu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for apt in apartments %}
+                    <tr>
+                        <td class="fw-bold text-primary ps-3">{{ apt.apartment_code }}</td>
+                        <td class="text-center">{{ apt.floor_number }}</td>
+                        <td><span class="badge bg-info text-dark">{{ apt.room_type }}</span></td>
+                        <td>{{ apt.net_area }} m²</td>
+                        <td>{{ apt.get_direction_display }}</td>
+                        <td class="text-end pe-3 fw-bold text-secondary">{{ apt.price|intcomma }}</td>
+                        <td>
+                            {% if apt.status == 'VACANT' %}
+                                <span class="badge bg-success">Đang mở bán</span>
+                            {% elif apt.status == 'OCCUPIED' %}
+                                <span class="badge bg-secondary">Đang ở</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">{{ apt.get_status_display }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if apt.owner %}
+                                <i class="fas fa-user-check text-success me-1"></i> {{ apt.owner.full_name }}
+                            {% else %}
+                                <span class="text-muted small">--</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center py-5 text-muted">
+                            <i class="fas fa-box-open fa-3x mb-3 opacity-50"></i><br>
+                            Chưa có dữ liệu căn hộ. Hãy Import từ Excel!
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

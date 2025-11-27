@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Sơ đồ Tòa nhà{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary"><i class="fas fa-th me-2"></i>Sơ đồ Tòa nhà</h2>
+    <div>
+        <a href="{% url 'apartment_list' %}" class="btn btn-outline-secondary me-2">
+            <i class="fas fa-list me-1"></i> Xem dạng danh sách
+        </a>
+        <a href="{% url 'apartment_import' %}" class="btn btn-success shadow-sm">
+            <i class="fas fa-file-import me-1"></i> Import Excel
+        </a>
+    </div>
+</div>
+
+<div class="card mb-4 border-0 shadow-sm bg-light">
+    <div class="card-body py-3">
+        <form method="GET" class="row g-3 align-items-end">
+            <div class="col-md-3">
+                <label class="fw-bold small text-muted mb-1">Tòa nhà</label>
+                <select name="building" class="form-select" onchange="this.form.submit()">
+                    <option value="">-- Chọn Tòa nhà --</option>
+                    {% for b in buildings %}
+                        <option value="{{ b.id }}" {% if b.id == selected_building.id %}selected{% endif %}>
+                            {{ b.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label class="fw-bold small text-muted mb-1">Tầng</label>
+                <select name="floor" class="form-select" onchange="this.form.submit()" {% if not selected_building %}disabled{% endif %}>
+                    {% for f in floors %}
+                        <option value="{{ f }}" {% if f == selected_floor %}selected{% endif %}>
+                            Tầng {{ f }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="fw-bold small text-muted mb-1">Tìm mã căn</label>
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Nhập mã căn..." value="{{ search_query }}">
+                    <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            
+            <div class="col-md-3 text-end">
+                <span class="badge bg-success me-1">Trống</span>
+                <span class="badge bg-danger me-1">Đang ở</span>
+                <span class="badge bg-warning text-dark">Bảo trì</span>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if selected_building %}
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
+        {% for apt in apartments %}
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0 position-relative apartment-card 
+                            {% if apt.status == 'VACANT' %}border-start border-5 border-success
+                            {% elif apt.status == 'OCCUPIED' %}border-start border-5 border-danger
+                            {% else %}border-start border-5 border-warning{% endif %}"
+                     style="cursor: pointer; transition: transform 0.2s;"
+                     onclick="showApartmentDetail('{{ apt.id }}', '{{ apt.apartment_code }}', '{{ apt.get_status_display }}', '{{ apt.status }}', '{{ apt.net_area }}', '{{ apt.price|intcomma }}', '{{ apt.get_direction_display }}', '{{ apt.owner.full_name|default:'--' }}', '{{ apt.room_type }}', '{{ apt.note|escapejs }}')">
+                    
+                    <div class="card-body p-3 text-center">
+                        <h5 class="card-title fw-bold text-primary mb-1">{{ apt.apartment_code }}</h5>
+                        <p class="card-text small text-muted mb-2">{{ apt.room_type }} - {{ apt.net_area }}m²</p>
+                        
+                        {% if apt.status == 'VACANT' %}
+                            <span class="badge bg-success-subtle text-success border border-success rounded-pill">Trống</span>
+                        {% elif apt.status == 'OCCUPIED' %}
+                            <span class="badge bg-danger-subtle text-danger border border-danger rounded-pill">Đang ở</span>
+                        {% else %}
+                            <span class="badge bg-warning-subtle text-warning border border-warning rounded-pill">Bảo trì</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <p class="text-muted">Không tìm thấy căn hộ nào ở tầng này.</p>
+                {% if not apartments %}
+                    <a href="{% url 'generate_apartments_action' %}?building_id={{ selected_building.id }}" class="btn btn-outline-primary btn-sm">
+                       <i class="fas fa-magic me-1"></i> Sinh tự động căn hộ?
+                    </a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-building fa-4x text-muted opacity-25 mb-3"></i>
+        <h4 class="text-muted">Vui lòng chọn Tòa nhà để xem sơ đồ</h4>
+    </div>
+{% endif %}
+
+<div class="modal fade" id="apartmentDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header text-white" id="modalHeader">
+                <h5 class="modal-title fw-bold" id="modalTitle">Chi tiết Căn hộ</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row mb-3 border-bottom pb-3">
+                    <div class="col-6">
+                        <small class="text-muted d-block">Trạng thái</small>
+                        <strong id="modalStatus" class="fs-5">--</strong>
+                    </div>
+                    <div class="col-6 text-end">
+                        <small class="text-muted d-block">Giá tham khảo</small>
+                        <strong id="modalPrice" class="text-primary fs-5">--</strong> VNĐ
+                    </div>
+                </div>
+                
+                <div class="row g-3">
+                    <div class="col-6">
+                        <i class="fas fa-ruler-combined text-secondary me-2"></i> Diện tích: <strong id="modalArea"></strong> m²
+                    </div>
+                    <div class="col-6">
+                        <i class="fas fa-compass text-secondary me-2"></i> Hướng: <strong id="modalDirection"></strong>
+                    </div>
+                    <div class="col-6">
+                        <i class="fas fa-door-open text-secondary me-2"></i> Loại: <strong id="modalType"></strong>
+                    </div>
+                    <div class="col-12">
+                        <i class="fas fa-user-tag text-secondary me-2"></i> Chủ sở hữu: <strong id="modalOwner" class="text-dark"></strong>
+                    </div>
+                    <div class="col-12 bg-light p-2 rounded small mt-2">
+                        <strong>Ghi chú:</strong> <span id="modalNote" class="text-muted">--</span>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <a id="btnLinkContract" href="#" class="btn btn-outline-primary">
+                        <i class="fas fa-file-contract me-2"></i>Xem Hợp đồng (Contract)
+                    </a>
+                    <a id="btnLinkResident" href="#" class="btn btn-outline-info">
+                        <i class="fas fa-users me-2"></i>Xem Cư dân (Resident)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showApartmentDetail(id, code, statusText, statusCode, area, price, direction, owner, type, note) {
+        // 1. Điền dữ liệu vào Modal
+        document.getElementById('modalTitle').innerText = 'Căn hộ ' + code;
+        document.getElementById('modalStatus').innerText = statusText;
+        document.getElementById('modalPrice').innerText = price;
+        document.getElementById('modalArea').innerText = area;
+        document.getElementById('modalDirection').innerText = direction;
+        document.getElementById('modalOwner').innerText = owner;
+        document.getElementById('modalType').innerText = type;
+        document.getElementById('modalNote').innerText = note || "Không có ghi chú";
+
+        // 2. Đổi màu Header Modal theo trạng thái
+        const header = document.getElementById('modalHeader');
+        header.className = 'modal-header text-white'; // Reset class
+        if (statusCode === 'VACANT') {
+            header.classList.add('bg-success');
+        } else if (statusCode === 'OCCUPIED') {
+            header.classList.add('bg-danger');
+        } else {
+            header.classList.add('bg-warning');
+        }
+
+        // 3. Cập nhật link sang các module khác (Dynamic Link)
+        const btnContract = document.getElementById('btnLinkContract');
+        const btnResident = document.getElementById('btnLinkResident');
+        
+        // Giả sử đường dẫn module khác là /contracts/?q=MA_CAN và /residents/?q=MA_CAN
+        // Bạn có thể sửa đường dẫn này nếu cấu trúc URL của bạn khác
+        btnContract.href = `/contracts/?q=${code}`; 
+        btnResident.href = `/residents/?q=${code}`;
+
+        // 4. Hiển thị Modal
+        new bootstrap.Modal(document.getElementById('apartmentDetailModal')).show();
+    }
+</script>
+
+<style>
+    .apartment-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    }
+</style>
+{% endblock %}

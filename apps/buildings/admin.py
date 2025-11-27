@@ -1,47 +1,66 @@
+import logging
 from django.contrib import admin
+from django.contrib import messages
 from .models import Building, Apartment
 
-class BaseAdmin(admin.ModelAdmin):
-    """Admin cơ sở: Hiển thị cả file đã xóa & chặn sửa ngày xóa"""
-    
-    # --- KHẮC PHỤC: Bỏ 'deleted_at' khỏi readonly_fields ---
-    readonly_fields = ('created_at', 'updated_at')
-    
-    # --- KHẮC PHỤC: Thêm exclude để ẩn hoàn toàn khỏi form ---
-    exclude = ('deleted_at',)
+# Tạo logger để ghi nhật ký
+logger = logging.getLogger(__name__)
 
-    def get_queryset(self, request):
-        # Sử dụng manager 'all_objects' để lấy TẤT CẢ (kể cả đã xóa)
-        return self.model.all_objects.get_queryset()
-
-# Inline để thêm nhanh căn hộ khi đang sửa Tòa nhà (Giữ lại logic cũ)
 class ApartmentInline(admin.TabularInline):
+    """Cho phép thêm nhanh căn hộ ngay trong màn hình sửa Tòa nhà"""
     model = Apartment
-    extra = 1
-    exclude = ('deleted_at',) # Ẩn luôn trong bảng con
+    extra = 0
+    fields = ('apartment_code', 'floor_number', 'room_type', 'net_area', 'status')
+    show_change_link = True
+    can_delete = False
 
 @admin.register(Building)
-class BuildingAdmin(BaseAdmin): # Kế thừa từ BaseAdmin đã sửa
-    list_display = ('name', 'address', 'total_floors', 'is_deleted')
-    search_fields = ('name', 'address')
+class BuildingAdmin(admin.ModelAdmin):
+    list_display = ('name', 'code', 'total_floors', 'units_per_floor_default', 'total_units_display', 'created_at')
+    search_fields = ('name', 'code', 'address')
     inlines = [ApartmentInline]
-    
-    def is_deleted(self, obj):
-        return obj.deleted_at is not None
-    is_deleted.boolean = True
-    is_deleted.short_description = "Đã xóa?"
+    actions = ['generate_apartments_action']
+
+    def total_units_display(self, obj):
+        return obj.apartments.count()
+    total_units_display.short_description = "Số căn hiện có"
+
+    @admin.action(description="Khởi tạo tự động danh sách căn hộ (Skeleton)")
+    def generate_apartments_action(self, request, queryset):
+        total_created = 0
+        for building in queryset:
+            count = building.generate_apartments()
+            total_created += count
+            
+            # --- LOGGING (MỚI) ---
+            if count > 0:
+                logger.info(f"PMS-03: User {request.user} đã sinh tự động {count} căn hộ cho tòa {building.name} ({building.code})")
+            else:
+                logger.warning(f"PMS-03: User {request.user} chạy sinh tự động cho tòa {building.name} nhưng không có căn nào được tạo.")
+            # ---------------------
+        
+        self.message_user(request, f"Đã sinh tự động {total_created} căn hộ cho các tòa được chọn.", messages.SUCCESS)
 
 @admin.register(Apartment)
-class ApartmentAdmin(BaseAdmin): # Kế thừa từ BaseAdmin đã sửa
-    # Hiển thị đầy đủ thông tin (bao gồm các trường Catalog nếu đã thêm)
-    list_display = ('apartment_code', 'building', 'floor_number', 'area_m2', 'status', 'is_deleted')
-    list_filter = ('building', 'status')
-    search_fields = ('apartment_code', 'building__name')
+class ApartmentAdmin(admin.ModelAdmin):
+    list_display = ('apartment_code', 'building', 'floor_number', 'room_type', 'net_area', 'direction', 'owner', 'status')
+    list_filter = ('building', 'status', 'room_type', 'direction', 'furnishing_type')
+    search_fields = ('apartment_code', 'owner__full_name', 'owner__phone_number')
     
-    # Nếu bạn đã thêm trường 'price' và 'bedrooms' ở bước trước, hãy bỏ comment dòng dưới:
-    # list_editable = ('status', 'price') 
-
-    def is_deleted(self, obj):
-        return obj.deleted_at is not None
-    is_deleted.boolean = True
-    is_deleted.short_description = "Đã xóa?"
+    fieldsets = (
+        ('Vị trí & Mã', {
+            'fields': ('building', 'floor_number', 'unit_number', 'apartment_code')
+        }),
+        ('Thông tin Bán hàng', {
+            'fields': ('room_type', 'price', 'net_area', 'gross_area', 'direction')
+        }),
+        ('Trạng thái & Sở hữu', {
+            'fields': ('status', 'owner', 'current_occupant_count')
+        }),
+        ('Nội thất & Hình ảnh', {
+            'fields': ('furnishing_type', 'furnishing_description', 'image', 'floor_plan_image')
+        }),
+        ('Khác', {
+            'fields': ('note',)
+        }),
+    )

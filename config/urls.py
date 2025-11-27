@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('apps.landing.urls')),
     path('contracts/', include('apps.contracts.urls')),
     path('api/v1/mobile/', include('apps.contracts.urls_api')),
+    path('buildings/', include('apps.buildings.urls')),
 ]
 
 # Cấu hình để xem được ảnh upload trong môi trường dev (Debug mode)

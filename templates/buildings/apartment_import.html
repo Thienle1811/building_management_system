@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Import Căn hộ từ Excel{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="fas fa-file-excel me-2"></i>Import Căn hộ từ Excel</h4>
+            </div>
+            <div class="card-body p-4">
+                
+                <div class="alert alert-info border-info">
+                    <h6 class="alert-heading fw-bold"><i class="fas fa-info-circle me-1"></i>Hướng dẫn:</h6>
+                    <p class="mb-0 small">
+                        1. Chọn Tòa nhà bên dưới.<br>
+                        2. Tải file mẫu về (hệ thống sẽ điền sẵn dữ liệu cũ nếu có).<br>
+                        3. Chỉnh sửa và upload lại file Excel để cập nhật hệ thống.
+                    </p>
+                </div>
+
+                <form method="POST" enctype="multipart/form-data" class="mt-4">
+                    {% csrf_token %}
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">1. Chọn Tòa nhà cần nhập liệu</label>
+                        {{ form.building }}
+                        
+                        <a id="btn-download-template" href="{% url 'download_template' %}" class="btn btn-outline-primary btn-sm mt-2">
+                            <i class="fas fa-download me-1"></i> Tải file mẫu cho tòa nhà này
+                        </a>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">2. Tải lên file Excel (.xlsx)</label>
+                        {{ form.excel_file }}
+                    </div>
+
+                    <div class="d-flex justify-content-end pt-3 border-top">
+                        <a href="{% url 'apartment_list' %}" class="btn btn-secondary me-2">
+                            <i class="fas fa-arrow-left me-1"></i> Quay lại
+                        </a>
+                        <button type="submit" class="btn btn-success fw-bold px-4">
+                            <i class="fas fa-upload me-1"></i> Tiến hành Import
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectBuilding = document.getElementById('id_building');
+        const btnDownload = document.getElementById('btn-download-template');
+        const baseUrl = "{% url 'download_template' %}";
+
+        function updateLink() {
+            const buildingId = selectBuilding.value;
+            if (buildingId) {
+                btnDownload.href = `${baseUrl}?building=${buildingId}`;
+                btnDownload.classList.remove('disabled');
+            } else {
+                btnDownload.classList.add('disabled');
+            }
+        }
+
+        selectBuilding.addEventListener('change', updateLink);
+        updateLink(); // Chạy lần đầu
+    });
+</script>
+{% endblock %}
