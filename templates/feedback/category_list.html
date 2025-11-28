@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}Quản lý Danh mục Phản hồi{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="text-primary"><i class="fas fa-list-alt me-2"></i>Danh mục Phản hồi</h3>
+            <button class="btn btn-success" onclick="openModal()">
+                <i class="fas fa-plus me-1"></i> Thêm danh mục
+            </button>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Mã</th>
+                            <th>Tên danh mục</th>
+                            <th>Mô tả</th>
+                            <th class="text-center">Số phản hồi</th>
+                            <th class="text-end pe-4">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cat in categories %}
+                        <tr>
+                            <td class="ps-4 fw-bold text-secondary">{{ cat.code }}</td>
+                            <td class="fw-bold">{{ cat.name }}</td>
+                            <td class="text-muted small">{{ cat.description|default:"--" }}</td>
+                            <td class="text-center">
+                                <span class="badge bg-info text-dark rounded-pill">{{ cat.feedbacks.count }}</span>
+                            </td>
+                            <td class="text-end pe-4">
+                                <button class="btn btn-sm btn-outline-primary me-1" 
+                                        onclick="openModal('{{ cat.id }}', '{{ cat.name }}', '{{ cat.code }}', '{{ cat.description }}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+
+                                {% if cat.is_deletable %}
+                                    <button class="btn btn-sm btn-outline-danger" 
+                                            onclick="confirmDelete('{{ cat.id }}', '{{ cat.name }}', {{ cat.feedbacks.count }})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-sm btn-light text-muted" disabled title="Danh mục mặc định">
+                                        <i class="fas fa-lock"></i>
+                                    </button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted">Chưa có danh mục nào.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="categoryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalTitle">Thêm Danh mục</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="cat_id" id="catId">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tên danh mục <span class="text-danger">*</span></label>
+                        {{ form.name }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Mã (Viết liền, không dấu) <span class="text-danger">*</span></label>
+                        {{ form.code }}
+                        <small class="text-muted">Ví dụ: GYM, SPA, BBQ...</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Mô tả</label>
+                        {{ form.description }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary fw-bold">Lưu lại</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content border-danger">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Xác nhận Xóa</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa danh mục <strong id="delCatName"></strong>?</p>
+                
+                <div class="alert alert-warning border-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Hiện có <strong id="delCount"></strong> phản hồi thuộc danh mục này.
+                    <br>
+                    Nếu xóa, tất cả sẽ được tự động chuyển sang danh mục <strong>"Khác" (OTHER)</strong>.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="POST">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger fw-bold">Đồng ý Xóa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(id='', name='', code='', desc='') {
+        document.getElementById('catId').value = id;
+        document.getElementById('id_name').value = name;
+        document.getElementById('id_code').value = code;
+        document.getElementById('id_description').value = desc;
+        
+        const title = id ? 'Cập nhật Danh mục' : 'Thêm Danh mục Mới';
+        document.getElementById('modalTitle').innerText = title;
+        
+        // Nếu sửa thì disable mã code để tránh lỗi hệ thống (vì code là unique)
+        // Nếu bạn muốn cho sửa code, hãy bỏ dòng này, nhưng cần xử lý kỹ ở backend
+        if(id) {
+             document.getElementById('id_code').setAttribute('readonly', true);
+        } else {
+             document.getElementById('id_code').removeAttribute('readonly');
+        }
+        
+        new bootstrap.Modal(document.getElementById('categoryModal')).show();
+    }
+
+    function confirmDelete(id, name, count) {
+        document.getElementById('delCatName').innerText = name;
+        document.getElementById('delCount').innerText = count;
+        
+        const form = document.getElementById('deleteForm');
+        // Đường dẫn action cho form xóa
+        form.action = `/feedback/categories/${id}/delete/`;
+        
+        new bootstrap.Modal(document.getElementById('deleteModal')).show();
+    }
+</script>
+{% endblock %}

@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'apps.residents',       # Quản lý Cư dân (Task chính hôm nay)
     'apps.landing',
     'apps.contracts',
+    'apps.feedback',
+    'apps.notifications',
 ]
 
 MIDDLEWARE = [
@@ -130,6 +132,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+# Thư mục chứa static file chung của dự án (CSS, JS, Images dùng chung)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Cấu hình nơi lưu file upload (ảnh CCCD, hợp đồng...)
 MEDIA_URL = '/media/'

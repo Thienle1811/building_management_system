@@ -9,39 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
-    <style>
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f8f9fa;
-        }
-        .sidebar {
-            min-height: 100vh;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
-            background-color: #343a40; /* Màu tối cho Sidebar */
-        }
-        .sidebar .nav-link {
-            color: rgba(255, 255, 255, .8);
-            padding: 12px 20px;
-            font-size: 0.95rem;
-            border-left: 3px solid transparent;
-        }
-        .sidebar .nav-link:hover, .sidebar .nav-link.active {
-            color: #fff;
-            background-color: rgba(255,255,255,0.1);
-            border-left-color: #0d6efd; /* Màu xanh highlight */
-        }
-        .sidebar-heading {
-            font-size: .75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #6c757d;
-            padding: 20px 20px 10px;
-            font-weight: bold;
-        }
-        .content-wrapper {
-            padding: 30px;
-        }
-    </style>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -50,52 +19,65 @@
     <div class="row">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
             <div class="position-sticky pt-3">
-                <div class="px-3 mb-4 text-white">
-                    <h4 class="fw-bold"><i class="fas fa-city me-2"></i>PMS Admin</h4>
+                <div class="px-3 mb-4 text-white d-flex align-items-center">
+                    <i class="fas fa-building fa-2x me-2 text-primary"></i>
+                    <h4 class="fw-bold mb-0">PMS Admin</h4>
                 </div>
 
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link" href="/">
-                            <i class="fas fa-home me-2" style="width: 20px"></i> Trang chủ
+                            <i class="fas fa-home"></i> Trang chủ
                         </a>
                     </li>
 
-                    <h6 class="sidebar-heading">Quản lý Tòa nhà</h6>
+                    <h6 class="sidebar-heading mt-2">Quản lý Tòa nhà</h6>
                     
                     <li class="nav-item">
                         <a class="nav-link {% if '/floor-plan/' in request.path %}active{% endif %}" href="{% url 'floor_plan' %}">
-                            <i class="fas fa-th me-2" style="width: 20px"></i> Sơ đồ Tòa nhà
+                            <i class="fas fa-th"></i> Sơ đồ Tòa nhà
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if '/apartments/search/' in request.path %}active{% endif %}" href="{% url 'apartment_search' %}">
-                            <i class="fas fa-search me-2" style="width: 20px"></i> Tìm kiếm Căn hộ
+                            <i class="fas fa-search"></i> Tìm kiếm Căn hộ
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if '/apartments/' in request.path and 'search' not in request.path and 'floor-plan' not in request.path %}active{% endif %}" href="{% url 'apartment_list' %}">
-                            <i class="far fa-building me-2" style="width: 20px"></i> Danh sách Căn hộ
+                            <i class="far fa-building"></i> Danh sách Căn hộ
                         </a>
                     </li>
 
-                    <h6 class="sidebar-heading">Cư dân & Hợp đồng</h6>
+                    <h6 class="sidebar-heading mt-3">Cư dân & Hợp đồng</h6>
 
                     <li class="nav-item">
                         <a class="nav-link {% if '/residents/' in request.path %}active{% endif %}" href="{% url 'resident_list_web' %}">
-                            <i class="fas fa-users me-2" style="width: 20px"></i> Quản lý Cư dân
+                            <i class="fas fa-users"></i> Quản lý Cư dân
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if '/contracts/' in request.path %}active{% endif %}" href="{% url 'contract_list' %}">
-                            <i class="fas fa-file-contract me-2" style="width: 20px"></i> Quản lý Hợp đồng
+                            <i class="fas fa-file-contract"></i> Quản lý Hợp đồng
                         </a>
                     </li>
 
-                    <h6 class="sidebar-heading">Hệ thống</h6>
+                    <h6 class="sidebar-heading mt-3">Dịch vụ & CSKH</h6>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/feedback/' in request.path and 'categories' not in request.path %}active{% endif %}" href="{% url 'feedback_list' %}">
+                            <i class="fas fa-bullhorn"></i> Phản hồi cư dân
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/feedback/categories/' in request.path %}active{% endif %}" href="{% url 'category_list' %}">
+                            <i class="fas fa-list-alt"></i> Danh mục phản hồi
+                        </a>
+                    </li>
+
+                    <h6 class="sidebar-heading mt-3">Hệ thống</h6>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/">
-                            <i class="fas fa-cog me-2" style="width: 20px"></i> Admin Panel (Gốc)
+                            <i class="fas fa-cog"></i> Admin Panel (Gốc)
                         </a>
                     </li>
                 </ul>
@@ -103,21 +85,38 @@
         </nav>
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-0">
-            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-4 py-2">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-4 py-2 sticky-top shadow-sm">
                 <div class="container-fluid">
-                    <button class="btn btn-link d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
-                        <i class="fas fa-bars"></i>
+                    <button class="btn btn-link d-md-none text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
+                        <i class="fas fa-bars fa-lg"></i>
                     </button>
-                    <span class="navbar-text ms-auto">
-                        Xin chào, <strong>{{ user.username|default:"Admin" }}</strong>
-                    </span>
+                    
+                    <div class="d-flex align-items-center ms-auto">
+                        <div class="dropdown">
+                            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-dark" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 35px; height: 35px;">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <strong>{{ user.username|default:"Admin" }}</strong>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUser1">
+                                <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
+                                <li><a class="dropdown-item" href="#">Cài đặt</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="#">Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </nav>
 
             {% if messages %}
                 <div class="container-fluid px-4 mt-3">
                     {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+                            {% if message.tags == 'success' %}<i class="fas fa-check-circle me-2"></i>{% endif %}
+                            {% if message.tags == 'error' %}<i class="fas fa-exclamation-circle me-2"></i>{% endif %}
+                            {% if message.tags == 'warning' %}<i class="fas fa-exclamation-triangle me-2"></i>{% endif %}
                             {{ message }}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
@@ -133,6 +132,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/base.js' %}"></script>
+
 {% block extra_js %}{% endblock %}
 </body>
 </html>

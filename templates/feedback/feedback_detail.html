@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block title %}Chi tiết Phản hồi {{ feedback.code }}{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <a href="{% url 'feedback_list' %}" class="text-decoration-none text-muted mb-2 d-inline-block">
+                <i class="fas fa-arrow-left me-1"></i> Quay lại danh sách
+            </a>
+            <h3 class="fw-bold text-primary mb-0">
+                {{ feedback.title }} <span class="text-muted fs-5">#{{ feedback.code }}</span>
+            </h3>
+        </div>
+        <div>
+            {% if feedback.status == 'PENDING' %}
+                <span class="badge bg-secondary fs-6">Chờ tiếp nhận</span>
+            {% elif feedback.status == 'PROCESSING' %}
+                <span class="badge bg-primary fs-6">Đang xử lý</span>
+            {% elif feedback.status == 'DONE' %}
+                <span class="badge bg-success fs-6">Đã hoàn thành</span>
+            {% else %}
+                <span class="badge bg-dark fs-6">Đã hủy</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light fw-bold">Nội dung phản ánh</div>
+                <div class="card-body">
+                    <p class="card-text" style="white-space: pre-line;">{{ feedback.description }}</p>
+                    
+                    {% if feedback.attachments.all %}
+                        <hr>
+                        <h6 class="fw-bold mb-3"><i class="fas fa-paperclip me-2"></i>File đính kèm:</h6>
+                        <div class="row g-2">
+                            {% for att in feedback.attachments.all %}
+                                <div class="col-md-4 col-sm-6">
+                                    <a href="{{ att.file.url }}" target="_blank" class="border rounded p-2 d-flex align-items-center text-decoration-none text-dark bg-light">
+                                        {% if 'image' in att.file_type %}
+                                            <i class="fas fa-file-image text-success fs-4 me-3"></i>
+                                        {% else %}
+                                            <i class="fas fa-file-alt text-primary fs-4 me-3"></i>
+                                        {% endif %}
+                                        <div class="text-truncate small">{{ att.file.name }}</div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-light fw-bold">
+                    <i class="fas fa-history me-2"></i>Lịch sử xử lý
+                </div>
+                <div class="card-body">
+                    <ul class="timeline list-unstyled">
+                        {% for history in feedback.status_history.all %}
+                        <li class="mb-3 border-start border-3 border-info ps-3">
+                            <div class="d-flex justify-content-between">
+                                <strong>{{ history.changed_by.username|default:"Hệ thống" }}</strong>
+                                <small class="text-muted">{{ history.created_at|date:"d/m/Y H:i" }}</small>
+                            </div>
+                            <p class="mb-1 small">
+                                Đổi trạng thái: 
+                                <span class="badge bg-secondary">{{ history.get_old_status_display|default:"Mới tạo" }}</span> 
+                                <i class="fas fa-arrow-right mx-1 small"></i> 
+                                <span class="badge bg-success">{{ history.get_new_status_display }}</span>
+                            </p>
+                            {% if history.note %}
+                                <div class="bg-light p-2 rounded small text-muted fst-italic">
+                                    "{{ history.note }}"
+                                </div>
+                            {% endif %}
+                        </li>
+                        {% empty %}
+                        <li class="text-muted small">Chưa có cập nhật nào.</li>
+                        {% endfor %}
+                        
+                        <li class="mb-3 border-start border-3 border-secondary ps-3">
+                            <div class="d-flex justify-content-between">
+                                <strong>{{ feedback.resident.full_name }}</strong>
+                                <small class="text-muted">{{ feedback.created_at|date:"d/m/Y H:i" }}</small>
+                            </div>
+                            <p class="mb-0 small">Đã gửi yêu cầu.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-info text-white fw-bold">Thông tin cư dân</div>
+                <div class="card-body">
+                    <h5 class="card-title text-primary mb-1">{{ feedback.resident.full_name }}</h5>
+                    <p class="text-muted small mb-3">SĐT: {{ feedback.resident.phone_number }}</p>
+                    
+                    <div class="d-flex align-items-center border-top pt-3">
+                        <div class="bg-light rounded p-2 me-3 text-center" style="min-width: 60px;">
+                            <i class="fas fa-building fa-2x text-secondary"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold">Căn hộ {{ feedback.apartment.apartment_code }}</div>
+                            <div class="small text-muted">{{ feedback.apartment.building.name }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow border-primary">
+                <div class="card-header bg-primary text-white fw-bold">
+                    <i class="fas fa-tasks me-2"></i>Cập nhật xử lý
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">Trạng thái mới:</label>
+                            <select name="status" class="form-select">
+                                <option value="PENDING" {% if feedback.status == 'PENDING' %}selected{% endif %}>Chờ tiếp nhận</option>
+                                <option value="PROCESSING" {% if feedback.status == 'PROCESSING' %}selected{% endif %}>Đang xử lý</option>
+                                <option value="DONE" {% if feedback.status == 'DONE' %}selected{% endif %}>Đã hoàn thành</option>
+                                <option value="CANCELLED" {% if feedback.status == 'CANCELLED' %}selected{% endif %}>Đã hủy</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">Ghi chú xử lý (Nội bộ):</label>
+                            <textarea name="note" class="form-control" rows="3" placeholder="Nhập ghi chú cho lần cập nhật này...">{{ feedback.internal_note }}</textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary fw-bold">
+                                <i class="fas fa-save me-2"></i> Lưu cập nhật
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+/* static/css/base.css */
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    min-height: 100vh;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    background-color: #343a40; /* Màu tối cho Sidebar */
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, .8);
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    border-left: 3px solid transparent;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link:hover, .sidebar .nav-link.active {
+    color: #fff;
+    background-color: rgba(255,255,255,0.1);
+    border-left-color: #0d6efd; /* Màu xanh highlight */
+}
+
+.sidebar .nav-link i {
+    width: 25px; /* Cố định chiều rộng icon để thẳng hàng */
+    text-align: center;
+}
+
+.sidebar-heading {
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #adb5bd;
+    padding: 20px 20px 10px;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 10px;
+}
+
+/* Content Area */
+.content-wrapper {
+    padding: 30px;
+    min-height: 100vh;
+}
+
+/* Utilities */
+.cursor-pointer {
+    cursor: pointer;
+}

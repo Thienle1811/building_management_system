@@ -1,8 +1,5 @@
 """
 URL configuration for config project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
 """
 from django.contrib import admin
 from django.urls import path, include
@@ -13,20 +10,19 @@ urlpatterns = [
     # Trang quản trị mặc định của Django
     path('admin/', admin.site.urls),
     
-    # 1. Đường dẫn cho API (Dành cho Mobile App)
-    # Ví dụ: http://127.0.0.1:8000/api/v1/residents/
+    # --- KHU VỰC API (Dành cho Mobile App) ---
     path('api/v1/', include('apps.residents.urls')), 
+    path('api/v1/mobile/', include('apps.contracts.urls_api')),
+    # ĐÃ SỬA: Thêm tiền tố api/v1/ để không trùng với Web
+    path('api/v1/feedback/', include('apps.feedback.urls_api')), 
     
-    # 2. Đường dẫn cho WEB Giao diện (Dành cho BQL trên Desktop)
-    # Ví dụ: http://127.0.0.1:8000/residents/
+    # --- KHU VỰC WEB (Dành cho BQL trên Desktop) ---
     path('residents/', include('apps.residents.urls_web')), 
-    # Landing Page (Trang chủ)
     path('', include('apps.landing.urls')),
     path('contracts/', include('apps.contracts.urls')),
-    path('api/v1/mobile/', include('apps.contracts.urls_api')),
     path('buildings/', include('apps.buildings.urls')),
+    path('feedback/', include('apps.feedback.urls')),   
 ]
 
-# Cấu hình để xem được ảnh upload trong môi trường dev (Debug mode)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

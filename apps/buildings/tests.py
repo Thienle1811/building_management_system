@@ -12,6 +12,7 @@ class BuildingModelTest(TestCase):
         building = Building.objects.create(
             name="Tòa Test Auto", 
             code="AUTO", 
+            address="123 Đường Test, Q1",  # <--- Đã bổ sung address
             total_floors=5, 
             units_per_floor_default=4
         )
@@ -29,7 +30,12 @@ class BuildingModelTest(TestCase):
 class ApartmentSearchTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.building = Building.objects.create(name="Tòa Search", total_floors=10)
+        # Tạo tòa nhà có address
+        self.building = Building.objects.create(
+            name="Tòa Search", 
+            address="456 Đường Search, Q2", # <--- Đã bổ sung address
+            total_floors=10
+        )
         
         # Tạo dữ liệu mẫu
         Apartment.objects.create(
@@ -68,7 +74,13 @@ class ApartmentSearchTest(TestCase):
 class ApartmentImportTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.building = Building.objects.create(name="Tòa Import", code="IMP", total_floors=10)
+        # Tạo tòa nhà có address
+        self.building = Building.objects.create(
+            name="Tòa Import", 
+            code="IMP", 
+            address="789 Đường Import, Q3", # <--- Đã bổ sung address
+            total_floors=10
+        )
         self.url = reverse('apartment_import')
 
     def test_import_excel(self):
