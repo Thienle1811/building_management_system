@@ -69,6 +69,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {% if '/notifications/' in request.path %}active{% endif %}" href="{% url 'notification_list' %}">
+                            <i class="fas fa-bell"></i> Thông báo hệ thống
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {% if '/feedback/categories/' in request.path %}active{% endif %}" href="{% url 'category_list' %}">
                             <i class="fas fa-list-alt"></i> Danh mục phản hồi
                         </a>
@@ -92,6 +97,13 @@
                     </button>
                     
                     <div class="d-flex align-items-center ms-auto">
+                        <a href="{% url 'notification_list' %}" class="text-secondary me-3 position-relative">
+                            <i class="fas fa-bell fa-lg"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                <span class="visually-hidden">New alerts</span>
+                            </span>
+                        </a>
+
                         <div class="dropdown">
                             <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-dark" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 35px; height: 35px;">

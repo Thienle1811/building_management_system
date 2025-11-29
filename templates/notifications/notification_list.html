@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Thông báo hệ thống{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="text-primary"><i class="fas fa-bell me-2"></i>Thông báo của bạn</h3>
+            
+            <div>
+                {% if user.is_staff %}
+                <a href="{% url 'notification_create' %}" class="btn btn-success shadow-sm me-2">
+                    <i class="fas fa-plus me-1"></i> Gửi thông báo mới
+                </a>
+                {% endif %}
+                
+                <a href="{% url 'notification_mark_read' %}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-check-double me-1"></i> Đánh dấu đã đọc
+                </a>
+            </div>
+        </div>
+
+        <div class="list-group shadow-sm">
+            {% for noti in notifications %}
+                <div class="list-group-item list-group-item-action p-4 border-0 border-bottom">
+                    <div class="d-flex w-100 justify-content-between mb-2">
+                        <h5 class="mb-1 fw-bold text-dark">
+                            {% if noti.notification_type == 'FEEDBACK_UPDATE' %}
+                                <i class="fas fa-bullhorn text-warning me-2"></i>
+                            {% else %}
+                                <i class="fas fa-info-circle text-info me-2"></i>
+                            {% endif %}
+                            {{ noti.title }}
+                        </h5>
+                        <small class="text-muted">{{ noti.created_at|naturaltime }}</small>
+                    </div>
+                    <p class="mb-1 text-secondary">{{ noti.body }}</p>
+                    
+                    <div class="mt-2">
+                        {% if noti.is_sent %}
+                            <span class="badge bg-success bg-opacity-10 text-success border border-success rounded-pill px-3">
+                                <i class="fas fa-check me-1"></i> Đã gửi
+                            </span>
+                        {% else %}
+                            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning rounded-pill px-3">
+                                <i class="fas fa-hourglass-half me-1"></i> Chờ gửi (Giờ yên lặng)
+                            </span>
+                            <small class="text-muted ms-2">Dự kiến: {{ noti.scheduled_at|date:"H:i d/m/Y" }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="text-center py-5 text-muted">
+                    <i class="far fa-bell-slash fa-3x mb-3 opacity-25"></i>
+                    <p>Bạn chưa có thông báo nào.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -33,6 +33,8 @@ urlpatterns = [
     path('contracts/', include('apps.contracts.urls')),
     path('buildings/', include('apps.buildings.urls')),
     path('feedback/', include('apps.feedback.urls')),   
+    path('notifications/', include('apps.notifications.urls')),
+    path('api/v1/notifications/', include('apps.notifications.urls_api')),
 ]
 
 if settings.DEBUG:
