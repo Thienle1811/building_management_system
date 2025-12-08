@@ -3,14 +3,15 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.db.models import Q
 from django.utils.dateparse import parse_date
+from django.utils import timezone  # Import timezone
 from .models import Feedback, FeedbackStatusHistory, FeedbackCategory
 from .forms import FeedbackCategoryForm
-from apps.notifications.services import NotificationService  # <--- Import mới cho PMS-04-05
+from apps.notifications.services import NotificationService  # <--- Import Service
 
 # Logger
 logger = logging.getLogger(__name__)
 
-# --- PHẦN 1: QUẢN LÝ PHẢN HỒI (PMS-04-02 & PMS-04-05) ---
+# --- PHẦN 1: QUẢN LÝ PHẢN HỒI ---
 
 def feedback_list(request):
     """
@@ -66,6 +67,8 @@ def feedback_detail(request, pk):
         
         if new_status and new_status != feedback.status:
             try:
+                print(f"🔄 [UPDATE] Đang cập nhật Feedback {feedback.code} từ {feedback.status} -> {new_status}")
+                
                 # 1. Lưu lịch sử
                 FeedbackStatusHistory.objects.create(
                     feedback=feedback,
@@ -75,28 +78,28 @@ def feedback_detail(request, pk):
                     note=note
                 )
                 
-                # Lưu trạng thái cũ để gửi thông báo
+                # Lưu trạng thái cũ để so sánh (nếu cần logic phức tạp hơn)
                 old_status = feedback.status
                 
                 # 2. Cập nhật trạng thái mới
                 feedback.status = new_status
                 feedback.internal_note = note
                 if new_status == 'DONE':
-                    from django.utils import timezone
                     feedback.resolved_at = timezone.now()
                 
                 feedback.save()
                 
-                # --- GỌI NOTIFICATION SERVICE (PMS-04-05) ---
-                # Gửi thông báo cho cư dân về việc thay đổi trạng thái
+                # --- GỌI NOTIFICATION SERVICE ---
+                # Gửi thông báo cho cư dân
+                print("🚀 [NOTIFY] Đang gọi service gửi thông báo...")
                 NotificationService.send_feedback_notification(feedback, old_status, new_status)
                 # --------------------------------------------
 
                 messages.success(request, f"Cập nhật thành công: {feedback.get_status_display()}")
-                logger.info(f"User {request.user} updated Feedback {feedback.code} to {new_status}")
                 
             except Exception as e:
                 logger.error(f"Lỗi update feedback: {e}")
+                print(f"❌ Lỗi update feedback: {e}")
                 messages.error(request, "Có lỗi xảy ra khi cập nhật.")
             
             return redirect('feedback_detail', pk=pk)
@@ -104,7 +107,7 @@ def feedback_detail(request, pk):
     return render(request, 'feedback/feedback_detail.html', {'feedback': feedback})
 
 
-# --- PHẦN 2: QUẢN LÝ DANH MỤC (PMS-04-04) ---
+# --- PHẦN 2: QUẢN LÝ DANH MỤC ---
 
 def category_list(request):
     """Danh sách danh mục & Form tạo mới/Sửa"""
@@ -157,4 +160,4 @@ def category_delete(request, pk):
         except FeedbackCategory.DoesNotExist:
             messages.error(request, "Lỗi: Không tìm thấy danh mục 'Khác' để chuyển dữ liệu.")
             
-    return redirect('category_list')
+    return redirect('category_list')    
