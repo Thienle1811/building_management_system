@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters', # Nếu có dùng filter
+    'storages',       # <--- THÊM MỚI (Để hỗ trợ S3)
 
     # My Apps
     'apps.residents',
@@ -36,6 +37,9 @@ INSTALLED_APPS = [
     'apps.contracts',
     'apps.feedback',
     'apps.notifications',
+    'django_celery_beat',
+    'django_celery_results',
+    'apps.billing'
 ]
 
 MIDDLEWARE = [
@@ -90,18 +94,59 @@ TIME_ZONE = 'Asia/Ho_Chi_Minh'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# --- CẤU HÌNH STATIC FILES (CSS, JS, Images) ---
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-# Media files (Uploads)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# --- CẤU HÌNH MEDIA & FILE UPLOAD (PHASE 3 - CẬP NHẬT) ---
+# Kiểm tra biến môi trường để quyết định lưu Local hay S3
+# Mặc định là False (Lưu Local) nếu không tìm thấy biến USE_S3
+USE_S3 = os.getenv('USE_S3', 'False') == 'True'
+
+if USE_S3:
+    # --- CẤU HÌNH PRODUCTION (LƯU TRÊN CLOUD AWS S3) ---
+    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME', 'ap-southeast-1')
+    AWS_S3_SIGNATURE_VERSION = 's3v4'
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = None
+    AWS_S3_VERIFY = True
+
+    # Tự động thêm domain S3 vào URL file
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    
+    # Cấu hình Django dùng S3 cho cả Media và Static
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+
+else:
+    # --- CẤU HÌNH DEVELOPMENT (LƯU TRÊN MÁY LOCAL) ---
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    
+    # Sử dụng FileSystemStorage mặc định của Django
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# --- CẤU HÌNH REST FRAMEWORK & JWT (MỚI THÊM) ---
+# --- CẤU HÌNH REST FRAMEWORK & JWT ---
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -119,3 +164,14 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': False,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
+# --- CẤU HÌNH CELERY & REDIS (PHASE 4) ---
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0' # URL của Redis Server
+CELERY_RESULT_BACKEND = 'django-db' # Lưu kết quả task vào DB (cần cài django-celery-results nếu dùng, hoặc để redis)
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+
+# Cấu hình để Celery Beat lưu lịch vào Database Django (dễ quản lý qua Admin)
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

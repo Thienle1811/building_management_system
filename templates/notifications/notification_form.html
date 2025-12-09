@@ -1,52 +1,132 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Tạo Thông báo Hệ thống{% endblock %}
+{% block title %}Tạo Thông báo Mới{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card shadow border-0">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0"><i class="fas fa-paper-plane me-2"></i>Gửi Thông báo tới Cư dân</h4>
-            </div>
-            <div class="card-body p-4">
-                <div class="alert alert-info small">
-                    <i class="fas fa-info-circle me-1"></i>
-                    Thông báo sẽ được gửi đến <strong>App Mobile</strong> của cư dân và lưu vào hòm thư hệ thống.
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-paper-plane me-2"></i>Soạn Thảo Thông Báo</h5>
                 </div>
+                
+                <div class="card-body p-4">
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Vui lòng kiểm tra lại thông tin nhập liệu bên dưới.
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
 
-                <form method="POST">
-                    {% csrf_token %}
-                    
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Đối tượng nhận</label>
-                        {{ form.target_group }}
-                    </div>
+                    <form method="POST" enctype="multipart/form-data" id="notificationForm">
+                        {% csrf_token %}
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label class="form-label fw-bold">Tiêu đề thông báo <span class="text-danger">*</span></label>
+                                {{ form.title }}
+                                {% if form.title.errors %}<div class="text-danger small">{{ form.title.errors.0 }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Loại thông báo</label>
+                                {{ form.notification_type }}
+                            </div>
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Tiêu đề thông báo <span class="text-danger">*</span></label>
-                        {{ form.title }}
-                    </div>
+                        <div class="card bg-light border-0 mb-4">
+                            <div class="card-body">
+                                <h6 class="text-primary fw-bold mb-3"><i class="fas fa-users me-2"></i>Đối tượng nhận tin</h6>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Gửi đến nhóm:</label>
+                                        {{ form.target_type }}
+                                        <small class="text-muted d-block mt-1">Chọn "Toàn bộ cư dân" để gửi cho tất cả.</small>
+                                    </div>
+                                    <div class="col-md-6 mb-3" id="targetIdentifierGroup">
+                                        <label class="form-label">Chi tiết (ID Tòa/Tầng/Căn):</label>
+                                        {{ form.target_identifier }}
+                                        <small class="text-muted d-block mt-1">Nhập ID Tòa nhà (nếu chọn Theo Tòa) hoặc để trống.</small>
+                                        {% if form.target_identifier.errors %}<div class="text-danger small">{{ form.target_identifier.errors.0 }}</div>{% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Nội dung chi tiết <span class="text-danger">*</span></label>
-                        {{ form.body }}
-                    </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Nội dung chi tiết <span class="text-danger">*</span></label>
+                            {{ form.content }}
+                            {% if form.content.errors %}<div class="text-danger small">{{ form.content.errors.0 }}</div>{% endif %}
+                        </div>
 
-                    <div class="d-flex justify-content-end pt-3 border-top">
-                        <a href="{% url 'notification_list' %}" class="btn btn-secondary me-2">
-                            <i class="fas fa-times me-1"></i> Hủy bỏ
-                        </a>
-                        <button type="button" class="btn btn-warning me-2">
-                            <i class="fas fa-clock me-1"></i> Lưu nháp / Hẹn giờ
-                        </button>
-                        <button type="submit" class="btn btn-success fw-bold px-4">
-                            <i class="fas fa-paper-plane me-1"></i> Gửi ngay
-                        </button>
-                    </div>
-                </form>
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Mức độ ưu tiên</label>
+                                {{ form.priority }}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Hẹn giờ gửi (Tùy chọn)</label>
+                                {{ form.scheduled_at }}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Đính kèm File</label>
+                                {{ form.file }}
+                                <small class="text-muted">Hỗ trợ PDF, JPG, PNG (Max 10MB)</small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end pt-3 border-top">
+                            <a href="{% url 'notification_list' %}" class="btn btn-light border me-2">
+                                <i class="fas fa-times me-1"></i> Hủy bỏ
+                            </a>
+                            <button type="submit" class="btn btn-primary px-4 fw-bold">
+                                <i class="fas fa-paper-plane me-2"></i> Gửi Thông Báo
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const targetTypeSelect = document.querySelector('select[name="target_type"]');
+        const identifierGroup = document.getElementById('targetIdentifierGroup');
+        const identifierInput = document.querySelector('input[name="target_identifier"]');
+
+        function toggleIdentifier() {
+            if (targetTypeSelect.value === 'ALL_RESIDENTS') {
+                identifierInput.disabled = true;
+                identifierInput.value = ''; // Xóa giá trị cũ
+                identifierGroup.style.opacity = '0.5';
+            } else {
+                identifierInput.disabled = false;
+                identifierGroup.style.opacity = '1';
+            }
+        }
+
+        if (targetTypeSelect) {
+            targetTypeSelect.addEventListener('change', toggleIdentifier);
+            toggleIdentifier(); // Chạy lần đầu khi load
+        }
+    });
+</script>
+
+<style>
+    /* Làm đẹp input file */
+    input[type="file"]::file-selector-button {
+        border: 1px solid #e9ecef;
+        padding: .375rem .75rem;
+        border-radius: .25rem;
+        background-color: #f8f9fa;
+        margin-right: 10px;
+        transition: all .2s;
+    }
+    input[type="file"]::file-selector-button:hover {
+        background-color: #e2e6ea;
+    }
+</style>
 {% endblock %}

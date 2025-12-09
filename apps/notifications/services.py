@@ -1,117 +1,105 @@
-import logging
-import requests
-import json
-from django.utils import timezone
-from datetime import timedelta
+from django.db import transaction
 from django.contrib.auth import get_user_model
-from .models import Notification, NotificationDevice
+from django.contrib.auth.models import Group
+from apps.residents.models import Resident
+from apps.buildings.models import Apartment
+from .models import Notification, NotificationRecipient
 
 User = get_user_model()
-logger = logging.getLogger(__name__)
-
-# Cấu hình khung giờ yên lặng
-QUIET_HOUR_START = 23
-QUIET_HOUR_END = 6
 
 class NotificationService:
-    @staticmethod
-    def send_push_to_user(user, title, body, data=None):
-        # ... (Phần 1, 2, 3 giữ nguyên như cũ) ...
-        # ...
-        # 3. Tạo payload tin nhắn
-        messages = []
-        for token in push_tokens:
-            messages.append({
-                "to": token,
-                "sound": "default",
-                "title": title,
-                "body": body,
-                "data": data or {},
-                "priority": "high",
-                "channelId": "default",
-            })
+    """
+    Service xử lý logic nghiệp vụ cho Thông báo
+    """
 
-        # 4. Thực hiện gửi Request (SỬA ĐOẠN NÀY)
+    @staticmethod
+    def create_notification_recipients(notification):
+        """
+        Hàm này được gọi ngay sau khi Notification được tạo.
+        Nó sẽ quét Target Type để tìm users và tạo NotificationRecipient.
+        """
+        target_type = notification.target_type
+        identifier = notification.target_identifier
+        
+        users = []
+
+        # --- LOGIC ĐỊNH TUYẾN (ROUTING) ---
+        if target_type == 'ALL_RESIDENTS':
+            # Lấy tất cả user có liên kết với Resident
+            # (Giả định Resident có trường 'user' hoặc User có related name 'resident')
+            users = User.objects.filter(resident__isnull=False).distinct()
+            
+        elif target_type == 'BLOCK':
+            # identifier = Building ID hoặc Code
+            # Tìm Resident -> Apartment -> Building
+            if identifier:
+                users = User.objects.filter(
+                    resident__current_apartment__building__id=identifier
+                ).distinct()
+
+        elif target_type == 'FLOOR':
+            # identifier = "BuildingID-FloorNumber" (VD: "1-5" là Tòa 1 Tầng 5)
+            if identifier and '-' in str(identifier):
+                try:
+                    build_id, floor_num = str(identifier).split('-')
+                    users = User.objects.filter(
+                        resident__current_apartment__building__id=build_id,
+                        resident__current_apartment__floor_number=floor_num
+                    ).distinct()
+                except ValueError:
+                    pass # Log lỗi format sai
+                    
+        elif target_type == 'SPECIFIC_UNITS':
+            # identifier = List ID căn hộ (VD: "1,2,3")
+            if identifier:
+                unit_ids = str(identifier).split(',')
+                users = User.objects.filter(
+                    resident__current_apartment__id__in=unit_ids
+                ).distinct()
+
+        elif target_type == 'INTERNAL_GROUP':
+            # identifier = Group ID (Tổ bảo vệ, Vệ sinh...)
+            if identifier:
+                users = User.objects.filter(groups__id=identifier).distinct()
+
+        elif target_type == 'SPECIFIC_USERS':
+             # identifier = List User ID
+             if identifier:
+                user_ids = str(identifier).split(',')
+                users = User.objects.filter(id__in=user_ids)
+
+        # --- BULK CREATE (TỐI ƯU HIỆU NĂNG) ---
+        # Thay vì insert từng dòng, ta insert 1 lần hàng nghìn dòng
+        recipients_to_create = []
+        for user in users:
+            # Kiểm tra tránh trùng lặp nếu code chạy 2 lần
+            if not NotificationRecipient.objects.filter(notification=notification, recipient=user).exists():
+                recipients_to_create.append(
+                    NotificationRecipient(notification=notification, recipient=user)
+                )
+        
+        if recipients_to_create:
+            NotificationRecipient.objects.bulk_create(recipients_to_create)
+            return len(recipients_to_create)
+        
+        return 0
+
+    @staticmethod
+    def mark_as_read(user, notification_id):
+        """
+        Đánh dấu đã đọc cho 1 user
+        """
+        from django.utils import timezone
         try:
-            response = requests.post(url, headers=headers, data=json.dumps(messages))
-            
-            # --- ĐOẠN CODE DEBUG QUAN TRỌNG ---
-            response_data = response.json()
-            
-            if response.status_code == 200:
-                # Kiểm tra từng vé gửi (Ticket) xem có lỗi không
-                data_list = response_data.get('data', [])
-                
-                # In toàn bộ phản hồi ra để xem lỗi là gì
-                print("🔍 [DEBUG EXPO RESPONSE]:", json.dumps(response_data, indent=2))
-                
-                for i, ticket in enumerate(data_list):
-                    if ticket.get('status') == 'error':
-                        error_msg = ticket.get('message')
-                        error_details = ticket.get('details', {})
-                        print(f"❌ [PUSH FAIL] Thiết bị {push_tokens[i]} bị lỗi: {error_msg} - {error_details}")
-                    else:
-                        print(f"✅ [PUSH SUCCESS] Đã gửi thành công tới: {push_tokens[i]}")
-            else:
-                print(f"❌ [PUSH ERROR] Lỗi Server Expo: {response.status_code} - {response.text}")
-                
-        except Exception as e:
-            print(f"❌ [PUSH EXCEPTION] Lỗi kết nối: {str(e)}")
-
-    @staticmethod
-    def send_feedback_notification(feedback, old_status, new_status):
-        """
-        Xử lý logic nghiệp vụ phản hồi & Kiểm tra giờ yên lặng
-        """
-        # 1. Xác định nội dung
-        title = ""
-        body = ""
-        
-        if new_status == 'PROCESSING':
-            title = "Phản hồi đang được xử lý"
-            body = f"Yêu cầu '{feedback.title}' đang được Ban Quản Lý tiếp nhận và xử lý."
-        elif new_status == 'DONE':
-            title = "Phản hồi hoàn tất"
-            body = f"Yêu cầu '{feedback.title}' của bạn đã được xử lý xong. Vui lòng kiểm tra."
-        elif new_status == 'CANCELLED':
-            title = "Phản hồi bị hủy"
-            body = f"Yêu cầu '{feedback.title}' đã bị hủy. Vui lòng liên hệ BQL để biết thêm chi tiết."
-        else:
-            return
-
-        # 2. Xác định người nhận
-        recipient = None
-        if hasattr(feedback.resident, 'user') and feedback.resident.user:
-            recipient = feedback.resident.user
-        else:
-            try:
-                recipient = User.objects.get(username=feedback.resident.phone_number)
-            except User.DoesNotExist:
-                print(f"⚠️ [LOGIC] Không tìm thấy tài khoản User cho cư dân SĐT: {feedback.resident.phone_number}")
-                return
-
-        # 3. Kiểm tra giờ yên lặng
-        now = timezone.localtime(timezone.now())
-        current_hour = now.hour
-        
-        # Lưu thông báo vào DB
-        Notification.objects.create(
-            recipient=recipient,
-            title=title,
-            body=body,
-            notification_type='FEEDBACK_UPDATE',
-            reference_id=str(feedback.id),
-            is_read=False
-        )
-
-        if current_hour >= QUIET_HOUR_START or current_hour < QUIET_HOUR_END:
-            print(f"zzz [SILENT] Đang là giờ yên lặng ({current_hour}h). Chỉ lưu DB, không gửi Push.")
-            return
-
-        # 4. Gửi Push Notification
-        NotificationService.send_push_to_user(
-            user=recipient, 
-            title=title, 
-            body=body, 
-            data={'feedbackId': feedback.id, 'type': 'FEEDBACK_UPDATE'}
-        )
+            recipient_record = NotificationRecipient.objects.get(
+                notification_id=notification_id,
+                recipient=user
+            )
+            if not recipient_record.is_read:
+                recipient_record.is_read = True
+                recipient_record.read_at = timezone.now()
+                recipient_record.save()
+                return True
+        except NotificationRecipient.DoesNotExist:
+            return False
+        return False

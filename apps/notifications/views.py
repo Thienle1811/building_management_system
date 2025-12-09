@@ -1,90 +1,73 @@
-import logging
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth import get_user_model
-from django.db import transaction
-from .models import Notification
-from .forms import SystemNotificationForm # Import Form mới
-from apps.residents.models import Resident
-
-User = get_user_model()
-logger = logging.getLogger(__name__)
+from django.utils import timezone
+from .models import Notification, NotificationRecipient
+from .forms import NotificationForm
+from .services import NotificationService
 
 @login_required
 def notification_list(request):
-    """Danh sách thông báo của người dùng hiện tại"""
-    notifications = Notification.objects.filter(recipient=request.user).order_by('-created_at')
-    context = {
-        'notifications': notifications,
-        'title': 'Thông báo hệ thống'
-    }
-    return render(request, 'notifications/notification_list.html', context)
+    """Xem danh sách thông báo"""
+    user = request.user
+    
+    if user.is_staff:
+        # Admin thấy hết
+        notifications = Notification.objects.all().order_by('-created_at')
+    else:
+        # Cư dân chỉ thấy tin của mình
+        notifications = Notification.objects.filter(recipients__recipient=user).order_by('-created_at')
+
+    return render(request, 'notifications/notification_list.html', {'notifications': notifications})
 
 @login_required
 def notification_create(request):
-    """BQL tạo thông báo mới gửi cho cư dân"""
-    # Kiểm tra quyền (chỉ Admin/Staff mới được gửi)
+    """Tạo thông báo mới (Admin) - Có logic hẹn giờ"""
     if not request.user.is_staff:
-        messages.error(request, "Bạn không có quyền gửi thông báo hệ thống.")
+        messages.error(request, "Bạn không có quyền thực hiện chức năng này.")
         return redirect('notification_list')
 
     if request.method == 'POST':
-        form = SystemNotificationForm(request.POST)
+        form = NotificationForm(request.POST, request.FILES)
         if form.is_valid():
-            title = form.cleaned_data['title']
-            body = form.cleaned_data['body']
-            target = form.cleaned_data['target_group']
+            notification = form.save(commit=False)
             
-            recipients = []
+            # --- LOGIC HẸN GIỜ (PHASE 4) ---
+            now = timezone.now()
             
-            # 1. Lọc danh sách người nhận
-            if target == 'ALL':
-                # Lấy tất cả User có liên kết với Resident
-                # (Logic: username trùng với số điện thoại của resident)
-                resident_phones = Resident.objects.values_list('phone_number', flat=True)
-                recipients = User.objects.filter(username__in=resident_phones)
-                
-            elif target == 'OWNERS':
-                owner_phones = Resident.objects.filter(relationship_type='OWNER').values_list('phone_number', flat=True)
-                recipients = User.objects.filter(username__in=owner_phones)
-
-            # 2. Tạo thông báo hàng loạt (Bulk Create)
-            if recipients:
-                notification_list = []
-                for user in recipients:
-                    notification_list.append(Notification(
-                        recipient=user,
-                        title=title,
-                        body=body,
-                        notification_type='SYSTEM',
-                        is_sent=True, # Giả định gửi luôn (hoặc dùng service check giờ yên lặng)
-                        # scheduled_at=... (Nếu muốn hẹn giờ)
-                    ))
-                
-                with transaction.atomic():
-                    Notification.objects.bulk_create(notification_list)
-                
-                # TODO: Tại đây gọi Firebase/Expo Service để bắn Push Notification thật
-                # send_mass_push_notification(recipients, title, body)
-                
-                msg = f"Đã gửi thông báo thành công tới {len(notification_list)} cư dân."
-                logger.info(f"User {request.user} sent system notification: '{title}' to {len(notification_list)} users.")
-                messages.success(request, msg)
-                return redirect('notification_list')
+            # Kiểm tra nếu có giờ hẹn VÀ giờ hẹn ở tương lai
+            if notification.scheduled_at and notification.scheduled_at > now:
+                notification.is_sent = False
+                msg = f"Đã lên lịch gửi vào {notification.scheduled_at.strftime('%H:%M %d/%m/%Y')}."
             else:
-                messages.warning(request, "Không tìm thấy người nhận phù hợp.")
+                # Gửi ngay lập tức
+                notification.is_sent = True
+                notification.sent_at = now
+                msg = "Đã gửi thông báo thành công."
+            
+            notification.save()
+            
+            # Tạo danh sách người nhận ngay lập tức (dù gửi ngay hay chờ)
+            count = NotificationService.create_notification_recipients(notification)
+            
+            messages.success(request, f"{msg} (cho {count} cư dân).")
+            return redirect('notification_list')
     else:
-        form = SystemNotificationForm()
-
-    return render(request, 'notifications/notification_form.html', {
-        'form': form,
-        'title': 'Tạo Thông báo Mới'
-    })
+        form = NotificationForm()
+    
+    return render(request, 'notifications/notification_form.html', {'form': form})
 
 @login_required
-def mark_all_read(request):
-    """Đánh dấu tất cả là đã đọc"""
-    Notification.objects.filter(recipient=request.user, is_read=False).update(is_read=True)
-    messages.success(request, "Đã đánh dấu tất cả là đã đọc.")
+def notification_mark_read(request):
+    """Đánh dấu TẤT CẢ là đã đọc cho user hiện tại"""
+    updated_count = NotificationRecipient.objects.filter(
+        recipient=request.user, 
+        is_read=False
+    ).update(is_read=True, read_at=timezone.now())
+    
+    if updated_count > 0:
+        messages.success(request, f"Đã đánh dấu {updated_count} thông báo là đã đọc.")
+    else:
+        messages.info(request, "Không có thông báo nào mới.")
+        
     return redirect('notification_list')

@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings  # <--- Cần import settings để lấy User Model
 from apps.utils import BaseModel
 from apps.buildings.models import Apartment
 
@@ -8,6 +9,17 @@ class Resident(BaseModel):
         ('TENANT', 'Người thuê'),
         ('MEMBER', 'Thành viên gia đình'),
     )
+
+    # --- MỚI THÊM: Liên kết với tài khoản đăng nhập ---
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        related_name='resident', # Tên này giúp User gọi ngược lại Resident (user.resident)
+        verbose_name="Tài khoản hệ thống"
+    )
+    # --------------------------------------------------
 
     full_name = models.CharField(max_length=255, verbose_name="Họ và tên")
     identity_card = models.CharField(max_length=20, unique=True, verbose_name="CCCD/CMND")

@@ -1,25 +1,17 @@
 from django import forms
+from .models import Notification
 
-class SystemNotificationForm(forms.Form):
-    TARGET_CHOICES = (
-        ('ALL', 'Gửi cho TẤT CẢ cư dân'),
-        ('OWNERS', 'Chỉ gửi cho CHỦ HỘ'),
-        # ('BLOCK_A', 'Chỉ gửi tòa A - Nâng cấp sau'),
-    )
-
-    title = forms.CharField(
-        max_length=255, 
-        label="Tiêu đề thông báo",
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'VD: Thông báo bảo trì thang máy'})
-    )
-    
-    body = forms.CharField(
-        label="Nội dung chi tiết",
-        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Nhập nội dung thông báo...'})
-    )
-    
-    target_group = forms.ChoiceField(
-        label="Đối tượng nhận",
-        choices=TARGET_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-select'})
-    )
+class NotificationForm(forms.ModelForm):
+    class Meta:
+        model = Notification
+        fields = [
+            'title', 'content', 'notification_type', 'priority',
+            'target_type', 'target_identifier', 'file', 'scheduled_at'
+        ]
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 4}),
+            'scheduled_at': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+        help_texts = {
+            'target_identifier': 'Nhập ID Tòa nhà, Số tầng hoặc để trống nếu chọn "Toàn bộ cư dân"',
+        }
