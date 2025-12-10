@@ -1,160 +1,73 @@
-{% extends 'base.html' %}
-
-{% block title %}{{ title|default:"Quản lý Cư dân" }}{% endblock %}
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-10">
-        <div class="card shadow-lg border-0">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0"><i class="fas fa-user-edit me-2"></i>{{ title|default:"Thông tin Cư dân" }}</h4>
-            </div>
-            <div class="card-body p-4">
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    
-                    <h5 class="text-primary border-bottom pb-2 mb-3"><i class="fas fa-id-card me-2"></i>Thông tin chung</h5>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Họ và Tên <span class="text-danger">*</span></label>
-                            {{ form.full_name }}
-                            <div class="text-danger small">{{ form.full_name.errors }}</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Số điện thoại <span class="text-danger">*</span></label>
-                            {{ form.phone_number }}
-                             <div class="text-danger small">{{ form.phone_number.errors }}</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">CCCD/CMND <span class="text-danger">*</span></label>
-                            {{ form.identity_card }}
-                             <div class="text-danger small">{{ form.identity_card.errors }}</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">SĐT Khẩn cấp</label>
-                            {{ form.emergency_phone }}
-                        </div>
-                         <div class="col-md-6">
-                            <label class="form-label fw-bold">Căn hộ hiện tại <span class="text-danger">*</span></label>
-                            {{ form.current_apartment }}
-                             <div class="text-danger small">{{ form.current_apartment.errors }}</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Vai trò <span class="text-danger">*</span></label>
-                            {{ form.relationship_type }}
-                        </div>
-                    </div>
-
-                    <h5 class="text-primary border-bottom pb-2 mb-3 mt-4"><i class="fas fa-images me-2"></i>Ảnh giấy tờ</h5>
-                    <div class="row g-3">
-                         <div class="col-md-6">
-                            <label class="form-label fw-bold">Mặt trước</label>
-                            {{ form.identity_card_image_front }}
-                            {% if form.instance.identity_card_image_front %}
-                                <div class="mt-2"><a href="{{ form.instance.identity_card_image_front.url }}" target="_blank">Xem ảnh hiện tại</a></div>
-                            {% endif %}
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Mặt sau</label>
-                            {{ form.identity_card_image_back }}
-                            {% if form.instance.identity_card_image_back %}
-                                <div class="mt-2"><a href="{{ form.instance.identity_card_image_back.url }}" target="_blank">Xem ảnh hiện tại</a></div>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <h5 class="text-primary border-bottom pb-2 mb-3 mt-4"><i class="fas fa-motorcycle me-2"></i>Phương tiện</h5>
-                    {{ vehicle_formset.management_form }}
-                    <div id="vehicle-list">
-                        {% for v_form in vehicle_formset %}
-                            <div class="row g-3 mb-2 vehicle-item align-items-end border-bottom pb-2">
-                                <div class="col-md-5">
-                                    <label class="form-label small text-muted">Biển số xe</label>
-                                    {{ v_form.license_plate }}
-                                </div>
-                                <div class="col-md-5">
-                                    <label class="form-label small text-muted">Loại xe</label>
-                                    {{ v_form.vehicle_type }}
-                                </div>
-                                <div class="col-md-2">
-                                    {% if v_form.instance.pk %}
-                                        <div class="form-check mt-3">
-                                            {{ v_form.DELETE }}
-                                            <label class="form-check-label text-danger small">Xóa xe này</label>
-                                        </div>
-                                    {% endif %}
-                                    {{ v_form.id }} </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-
-                    <div class="d-flex justify-content-end mt-4 pt-3">
-                        <a href="{% url 'resident_list_web' %}" class="btn btn-secondary me-2">
-                            <i class="fas fa-times me-1"></i> Hủy bỏ
-                        </a>
-                        <button type="submit" class="btn btn-success fw-bold px-4">
-                            <i class="fas fa-save me-1"></i> Lưu thông tin
-                        </button>
-                    </div>
-                </form>
-            </div>
+<div class="container mt-4" style="max-width: 800px;">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-user-edit"></i> {{ title }}</h5>
         </div>
-    </div>
-</div>
-
-{% if contracts %}
-<div class="row justify-content-center mt-4 mb-5">
-    <div class="col-md-10">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-info text-white">
-                <h5 class="mb-0"><i class="fas fa-history me-2"></i>Lịch sử Hợp đồng</h5>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped mb-0 align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="ps-3">Mã HĐ</th>
-                                <th>Căn hộ</th>
-                                <th>Loại</th>
-                                <th>Thời hạn</th>
-                                <th>Trạng thái</th>
-                                <th class="text-center">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for contract in contracts %}
-                            <tr>
-                                <td class="ps-3 fw-bold text-primary">{{ contract.code }}</td>
-                                <td>
-                                    <span class="badge bg-secondary">{{ contract.apartment.apartment_code }}</span>
-                                </td>
-                                <td>{{ contract.get_contract_type_display }}</td>
-                                <td class="small text-muted">
-                                    {{ contract.start_date|date:"d/m/Y" }} - {{ contract.end_date|date:"d/m/Y" }}
-                                </td>
-                                <td>
-                                    {% if contract.status == 'ACTIVE' %}
-                                        <span class="badge bg-success">Hiệu lực</span>
-                                    {% elif contract.status == 'EXPIRED' %}
-                                        <span class="badge bg-secondary">Hết hạn</span>
-                                    {% else %}
-                                        <span class="badge bg-warning text-dark">{{ contract.get_status_display }}</span>
-                                    {% endif %}
-                                </td>
-                                <td class="text-center">
-                                    <a href="{% url 'contract_detail' contract.id %}" class="btn btn-sm btn-outline-info" title="Xem chi tiết">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Họ và Tên</label>
+                        {{ form.full_name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Số điện thoại</label>
+                        {{ form.phone_number }}
+                    </div>
                 </div>
-            </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Số CCCD/CMND</label>
+                        {{ form.identity_card }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">SĐT Khẩn cấp</label>
+                        {{ form.emergency_phone }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-danger">Căn hộ hiện tại</label>
+                        {{ form.current_apartment }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Vai trò</label>
+                        {{ form.relationship_type }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Liên kết tài khoản (User)</label>
+                    {{ form.user }}
+                    <div class="form-text">Để trống nếu cư dân chưa có tài khoản App.</div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">Ảnh mặt trước CCCD</label>
+                        {{ form.identity_card_image_front }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Ảnh mặt sau CCCD</label>
+                        {{ form.identity_card_image_back }}
+                    </div>
+                </div>
+
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'residents:resident_list' %}" class="btn btn-secondary">Quay lại</a>
+                    <button type="submit" class="btn btn-primary px-4">Lưu thông tin</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-{% endif %}
 {% endblock %}

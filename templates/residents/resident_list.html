@@ -1,111 +1,76 @@
-{% extends 'base.html' %}
-
-{% block title %}Danh sách Cư dân - PMS{% endblock %}
+{% extends "base.html" %}
+{% block title %}Danh sách Cư dân{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="text-primary"><i class="fas fa-users me-2"></i>Danh sách Cư dân</h2>
-    <a href="{% url 'resident_create_web' %}" class="btn btn-success shadow-sm">
-        <i class="fas fa-plus me-2"></i>Thêm cư dân mới
-    </a>
-</div>
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-primary"><i class="fas fa-users"></i> Danh sách Cư dân</h3>
+        <a href="{% url 'residents:resident_create' %}" class="btn btn-success shadow">
+            <i class="fas fa-plus"></i> Thêm Cư dân
+        </a>
+    </div>
 
-<div class="card mb-4">
-    <div class="card-body bg-light">
-        <form method="GET" class="row g-3">
-            <div class="col-md-4">
-                <input type="text" name="q" class="form-control" 
-                       placeholder="Tìm theo tên, SĐT, CCCD..." 
-                       value="{{ search_query }}">
-            </div>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body bg-light">
+            <form method="get" class="row g-3">
+                <div class="col-md-10">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-white"><i class="fas fa-search text-muted"></i></span>
+                        <input type="text" name="q" class="form-control" placeholder="Tìm theo Tên, SĐT hoặc Mã căn hộ..." value="{{ query }}">
+                    </div>
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg">Tìm kiếm</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-            <div class="col-md-3">
-                <select name="building" class="form-select">
-                    <option value="">-- Tất cả Tòa nhà --</option>
-                    {% for b in buildings %}
-                        <option value="{{ b.id }}" {% if b.id == selected_building %}selected{% endif %}>
-                            {{ b.name }}
-                        </option>
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-3">Họ và Tên</th>
+                        <th>Căn hộ</th>
+                        <th>Liên hệ</th>
+                        <th>Vai trò</th>
+                        <th class="text-end pe-3">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for resident in residents %}
+                    <tr>
+                        <td class="ps-3">
+                            <div class="fw-bold">{{ resident.full_name }}</div>
+                            <small class="text-muted">CCCD: {{ resident.identity_card }}</small>
+                        </td>
+                        <td>
+                            <span class="badge bg-info text-dark">{{ resident.current_apartment.apartment_code }}</span>
+                        </td>
+                        <td>
+                            <div><i class="fas fa-phone-alt text-secondary me-1"></i> {{ resident.phone_number }}</div>
+                        </td>
+                        <td>
+                            {% if resident.relationship_type == 'OWNER' %}
+                                <span class="badge bg-success">Chủ hộ</span>
+                            {% elif resident.relationship_type == 'TENANT' %}
+                                <span class="badge bg-warning text-dark">Người thuê</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Thành viên</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end pe-3">
+                            <a href="{% url 'residents:resident_update' resident.pk %}" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></a>
+                            <a href="{% url 'residents:resident_delete' resident.pk %}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="text-center py-4 text-muted">Không tìm thấy cư dân nào.</td></tr>
                     {% endfor %}
-                </select>
-            </div>
-
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100 fw-bold">
-                    <i class="fas fa-search me-1"></i> Tìm
-                </button>
-            </div>
-            
-            {% if search_query or selected_building %}
-            <div class="col-md-1">
-                <a href="{% url 'resident_list_web' %}" class="btn btn-outline-secondary w-100" title="Xóa bộ lọc">
-                    <i class="fas fa-sync-alt"></i>
-                </a>
-            </div>
-            {% endif %}
-        </form>
-    </div>
-</div>
-
-<div class="card shadow-sm">
-    <div class="card-body p-0">
-        <table class="table table-hover table-striped mb-0 align-middle">
-            <thead class="table-dark text-white">
-                <tr>
-                    <th class="py-3 ps-3">Họ và Tên</th>
-                    <th>Căn hộ</th>
-                    <th>Số điện thoại</th>
-                    <th>Vai trò</th>
-                    <th>Ngày tạo</th>
-                    <th class="text-center">Hành động</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for resident in residents %}
-                <tr>
-                    <td class="fw-bold text-primary ps-3">{{ resident.full_name }}</td>
-                    <td>
-                        <span class="badge bg-info text-dark shadow-sm">
-                            {{ resident.current_apartment.apartment_code }}
-                        </span>
-                        <small class="text-muted d-block mt-1" style="font-size: 0.8em;">
-                            {{ resident.current_apartment.building.name }}
-                        </small>
-                    </td>
-                    <td>{{ resident.phone_number }}</td>
-                    <td>
-                        {% if resident.relationship_type == 'OWNER' %}
-                            <span class="badge bg-warning text-dark border border-warning">Chủ hộ</span>
-                        {% elif resident.relationship_type == 'TENANT' %}
-                            <span class="badge bg-success border border-success">Khách thuê</span>
-                        {% else %}
-                            <span class="badge bg-secondary">Thành viên</span>
-                        {% endif %}
-                    </td>
-                    <td>{{ resident.created_at|date:"d/m/Y" }}</td>
-                    <td class="text-center">
-                        <a href="{% url 'resident_update_web' resident.id %}" class="btn btn-sm btn-outline-warning me-1" title="Sửa thông tin">
-                            <i class="fas fa-edit"></i>
-                        </a>
-
-                        <a href="{% url 'resident_delete_web' resident.id %}" class="btn btn-sm btn-outline-danger" title="Xóa">
-                            <i class="fas fa-trash-alt"></i>
-                        </a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6" class="text-center py-5 text-muted bg-light">
-                        <i class="fas fa-folder-open fa-3x mb-3 text-secondary opacity-50"></i><br>
-                        <span class="fw-bold">Không tìm thấy dữ liệu phù hợp.</span>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="card-footer text-muted small py-3">
-        Tổng số: <strong>{{ residents.count }}</strong> cư dân.
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock %}

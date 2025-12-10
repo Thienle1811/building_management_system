@@ -12,17 +12,21 @@ class StaffProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = StaffProfile
-        fields = ['id', 'full_name', 'team', 'phone_number']
+        # SỬA LỖI: Đổi 'phone_number' thành 'phone'
+        fields = ['id', 'full_name', 'team', 'phone']
 
     def get_full_name(self, obj):
-        return obj.user.get_full_name() or obj.user.username
+        if obj.user:
+            return obj.user.get_full_name() or obj.user.username
+        return "Unknown"
 
 class StaffRosterSerializer(serializers.ModelSerializer):
     # Các trường đặc biệt dành cho FullCalendar
     title = serializers.SerializerMethodField()
     start = serializers.SerializerMethodField()
     end = serializers.SerializerMethodField()
-    color = serializers.CharField(source='shift.color_code', read_only=True)
+    # SỬA LỖI: Bỏ 'color_code' vì model không có, gán màu cứng hoặc logic khác
+    color = serializers.SerializerMethodField() 
     staff_name = serializers.CharField(source='staff.user.get_full_name', read_only=True)
 
     class Meta:
@@ -30,16 +34,21 @@ class StaffRosterSerializer(serializers.ModelSerializer):
         fields = ['id', 'staff', 'shift', 'date', 'title', 'start', 'end', 'color', 'staff_name']
 
     def get_title(self, obj):
-        # Hiển thị: "Tên NV (Tên Ca)"
         staff_name = obj.staff.user.get_full_name() or obj.staff.user.username
         return f"{staff_name} ({obj.shift.name})"
 
     def get_start(self, obj):
-        # Format chuẩn ISO: YYYY-MM-DDTHH:MM:SS
         return f"{obj.date}T{obj.shift.start_time}"
 
     def get_end(self, obj):
         return f"{obj.date}T{obj.shift.end_time}"
+    
+    def get_color(self, obj):
+        # Tự động gán màu theo ca trực (Ví dụ: Sáng=Xanh, Chiều=Vàng...)
+        if 'Sáng' in obj.shift.name: return '#0d6efd' # Blue
+        if 'Chiều' in obj.shift.name: return '#ffc107' # Warning
+        if 'Đêm' in obj.shift.name: return '#212529'  # Dark
+        return '#6c757d' # Grey default
 
 class MaintenanceTaskSerializer(serializers.ModelSerializer):
     """Serializer hiển thị chi tiết công việc cho nhân viên"""
@@ -57,11 +66,11 @@ class MaintenanceTaskSerializer(serializers.ModelSerializer):
         ]
 
 class TaskCompleteSerializer(serializers.ModelSerializer):
-    """Serializer chuyên dùng để Báo cáo hoàn thành (Bắt buộc có ảnh)"""
+    """Serializer chuyên dùng để Báo cáo hoàn thành"""
     class Meta:
         model = MaintenanceTask
         fields = ['result_image', 'staff_note']
         extra_kwargs = {
-            'result_image': {'required': True}, # Bắt buộc phải upload ảnh [cite: 76]
+            'result_image': {'required': True},
             'staff_note': {'required': True}
         }

@@ -50,8 +50,13 @@
 
                     <h6 class="sidebar-heading mt-3">Cư dân & Hợp đồng</h6>
                     <li class="nav-item">
-                        <a class="nav-link {% if '/residents/' in request.path %}active{% endif %}" href="{% url 'resident_list_web' %}">
+                        <a class="nav-link {% if '/residents/' in request.path and 'vehicles' not in request.path %}active{% endif %}" href="{% url 'residents:resident_list' %}">
                             <i class="fas fa-users"></i> Quản lý Cư dân
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/residents/vehicles/' in request.path %}active{% endif %}" href="{% url 'residents:vehicle_list' %}">
+                            <i class="fas fa-car"></i> Quản lý Phương tiện
                         </a>
                     </li>
                     <li class="nav-item">
@@ -72,11 +77,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if '/residents/vehicles/' in request.path %}active{% endif %}" href="{% url 'residents:vehicle_list' %}">
-                             <i class="fas fa-car"></i> Quản lý Phương tiện
-                        </a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#operationMenu" aria-expanded="{% if '/operation/' in request.path %}true{% else %}false{% endif %}">
                             <i class="fas fa-tools"></i> Vận hành & Kỹ thuật
