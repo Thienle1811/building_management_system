@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5 text-center">
+    <div class="card shadow-sm mx-auto p-4" style="max-width: 500px;">
+        <h3 class="text-danger"><i class="fas fa-exclamation-triangle"></i> Xóa phương tiện?</h3>
+        <p class="lead">Bạn có chắc muốn xóa xe biển số: <strong class="text-uppercase">{{ vehicle.license_plate }}</strong>?</p>
+        <p class="text-muted">Chủ xe: {{ vehicle.resident.user.get_full_name }} ({{ vehicle.resident.apartment.apartment_code }})</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <a href="{% url 'residents:vehicle_list' %}" class="btn btn-secondary">Không xóa</a>
+            <button type="submit" class="btn btn-danger">Đồng ý Xóa</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

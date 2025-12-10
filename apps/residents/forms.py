@@ -28,10 +28,15 @@ class ResidentForm(forms.ModelForm):
 
 # Form nhập xe (Sẽ dùng formset để nhập nhiều xe cùng lúc)
 class VehicleForm(forms.ModelForm):
+    """Form quản lý phương tiện"""
     class Meta:
         model = Vehicle
-        fields = ['license_plate', 'vehicle_type']
+        fields = ['resident', 'vehicle_type', 'license_plate', 'manufacturer', 'model', 'color']
         widgets = {
-            'license_plate': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Biển số (VD: 65B1-123.45)'}),
-            'vehicle_type': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Loại xe (Xe máy/Ô tô)'}),
+            'resident': forms.Select(attrs={'class': 'form-select select2'}), # select2 để tìm tên cư dân cho nhanh
+            'vehicle_type': forms.Select(attrs={'class': 'form-select'}),
+            'license_plate': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'VD: 59A-123.45', 'style': 'text-transform: uppercase;'}),
+            'manufacturer': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'VD: Honda, Toyota'}),
+            'model': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'VD: SH 150i, Vios'}),
+            'color': forms.TextInput(attrs={'class': 'form-control'}),
         }

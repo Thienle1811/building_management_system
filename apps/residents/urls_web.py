@@ -1,13 +1,20 @@
 from django.urls import path
-from .views import resident_list, resident_create, resident_update, resident_delete # <--- Import thêm
+from . import views  # Import toàn bộ module views để tránh lỗi import lắt nhắt
+
+# [QUAN TRỌNG] Dòng này giúp Django hiểu namespace 'residents' là gì
+app_name = 'residents'
 
 urlpatterns = [
-    path('', resident_list, name='resident_list_web'),
-    path('create/', resident_create, name='resident_create_web'),
-    
-    # Đường dẫn Sửa (nhận ID cư dân)
-    path('update/<int:pk>/', resident_update, name='resident_update_web'),
-    
-    # Đường dẫn Xóa (nhận ID cư dân)
-    path('delete/<int:pk>/', resident_delete, name='resident_delete_web'),
+    # --- QUẢN LÝ CƯ DÂN ---
+    # (Đảm bảo trong file views.py bạn đã đặt tên hàm đúng như bên dưới)
+    path('', views.resident_list_view, name='resident_list'), 
+    path('create/', views.resident_create_view, name='resident_create'),
+    path('update/<int:pk>/', views.resident_update_view, name='resident_update'),
+    path('delete/<int:pk>/', views.resident_delete_view, name='resident_delete'),
+
+    # --- QUẢN LÝ PHƯƠNG TIỆN (XE CỘ) ---
+    path('vehicles/', views.vehicle_list_view, name='vehicle_list'),
+    path('vehicles/add/', views.vehicle_create_view, name='vehicle_create'),
+    path('vehicles/<int:pk>/edit/', views.vehicle_update_view, name='vehicle_update'),
+    path('vehicles/<int:pk>/delete/', views.vehicle_delete_view, name='vehicle_delete'),
 ]

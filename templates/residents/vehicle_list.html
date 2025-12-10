@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Danh sách Phương tiện{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-primary"><i class="fas fa-car"></i> Quản lý Phương tiện</h3>
+        <a href="{% url 'residents:vehicle_create' %}" class="btn btn-success shadow">
+            <i class="fas fa-plus"></i> Đăng ký Xe mới
+        </a>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body bg-light">
+            <form method="get" class="row g-3">
+                <div class="col-md-10">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-white"><i class="fas fa-search text-muted"></i></span>
+                        <input type="text" name="q" class="form-control" placeholder="Nhập Biển số xe (VD: 59A-12345) hoặc Mã căn hộ..." value="{{ query }}">
+                    </div>
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg">Tìm kiếm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-3">Biển số</th>
+                        <th>Loại xe</th>
+                        <th>Chủ sở hữu</th>
+                        <th>Căn hộ</th>
+                        <th>Màu / Hiệu</th>
+                        <th class="text-end pe-3">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vehicle in vehicles %}
+                    <tr>
+                        <td class="ps-3 fw-bold text-primary">{{ vehicle.license_plate }}</td>
+                        <td>
+                            {% if vehicle.vehicle_type == 'CAR' %}
+                                <span class="badge bg-info text-dark"><i class="fas fa-car"></i> Ô tô</span>
+                            {% elif vehicle.vehicle_type == 'MOTORBIKE' %}
+                                <span class="badge bg-warning text-dark"><i class="fas fa-motorcycle"></i> Xe máy</span>
+                            {% else %}
+                                <span class="badge bg-secondary"><i class="fas fa-bicycle"></i> Xe đạp/Khác</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="fw-bold">{{ vehicle.resident.user.get_full_name }}</div>
+                            <small class="text-muted">{{ vehicle.resident.phone }}</small>
+                        </td>
+                        <td><span class="badge bg-secondary">{{ vehicle.resident.apartment.apartment_code }}</span></td>
+                        <td>{{ vehicle.manufacturer }} - {{ vehicle.color }}</td>
+                        <td class="text-end pe-3">
+                            <a href="{% url 'residents:vehicle_update' vehicle.pk %}" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></a>
+                            <a href="{% url 'residents:vehicle_delete' vehicle.pk %}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="6" class="text-center py-4 text-muted">Không tìm thấy phương tiện nào.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
