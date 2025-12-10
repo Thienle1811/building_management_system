@@ -32,7 +32,6 @@
                     </li>
 
                     <h6 class="sidebar-heading mt-2">Quản lý Tòa nhà</h6>
-                    
                     <li class="nav-item">
                         <a class="nav-link {% if '/floor-plan/' in request.path %}active{% endif %}" href="{% url 'floor_plan' %}">
                             <i class="fas fa-th"></i> Sơ đồ Tòa nhà
@@ -50,15 +49,9 @@
                     </li>
 
                     <h6 class="sidebar-heading mt-3">Cư dân & Hợp đồng</h6>
-
                     <li class="nav-item">
                         <a class="nav-link {% if '/residents/' in request.path %}active{% endif %}" href="{% url 'resident_list_web' %}">
                             <i class="fas fa-users"></i> Quản lý Cư dân
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if '/billing/invoices/' in request.path %}active{% endif %}" href="{% url 'billing:invoice_list' %}">
-                            <i class="fas fa-file-invoice-dollar"></i> Quản lý Hóa đơn
                         </a>
                     </li>
                     <li class="nav-item">
@@ -66,23 +59,35 @@
                             <i class="fas fa-file-contract"></i> Quản lý Hợp đồng
                         </a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link {% if '/operation/roster/' in request.path %}active{% endif %}" href="{% url 'operation:roster_view' %}">
-                            <i class="fas fa-calendar-alt"></i> Quản lý lịch trực
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#billingMenu" aria-expanded="{% if '/billing/' in request.path %}true{% else %}false{% endif %}">
+                            <i class="fas fa-file-invoice-dollar"></i> Tài chính & Hóa đơn
                         </a>
+                        <div id="billingMenu" class="collapse {% if '/billing/' in request.path %}show{% endif %}">
+                            <ul class="list-unstyled ms-3">
+                                <li><a class="nav-link" href="{% url 'billing:invoice_list' %}">DS Hóa đơn</a></li>
+                                <li><a class="nav-link" href="{% url 'billing:meter_reading' %}">Ghi Điện Nước</a></li>
+                                <li><a class="nav-link" href="{% url 'billing:price_config' %}">Cấu hình Giá</a></li>
+                            </ul>
+                        </div>
                     </li>
+
                     <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#billingMenu">
-        <i class="fas fa-file-invoice-dollar"></i> Tài chính & Hóa đơn
-    </a>
-    <div id="billingMenu" class="collapse">
-        <ul class="list-unstyled ms-3">
-            <li><a class="nav-link" href="{% url 'billing:invoice_list' %}">DS Hóa đơn</a></li>
-            <li><a class="nav-link" href="{% url 'billing:meter_reading' %}">Ghi Điện Nước</a></li>
-            <li><a class="nav-link" href="{% url 'billing:price_config' %}">Cấu hình Giá</a></li>
-        </ul>
-    </div>
-</li>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#operationMenu" aria-expanded="{% if '/operation/' in request.path %}true{% else %}false{% endif %}">
+                            <i class="fas fa-tools"></i> Vận hành & Kỹ thuật
+                        </a>
+                        <div id="operationMenu" class="collapse {% if '/operation/' in request.path %}show{% endif %}">
+                            <ul class="list-unstyled ms-3">
+                                <li><a class="nav-link" href="{% url 'operation:roster_view' %}">Lịch trực</a></li>
+                                <li><a class="nav-link" href="{% url 'operation:performance_report' %}">Báo cáo</a></li>
+                                <li><hr class="dropdown-divider bg-secondary opacity-25"></li>
+                                <li><a class="nav-link" href="{% url 'operation:staff_list' %}">Quản lý Nhân sự</a></li>
+                                <li><a class="nav-link" href="{% url 'operation:shift_list' %}">Cấu hình Ca trực</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
                     <h6 class="sidebar-heading mt-3">Dịch vụ & CSKH</h6>
                     <li class="nav-item">
                         <a class="nav-link {% if '/feedback/' in request.path and 'categories' not in request.path %}active{% endif %}" href="{% url 'feedback_list' %}">
@@ -99,21 +104,7 @@
                             <i class="fas fa-list-alt"></i> Danh mục phản hồi
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if '/operation/reports/' in request.path %}active{% endif %}" href="{% url 'operation:performance_report' %}">
-                            <i class="fas fa-chart-pie"></i> Báo cáo Vận hành
-                        </a>
-                    </li>
-                    <div id="operationMenu" class="collapse">
-    <ul class="list-unstyled ms-3">
-        <li><a class="nav-link" href="{% url 'operation:roster_view' %}">Lịch trực</a></li>
-        <li><a class="nav-link" href="{% url 'operation:performance_report' %}">Báo cáo</a></li>
-        
-        <li><hr class="dropdown-divider bg-light"></li>
-        <li><a class="nav-link" href="{% url 'operation:staff_list' %}">Quản lý Nhân sự</a></li>
-        <li><a class="nav-link" href="{% url 'operation:shift_list' %}">Cấu hình Ca trực</a></li>
-    </ul>
-</div>
+
                     <h6 class="sidebar-heading mt-3">Hệ thống</h6>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/">
@@ -150,7 +141,12 @@
                                 <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
                                 <li><a class="dropdown-item" href="#">Cài đặt</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="#">Đăng xuất</a></li>
+                                <li>
+                                    <form action="{% url 'admin:logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item text-danger">Đăng xuất</button>
+                                    </form>
+                                </li>
                             </ul>
                         </div>
                     </div>
