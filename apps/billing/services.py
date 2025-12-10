@@ -40,7 +40,6 @@ class BillingService:
 
     @staticmethod
     def calculate_consumption_cost(consumption, service_type):
-        """Tính tiền Điện/Nước theo bậc thang hoặc đồng giá"""
         config = ServiceConfig.objects.filter(service_type=service_type, is_active=True).first()
         if not config:
             return 0, "Chưa cấu hình giá"
@@ -75,17 +74,14 @@ class BillingService:
 
     @staticmethod
     def generate_monthly_invoices(month, year):
-        """Tạo hóa đơn tháng. Trả về: (Số lượng tạo, Danh sách căn hộ bị bỏ qua)"""
         apartments = Apartment.objects.filter(status='OCCUPIED')
         created_count = 0
         skipped_apartments = []
 
         for apt in apartments:
-            # 1. Nếu đã có hóa đơn rồi -> Bỏ qua
             if Invoice.objects.filter(apartment=apt, month=month, year=year).exists():
                 continue
 
-            # 2. LOGIC SKIP: Nếu còn chỉ số PENDING hoặc chưa có bản ghi -> Bỏ qua
             has_pending = MeterReading.objects.filter(
                 apartment=apt, record_month=month, record_year=year, status='PENDING'
             ).exists()
@@ -97,7 +93,6 @@ class BillingService:
                 skipped_apartments.append(apt.apartment_code)
                 continue 
 
-            # 3. Tạo hóa đơn (Nếu đủ điều kiện)
             with transaction.atomic():
                 invoice = Invoice.objects.create(
                     code=f"INV-{year}{month:02d}-{apt.apartment_code}",
@@ -159,3 +154,19 @@ class BillingService:
                 created_count += 1
         
         return created_count, skipped_apartments
+    
+    # --- PHẦN MỚI THÊM PHASE 5 ---
+    @staticmethod
+    def confirm_payment_by_id(invoice_id):
+        """Xác nhận thanh toán hóa đơn theo ID từ giao diện Web BQL"""
+        try:
+            invoice = Invoice.objects.get(pk=invoice_id)
+            if invoice.status != 'PAID':
+                invoice.status = 'PAID'
+                invoice.payment_date = timezone.now()
+                invoice.payment_method = 'CASH' # Mặc định là cash nếu Admin bấm nút này mà không chọn method
+                invoice.save()
+                return True
+            return False
+        except Invoice.DoesNotExist:
+            return False

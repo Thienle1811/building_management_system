@@ -57,11 +57,20 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {% if '/billing/invoices/' in request.path %}active{% endif %}" href="{% url 'billing:invoice_list' %}">
+                            <i class="fas fa-file-invoice-dollar"></i> Quản lý Hóa đơn
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {% if '/contracts/' in request.path %}active{% endif %}" href="{% url 'contract_list' %}">
                             <i class="fas fa-file-contract"></i> Quản lý Hợp đồng
                         </a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/operation/roster/' in request.path %}active{% endif %}" href="{% url 'operation:roster_view' %}">
+                            <i class="fas fa-calendar-alt"></i> Quản lý lịch trực
+                        </a>
+                    </li>
                     <h6 class="sidebar-heading mt-3">Dịch vụ & CSKH</h6>
                     <li class="nav-item">
                         <a class="nav-link {% if '/feedback/' in request.path and 'categories' not in request.path %}active{% endif %}" href="{% url 'feedback_list' %}">
@@ -76,6 +85,11 @@
                     <li class="nav-item">
                         <a class="nav-link {% if '/feedback/categories/' in request.path %}active{% endif %}" href="{% url 'category_list' %}">
                             <i class="fas fa-list-alt"></i> Danh mục phản hồi
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/operation/reports/' in request.path %}active{% endif %}" href="{% url 'operation:performance_report' %}">
+                            <i class="fas fa-chart-pie"></i> Báo cáo Vận hành
                         </a>
                     </li>
 

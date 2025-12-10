@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Xếp lịch trực - Operation{% endblock %}
+
+{% block extra_css %}
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+<style>
+    .fc-event { cursor: pointer; }
+    /* Style cho các mục nhân viên bên trái */
+    #external-events .fc-event {
+        margin: 5px 0;
+        padding: 8px 12px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-left: 4px solid #0d6efd;
+        color: #333;
+        cursor: move;
+        border-radius: 4px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    #external-events .fc-event:hover {
+        background-color: #f8f9fa;
+        transform: translateX(2px);
+        transition: all 0.2s;
+    }
+    .trash-zone {
+        border: 2px dashed #dc3545;
+        background-color: #fff5f5;
+        color: #dc3545;
+        text-align: center;
+        padding: 15px;
+        margin-top: 15px;
+        border-radius: 5px;
+        transition: all 0.3s;
+    }
+    .trash-zone:hover {
+        background-color: #ffe0e0;
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4 mb-5">
+    <h3 class="mb-3 text-primary"><i class="fas fa-calendar-alt"></i> Bảng phân ca trực</h3>
+    
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-tools"></i> Công cụ</h5>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">1. Chọn Ca trực áp dụng:</label>
+                        <select id="shift-selector" class="form-select border-primary">
+                            <option value="">-- Đang tải dữ liệu... --</option>
+                        </select>
+                        <small class="text-muted">Chọn ca trước khi kéo nhân viên.</small>
+                    </div>
+                    <hr>
+                    
+                    <label class="form-label fw-bold text-dark">2. Danh sách Nhân viên:</label>
+                    <div id="external-events" style="max-height: 400px; overflow-y: auto; padding: 2px;">
+                        <div class="text-center text-muted py-3">
+                            <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                            Đang tải...
+                        </div>
+                    </div>
+
+                    <div class="trash-zone" id="trash-zone">
+                        <i class="fas fa-trash-alt fa-lg mb-1"></i>
+                        <div>Kéo lịch vào đây để XÓA</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="card shadow-sm h-100">
+                <div class="card-body p-2">
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/vi.js'></script> <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const Calendar = FullCalendar.Calendar;
+        const Draggable = FullCalendar.Draggable;
+        
+        const containerEl = document.getElementById('external-events');
+        const calendarEl = document.getElementById('calendar');
+        const shiftSelect = document.getElementById('shift-selector');
+
+        // 1. Load Dữ liệu nguồn (Nhân viên & Ca trực)
+        axios.get('/operation/api/master-data/').then(response => {
+            const { staffs, shifts } = response.data;
+            
+            // Render Select Ca trực
+            if(shifts.length > 0){
+                shiftSelect.innerHTML = shifts.map(s => 
+                    `<option value="${s.id}">${s.name} (${s.start_time.slice(0,5)} - ${s.end_time.slice(0,5)})</option>`
+                ).join('');
+            } else {
+                shiftSelect.innerHTML = '<option value="">Chưa có cấu hình Ca trực</option>';
+            }
+
+            // Render Danh sách nhân viên (Draggable)
+            if(staffs.length > 0) {
+                containerEl.innerHTML = staffs.map(s => `
+                    <div class='fc-event' data-staff-id='${s.id}' data-staff-name='${s.full_name}'>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span><i class="fas fa-user-tag text-primary me-2"></i>${s.full_name}</span>
+                            <span class="badge bg-secondary" style="font-size: 0.7em">${s.team}</span>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                containerEl.innerHTML = '<div class="alert alert-warning">Chưa có nhân viên Active</div>';
+            }
+
+            // Kích hoạt tính năng Kéo (Draggable) cho danh sách nhân viên
+            new Draggable(containerEl, {
+                itemSelector: '.fc-event',
+                eventData: function(eventEl) {
+                    return {
+                        title: eventEl.getAttribute('data-staff-name'),
+                        extendedProps: {
+                            staff_id: eventEl.getAttribute('data-staff-id')
+                        }
+                    };
+                }
+            });
+        }).catch(err => console.error("Lỗi load master data:", err));
+
+        // 2. Khởi tạo Lịch (Calendar)
+        const calendar = new Calendar(calendarEl, {
+            locale: 'vi', // Ngôn ngữ tiếng Việt
+            initialView: 'dayGridMonth',
+            height: 'auto',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,listWeek'
+            },
+            editable: true,     // Cho phép kéo sửa lịch đã có
+            droppable: true,    // Cho phép thả nhân viên từ bên ngoài vào
+            events: '/operation/api/rosters/', // Load sự kiện từ API
+
+            // --- XỬ LÝ KHI THẢ NHÂN VIÊN VÀO (TẠO MỚI) ---
+            drop: function(info) {
+                const shiftId = shiftSelect.value;
+                if (!shiftId) {
+                    alert("⚠️ Vui lòng CHỌN CA TRỰC ở bên trái trước khi kéo nhân viên!");
+                    info.draggedEl.parentNode.removeChild(info.draggedEl); // Hoàn tác thao tác kéo
+                    return;
+                }
+            },
+
+            eventReceive: function(info) {
+                // Khi sự kiện được thả thành công -> Gọi API lưu
+                const staffId = info.event.extendedProps.staff_id;
+                const shiftId = shiftSelect.value;
+                const date = info.event.startStr.split('T')[0]; // Lấy ngày YYYY-MM-DD
+
+                axios.post('/operation/api/rosters/', {
+                    staff: staffId,
+                    shift: shiftId,
+                    date: date
+                }, {
+                    headers: {'X-CSRFToken': '{{ csrf_token }}'}
+                }).then(res => {
+                    // Cập nhật lại màu sắc và ID từ server trả về
+                    info.event.setProp('title', res.data.title);
+                    info.event.setProp('backgroundColor', res.data.color);
+                    info.event.setProp('borderColor', res.data.color);
+                    info.event.setExtendedProp('id', res.data.id); 
+                    
+                    // Thông báo nhỏ (Toast) hoặc console
+                    console.log("Đã lưu lịch thành công!");
+                }).catch(err => {
+                    alert("❌ Lỗi: " + (err.response?.data?.detail || "Không thể lưu lịch!"));
+                    info.event.remove(); // Xóa khỏi giao diện nếu lưu lỗi
+                });
+            },
+
+            // --- XỬ LÝ KHI KÉO SỬA NGÀY (CẬP NHẬT) ---
+            eventDrop: function(info) {
+                const rosterId = info.event.id || info.event.extendedProps.id;
+                const newDate = info.event.startStr.split('T')[0];
+
+                if (!confirm(`Bạn muốn đổi lịch của ${info.event.title} sang ngày ${newDate}?`)) {
+                    info.revert(); // Nếu chọn Cancel thì quay lại cũ
+                    return;
+                }
+
+                axios.patch(`/operation/api/rosters/${rosterId}/`, {
+                    date: newDate
+                }, {
+                    headers: {'X-CSRFToken': '{{ csrf_token }}'}
+                }).then(() => {
+                    console.log("Cập nhật ngày thành công");
+                }).catch(err => {
+                    alert("Lỗi cập nhật: " + (err.response?.data?.detail || "Không rõ"));
+                    info.revert();
+                });
+            },
+
+            // --- XỬ LÝ XÓA (CLICK VÀO SỰ KIỆN) ---
+            eventClick: function(info) {
+                if (confirm(`🗑️ Bạn muốn XÓA lịch trực của: ${info.event.title}?`)) {
+                    const rosterId = info.event.id || info.event.extendedProps.id;
+                    if(rosterId) {
+                        axios.delete(`/operation/api/rosters/${rosterId}/`, {
+                             headers: {'X-CSRFToken': '{{ csrf_token }}'}
+                        }).then(() => {
+                            info.event.remove();
+                        });
+                    }
+                }
+            }
+        });
+
+        calendar.render();
+    });
+</script>
+{% endblock %}

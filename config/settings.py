@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'apps.notifications',
     'django_celery_beat',
     'django_celery_results',
-    'apps.billing'
+    'apps.billing',
+    'apps.operation',
 ]
 
 MIDDLEWARE = [

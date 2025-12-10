@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Báo cáo Hiệu suất Vận hành{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <h3 class="mb-4 text-primary"><i class="fas fa-chart-line"></i> Báo cáo Hiệu suất Vận hành</h3>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Tổng công việc</h5>
+                    <h1 class="display-4">{{ total_tasks }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Đã hoàn thành</h5>
+                    <h1 class="display-4">{{ completed_tasks }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-warning shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Đang chờ/Xử lý</h5>
+                    <h1 class="display-4">{{ pending_tasks }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ chart_labels|json_script:"chart-labels-data" }}
+    {{ chart_data|json_script:"chart-series-data" }}
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header fw-bold">Tỷ lệ Hoàn thành theo Tổ</div>
+                <div class="card-body">
+                    <div style="height: 300px;">
+                        <canvas id="teamChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-header fw-bold">Chi tiết Hiệu suất Nhân viên</div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nhân viên</th>
+                                <th>Tổ</th>
+                                <th class="text-center">Được giao</th>
+                                <th class="text-center">Đã xong</th>
+                                <th class="text-center">Tốc độ TB</th>
+                                <th>Đánh giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for staff in performance_list %}
+                            <tr>
+                                <td>{{ staff.full_name }}</td>
+                                <td><span class="badge bg-secondary">{{ staff.team }}</span></td>
+                                <td class="text-center fw-bold">{{ staff.total }}</td>
+                                <td class="text-center text-success fw-bold">{{ staff.completed }}</td>
+                                <td class="text-center">{{ staff.mttr }} p</td>
+                                <td>
+                                    {% if staff.mttr < 30 and staff.completed > 0 %}
+                                        <i class="fas fa-star text-warning"></i> Xuất sắc
+                                    {% elif staff.completed > 0 %}
+                                        <span class="text-success">Đạt</span>
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">Chưa có dữ liệu vận hành.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lấy thẻ canvas
+        const ctx = document.getElementById('teamChart').getContext('2d');
+        
+        // --- SỬA LỖI: Lấy dữ liệu an toàn thông qua JSON Script ---
+        // Cách này giúp VS Code không báo lỗi cú pháp nữa
+        const labelsData = JSON.parse(document.getElementById('chart-labels-data').textContent);
+        const seriesData = JSON.parse(document.getElementById('chart-series-data').textContent);
+
+        // Khởi tạo biểu đồ
+        const teamChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labelsData,
+                datasets: [{
+                    data: seriesData,
+                    backgroundColor: ['#0d6efd', '#198754', '#ffc107', '#dc3545'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

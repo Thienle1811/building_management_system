@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container mt-5">
+    <a href="{% url 'billing:invoice_list' %}" class="btn btn-outline-secondary mb-4">
+        <i class="fas fa-arrow-left"></i> Quay lại danh sách
+    </a>
+    
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3>Hóa đơn #{{ invoice.code }} (T{{ invoice.month }}/{{ invoice.year }})</h3>
+            <span class="badge bg-light text-primary fs-5">{{ invoice.get_status_display }}</span>
+        </div>
+        
+        <div class="card-body">
+            {% include 'includes/messages.html' %} 
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Thông tin chung</h4>
+                    <p><strong>Căn hộ:</strong> {{ invoice.apartment.apartment_code }}</p>
+                    <p><strong>Chủ hộ:</strong> {% if invoice.resident %}{{ invoice.resident.full_name }}{% else %}N/A{% endif %}</p>
+                    <p><strong>Ngày tạo:</strong> {{ invoice.created_at|date:"d/m/Y H:i" }}</p>
+                    <p><strong>Hạn thanh toán:</strong> {% if invoice.due_date %}{{ invoice.due_date|date:"d/m/Y" }}{% else %}Đang cập nhật{% endif %}</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <h1 class="text-danger">{{ invoice.total_amount|intcomma }} đ</h1>
+                    <p class="text-muted">TỔNG CỘNG PHẢI THU</p>
+                    
+                    {% if invoice.status == 'PENDING' and invoice.payment_proof %}
+                        <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                            <i class="fas fa-check-circle"></i> XÁC NHẬN ĐÃ THU TIỀN
+                        </button>
+                    {% elif invoice.status == 'PAID' %}
+                        <button class="btn btn-success btn-lg" disabled>ĐÃ THANH TOÁN</button>
+                    {% elif invoice.status == 'PENDING' %}
+                        <button class="btn btn-warning btn-lg" disabled>ĐANG CHỜ THANH TOÁN</button>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <hr>
+            
+            <h4>Chi tiết Khoản thu</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Khoản mục</th>
+                        <th>Diễn giải</th>
+                        <th class="text-end">Số tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in invoice.items.all %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.description }}</td>
+                        <td class="text-end">{{ item.amount|intcomma }} đ</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end"><strong>TỔNG CỘNG</strong></td>
+                        <td class="text-end"><strong>{{ invoice.total_amount|intcomma }} đ</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+            
+            {% if invoice.payment_proof %}
+            <hr>
+            <h4>Bằng chứng Thanh toán (Ủy nhiệm chi)</h4>
+            <p><strong>Phương thức:</strong> {{ invoice.get_payment_method_display }} - 
+               <strong>Ngày gửi:</strong> {{ invoice.payment_date|date:"d/m/Y H:i" }}
+            </p>
+            <img src="{{ invoice.payment_proof.url }}" class="img-fluid border border-dark" style="max-height: 400px; object-fit: cover;">
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="confirmModalLabel">Xác nhận Thanh toán</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xác nhận Hóa đơn #{{ invoice.code }} đã được thanh toán (PAID) không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <form action="{% url 'billing:invoice_confirm_payment' pk=invoice.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Xác nhận Đã Thu Tiền</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
