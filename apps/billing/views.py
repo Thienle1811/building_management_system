@@ -2,9 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
 from django.contrib import messages
-from .models import Invoice, InvoiceItem
+from .models import Invoice, InvoiceItem, MeterReading, PriceTier
 from .services import BillingService
 from django.utils import timezone
+from datetime import date
+from apps.buildings.models import Apartment
 
 # Decorator kiểm tra người dùng phải là Staff (BQL)
 def is_staff_check(user):
@@ -60,3 +62,85 @@ def invoice_confirm_payment(request, pk):
     
     # Chuyển hướng về trang chi tiết hóa đơn
     return redirect('billing:invoice_detail', pk=pk)
+@login_required
+def meter_reading_view(request):
+    """Giao diện Ghi chỉ số Điện/Nước"""
+    today = date.today()
+    selected_month = request.GET.get('month', today.strftime('%Y-%m'))
+    try:
+        year, month = map(int, selected_month.split('-'))
+    except ValueError:
+        year, month = today.year, today.month
+
+    if request.method == 'POST':
+        try:
+            count = 0
+            for key, value in request.POST.items():
+                if key.startswith('reading_'):
+                    parts = key.split('_')
+                    if len(parts) == 3:
+                        _, apartment_id, service_type = parts
+                        if value.strip(): 
+                            # --- SỬA LỖI 1: Dùng đúng tên trường record_year, record_month, new_index ---
+                            MeterReading.objects.update_or_create(
+                                apartment_id=apartment_id,
+                                service_type=service_type,
+                                record_year=year,    # Sửa từ date__year
+                                record_month=month,  # Sửa từ date__month
+                                defaults={
+                                    'new_index': float(value), # Sửa từ reading_value
+                                    # Bỏ dòng 'date': ... vì model không có trường date
+                                }
+                            )
+                            count += 1
+            messages.success(request, f"Đã lưu thành công {count} chỉ số tháng {month}/{year}!")
+        except Exception as e:
+            messages.error(request, f"Lỗi khi lưu: {str(e)}")
+        return redirect(f'?month={selected_month}')
+
+    # Lấy danh sách căn hộ (đã sửa floor_number, unit_number từ bước trước)
+    apartments = Apartment.objects.all().order_by('floor_number', 'unit_number')
+    
+    # --- SỬA LỖI 2: Filter đúng tên trường ---
+    readings = MeterReading.objects.filter(record_year=year, record_month=month)
+    
+    data_map = {}
+    for r in readings:
+        if r.apartment_id not in data_map:
+            data_map[r.apartment_id] = {}
+        # --- SỬA LỖI 3: Lấy đúng trường new_index ---
+        data_map[r.apartment_id][r.service_type] = r.new_index 
+
+    context = {
+        'apartments': apartments,
+        'data_map': data_map,
+        'selected_month': selected_month,
+        'today_month': today.strftime('%Y-%m')
+    }
+    return render(request, 'billing/meter_reading.html', context)
+
+@login_required
+def price_config_view(request):
+    """Giao diện Cấu hình Đơn giá"""
+    if request.method == 'POST':
+        # Lưu cấu hình giá
+        try:
+            for key, value in request.POST.items():
+                if key.startswith('price_'):
+                    # key dạng: price_1 (1 là ID của PriceTier)
+                    _, tier_id = key.split('_')
+                    if value:
+                        PriceTier.objects.filter(id=tier_id).update(unit_price=float(value))
+            messages.success(request, "Cập nhật đơn giá thành công!")
+        except Exception as e:
+            messages.error(request, f"Lỗi cập nhật: {str(e)}")
+        return redirect('billing:price_config')
+
+    # Lấy danh sách giá
+    electricity_tiers = PriceTier.objects.filter(service_type='ELECTRICITY').order_by('min_usage')
+    water_tiers = PriceTier.objects.filter(service_type='WATER').order_by('min_usage')
+    
+    return render(request, 'billing/price_config.html', {
+        'electricity_tiers': electricity_tiers,
+        'water_tiers': water_tiers
+    })

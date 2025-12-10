@@ -12,4 +12,6 @@ urlpatterns = [
     
     # Action xác nhận thanh toán (Xử lý POST)
     path('invoices/<int:pk>/confirm/', views.invoice_confirm_payment, name='invoice_confirm_payment'),
+    path('meter-reading/', views.meter_reading_view, name='meter_reading'),
+    path('price-config/', views.price_config_view, name='price_config'),
 ]

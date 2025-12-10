@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% load billing_filters %}  {% block title %}Ghi Điện Nước{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="text-primary"><i class="fas fa-pen-square"></i> Ghi chỉ số Điện Nước</h4>
+        <form method="get" class="d-flex">
+            <input type="month" name="month" class="form-control" value="{{ selected_month }}" onchange="this.form.submit()">
+        </form>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered mb-0 align-middle">
+                        <thead class="bg-light text-center">
+                            <tr>
+                                <th style="width: 20%">Căn hộ</th>
+                                <th style="width: 40%" class="text-warning"><i class="fas fa-bolt"></i> Số Điện</th>
+                                <th style="width: 40%" class="text-info"><i class="fas fa-tint"></i> Số Nước</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for apt in apartments %}
+                            <tr>
+                                <td class="text-center fw-bold">{{ apt.apartment_code }}</td>
+                                <td>
+                                    {% with val=data_map|get_item:apt.id|get_item:'ELECTRICITY' %}
+                                    <input type="number" step="0.1" name="reading_{{ apt.id }}_ELECTRICITY" 
+                                           class="form-control text-center fw-bold text-warning" 
+                                           placeholder="0" value="{{ val|default_if_none:'' }}">
+                                    {% endwith %}
+                                </td>
+                                <td>
+                                    {% with val=data_map|get_item:apt.id|get_item:'WATER' %}
+                                    <input type="number" step="0.1" name="reading_{{ apt.id }}_WATER" 
+                                           class="form-control text-center fw-bold text-info" 
+                                           placeholder="0" value="{{ val|default_if_none:'' }}">
+                                    {% endwith %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer bg-white sticky-bottom p-3 text-center border-top">
+                <button type="submit" class="btn btn-primary btn-lg w-100 shadow">
+                    <i class="fas fa-save"></i> LƯU CHỈ SỐ
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+{% load humanize %}
+
+{% block title %}Cấu hình Đơn giá{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="text-primary mb-4"><i class="fas fa-tags"></i> Cấu hình Đơn giá Dịch vụ</h3>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card border-warning shadow-sm h-100">
+                    <div class="card-header bg-warning text-dark fw-bold">
+                        <i class="fas fa-bolt"></i> Biểu giá Điện (Lũy tiến)
+                    </div>
+                    <div class="card-body">
+                        {% for tier in electricity_tiers %}
+                        <div class="mb-3 row">
+                            <label class="col-sm-6 col-form-label">
+                                Bậc {{ forloop.counter }} 
+                                <small class="text-muted">({{ tier.min_usage }} - {{ tier.max_usage|default:"∞" }} kWh)</small>
+                            </label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input type="number" name="price_{{ tier.id }}" value="{{ tier.unit_price }}" class="form-control text-end fw-bold">
+                                    <span class="input-group-text">đ</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted">Chưa có cấu hình giá điện.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card border-info shadow-sm h-100">
+                    <div class="card-header bg-info text-white fw-bold">
+                        <i class="fas fa-tint"></i> Biểu giá Nước
+                    </div>
+                    <div class="card-body">
+                        {% for tier in water_tiers %}
+                        <div class="mb-3 row">
+                            <label class="col-sm-6 col-form-label">
+                                {{ tier.name }}
+                                <small class="text-muted">({{ tier.min_usage }} - {{ tier.max_usage|default:"∞" }} m3)</small>
+                            </label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input type="number" name="price_{{ tier.id }}" value="{{ tier.unit_price }}" class="form-control text-end fw-bold">
+                                    <span class="input-group-text">đ</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted">Chưa có cấu hình giá nước.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-3 mb-5">
+            <button type="submit" class="btn btn-success btn-lg px-5">
+                <i class="fas fa-check-circle"></i> Cập nhật Giá
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
