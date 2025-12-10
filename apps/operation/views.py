@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
+from .forms import StaffProfileForm, StaffCreationForm, ShiftConfigForm
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import StaffProfile, ShiftConfig
 
 # Import các models cần thiết
 from .models import StaffProfile, MaintenanceTask
@@ -65,3 +69,69 @@ def performance_dashboard(request):
         'performance_list': performance_list
     }
     return render(request, 'operation/report.html', context)
+
+@login_required
+def staff_list_view(request):
+    """Danh sách nhân viên"""
+    staffs = StaffProfile.objects.select_related('user').all().order_by('team', 'user__first_name')
+    return render(request, 'operation/setup/staff_list.html', {'staffs': staffs})
+
+@login_required
+def staff_create_view(request):
+    """Thêm nhân viên mới"""
+    if request.method == 'POST':
+        form = StaffCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Thêm nhân viên thành công!")
+            return redirect('operation:staff_list')
+    else:
+        form = StaffCreationForm()
+    return render(request, 'operation/setup/staff_form.html', {'form': form, 'title': 'Thêm Nhân viên'})
+
+@login_required
+def staff_update_view(request, pk):
+    """Sửa thông tin nhân viên"""
+    staff = get_object_or_404(StaffProfile, pk=pk)
+    if request.method == 'POST':
+        form = StaffProfileForm(request.POST, request.FILES, instance=staff)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Cập nhật hồ sơ thành công!")
+            return redirect('operation:staff_list')
+    else:
+        form = StaffProfileForm(instance=staff)
+    return render(request, 'operation/setup/staff_form.html', {'form': form, 'title': 'Sửa Nhân viên'})
+
+@login_required
+def staff_delete_view(request, pk):
+    """Xóa nhân viên (Xóa cả User)"""
+    staff = get_object_or_404(StaffProfile, pk=pk)
+    if request.method == 'POST':
+        user = staff.user
+        staff.delete()
+        user.delete() # Xóa luôn tài khoản đăng nhập
+        messages.success(request, "Đã xóa nhân viên.")
+        return redirect('operation:staff_list')
+    return render(request, 'operation/setup/staff_confirm_delete.html', {'staff': staff})
+
+# --- CẤU HÌNH CA TRỰC ---
+@login_required
+def shift_list_view(request):
+    """Danh sách Ca trực (Và sửa trực tiếp nếu muốn)"""
+    shifts = ShiftConfig.objects.all().order_by('start_time')
+    return render(request, 'operation/setup/shift_list.html', {'shifts': shifts})
+
+@login_required
+def shift_update_view(request, pk):
+    """Sửa Ca trực"""
+    shift = get_object_or_404(ShiftConfig, pk=pk)
+    if request.method == 'POST':
+        form = ShiftConfigForm(request.POST, instance=shift)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Cập nhật ca trực thành công!")
+            return redirect('operation:shift_list')
+    else:
+        form = ShiftConfigForm(instance=shift)
+    return render(request, 'operation/setup/shift_form.html', {'form': form})

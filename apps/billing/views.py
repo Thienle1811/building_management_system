@@ -123,22 +123,35 @@ def meter_reading_view(request):
 def price_config_view(request):
     """Giao diện Cấu hình Đơn giá"""
     if request.method == 'POST':
-        # Lưu cấu hình giá
         try:
+            count = 0
             for key, value in request.POST.items():
                 if key.startswith('price_'):
-                    # key dạng: price_1 (1 là ID của PriceTier)
-                    _, tier_id = key.split('_')
-                    if value:
-                        PriceTier.objects.filter(id=tier_id).update(unit_price=float(value))
-            messages.success(request, "Cập nhật đơn giá thành công!")
+                    # Key format: price_1 (1 là ID của PriceTier)
+                    parts = key.split('_')
+                    if len(parts) == 2:
+                        _, tier_id = parts
+                        if value.strip():
+                            PriceTier.objects.filter(id=tier_id).update(price=float(value)) # Sửa unit_price thành price
+                            count += 1
+            messages.success(request, "Đã cập nhật đơn giá thành công!")
         except Exception as e:
             messages.error(request, f"Lỗi cập nhật: {str(e)}")
         return redirect('billing:price_config')
 
-    # Lấy danh sách giá
-    electricity_tiers = PriceTier.objects.filter(service_type='ELECTRICITY').order_by('min_usage')
-    water_tiers = PriceTier.objects.filter(service_type='WATER').order_by('min_usage')
+    # --- SỬA LỖI Ở ĐÂY ---
+    # 1. Dùng config__service_type để lọc qua bảng cha
+    # 2. Dùng config__is_active=True để chỉ lấy bảng giá đang áp dụng
+    # 3. Sắp xếp theo min_value (thay vì min_usage)
+    electricity_tiers = PriceTier.objects.filter(
+        config__service_type='ELECTRICITY',
+        config__is_active=True
+    ).order_by('min_value')
+    
+    water_tiers = PriceTier.objects.filter(
+        config__service_type='WATER',
+        config__is_active=True
+    ).order_by('min_value')
     
     return render(request, 'billing/price_config.html', {
         'electricity_tiers': electricity_tiers,

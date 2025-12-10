@@ -16,4 +16,14 @@ urlpatterns = [
     # APIs phục vụ cho Web
     path('api/', include(router.urls)),
     path('api/master-data/', api_views.OperationMasterDataViewSet.as_view({'get': 'list'}), name='api_master_data'),
+    # ===> THÊM NHÓM NÀY <===
+    # Quản lý Nhân sự
+    path('setup/staff/', views.staff_list_view, name='staff_list'),
+    path('setup/staff/add/', views.staff_create_view, name='staff_create'),
+    path('setup/staff/<int:pk>/edit/', views.staff_update_view, name='staff_update'),
+    path('setup/staff/<int:pk>/delete/', views.staff_delete_view, name='staff_delete'),
+
+    # Cấu hình Ca trực
+    path('setup/shifts/', views.shift_list_view, name='shift_list'),
+    path('setup/shifts/<int:pk>/edit/', views.shift_update_view, name='shift_update'),
 ]
