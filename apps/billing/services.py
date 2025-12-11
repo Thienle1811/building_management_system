@@ -94,13 +94,15 @@ class BillingService:
                 continue 
 
             with transaction.atomic():
+                # Đã XÓA 'title=' để tránh lỗi
                 invoice = Invoice.objects.create(
                     code=f"INV-{year}{month:02d}-{apt.apartment_code}",
                     apartment=apt,
                     resident=apt.owner,
                     month=month,
                     year=year,
-                    status='DRAFT'
+                    status='UNPAID', # Tạo xong mặc định là chưa thanh toán
+                    due_date=timezone.now() + timezone.timedelta(days=10)
                 )
                 total_invoice = 0
 
@@ -155,16 +157,14 @@ class BillingService:
         
         return created_count, skipped_apartments
     
-    # --- PHẦN MỚI THÊM PHASE 5 ---
     @staticmethod
     def confirm_payment_by_id(invoice_id):
-        """Xác nhận thanh toán hóa đơn theo ID từ giao diện Web BQL"""
         try:
             invoice = Invoice.objects.get(pk=invoice_id)
             if invoice.status != 'PAID':
                 invoice.status = 'PAID'
                 invoice.payment_date = timezone.now()
-                invoice.payment_method = 'CASH' # Mặc định là cash nếu Admin bấm nút này mà không chọn method
+                invoice.payment_method = 'CASH'
                 invoice.save()
                 return True
             return False

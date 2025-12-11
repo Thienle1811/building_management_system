@@ -1,59 +1,84 @@
 {% extends "base.html" %}
-{% load static %}
-{% load billing_filters %}  {% block title %}Ghi Điện Nước{% endblock %}
+{% load billing_filters %}
+{% block title %}Ghi Chỉ Số Điện Nước{% endblock %}
 
 {% block content %}
-<div class="container-fluid mt-3">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="text-primary"><i class="fas fa-pen-square"></i> Ghi chỉ số Điện Nước</h4>
-        <form method="get" class="d-flex">
-            <input type="month" name="month" class="form-control" value="{{ selected_month }}" onchange="this.form.submit()">
-        </form>
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-3 rounded shadow-sm">
+        <h3 class="text-primary m-0"><i class="fas fa-tachometer-alt me-2"></i> Ghi Chỉ Số Điện Nước</h3>
+        
+        <div class="d-flex align-items-center gap-3">
+            <form method="get" class="d-flex align-items-center gap-2">
+                <label class="fw-bold text-muted">Tháng:</label>
+                <input type="month" name="month" class="form-control" value="{{ selected_month }}" onchange="this.form.submit()" style="width: 160px;">
+            </form>
+
+            <form method="post" action="{% url 'billing:generate_invoices' %}" onsubmit="return confirm('Hệ thống sẽ tính tiền và tạo hóa đơn cho tháng {{ selected_month }}.\nBạn có chắc chắn không?');">
+                {% csrf_token %}
+                <input type="hidden" name="month" value="{{ selected_month }}">
+                <button type="submit" class="btn btn-success fw-bold px-3">
+                    <i class="fas fa-file-invoice-dollar me-2"></i> Chốt Sổ & Phát Hành
+                </button>
+            </form>
+        </div>
     </div>
 
-    <form method="post">
-        {% csrf_token %}
-        <div class="card shadow-sm">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered mb-0 align-middle">
-                        <thead class="bg-light text-center">
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <form method="post">
+                {% csrf_token %}
+                <div class="table-responsive" style="max-height: 70vh;">
+                    <table class="table table-hover table-bordered mb-0 align-middle">
+                        <thead class="table-light text-center sticky-top" style="z-index: 1;">
                             <tr>
-                                <th style="width: 20%">Căn hộ</th>
-                                <th style="width: 40%" class="text-warning"><i class="fas fa-bolt"></i> Số Điện</th>
-                                <th style="width: 40%" class="text-info"><i class="fas fa-tint"></i> Số Nước</th>
+                                <th rowspan="2" class="align-middle">Căn hộ</th>
+                                <th colspan="2">Điện (KWh)</th>
+                                <th colspan="2">Nước (m³)</th>
+                            </tr>
+                            <tr>
+                                <th>Chỉ số mới</th>
+                                <th>Đã ghi</th>
+                                <th>Chỉ số mới</th>
+                                <th>Đã ghi</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for apt in apartments %}
                             <tr>
-                                <td class="text-center fw-bold">{{ apt.apartment_code }}</td>
+                                <td class="text-center fw-bold bg-light">{{ apt.apartment_code }}</td>
+                                
                                 <td>
-                                    {% with val=data_map|get_item:apt.id|get_item:'ELECTRICITY' %}
-                                    <input type="number" step="0.1" name="reading_{{ apt.id }}_ELECTRICITY" 
-                                           class="form-control text-center fw-bold text-warning" 
-                                           placeholder="0" value="{{ val|default_if_none:'' }}">
-                                    {% endwith %}
+                                    <input type="number" step="0.1" 
+                                           name="reading_{{ apt.id }}_ELECTRICITY" 
+                                           class="form-control form-control-sm text-center"
+                                           placeholder="Nhập số điện...">
                                 </td>
+                                <td class="text-center text-primary fw-bold">
+                                    {{ data_map|get_item:apt.id|get_item:'ELECTRICITY'|default:"-" }}
+                                </td>
+
                                 <td>
-                                    {% with val=data_map|get_item:apt.id|get_item:'WATER' %}
-                                    <input type="number" step="0.1" name="reading_{{ apt.id }}_WATER" 
-                                           class="form-control text-center fw-bold text-info" 
-                                           placeholder="0" value="{{ val|default_if_none:'' }}">
-                                    {% endwith %}
+                                    <input type="number" step="0.1" 
+                                           name="reading_{{ apt.id }}_WATER" 
+                                           class="form-control form-control-sm text-center"
+                                           placeholder="Nhập số nước...">
+                                </td>
+                                <td class="text-center text-info fw-bold">
+                                    {{ data_map|get_item:apt.id|get_item:'WATER'|default:"-" }}
                                 </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="card-footer bg-white sticky-bottom p-3 text-center border-top">
-                <button type="submit" class="btn btn-primary btn-lg w-100 shadow">
-                    <i class="fas fa-save"></i> LƯU CHỈ SỐ
-                </button>
-            </div>
+
+                <div class="p-3 border-top bg-light d-flex justify-content-end sticky-bottom">
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="fas fa-save me-2"></i> Lưu Chỉ Số
+                    </button>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 {% endblock %}

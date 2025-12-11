@@ -4,5 +4,7 @@ register = template.Library()
 
 @register.filter
 def get_item(dictionary, key):
-    """Lấy giá trị từ dictionary: dictionary|get_item:key"""
-    return dictionary.get(key)
+    """Lấy giá trị từ dictionary bằng key: {{ mydict|get_item:key }}"""
+    if dictionary:
+        return dictionary.get(key)
+    return None
