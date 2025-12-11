@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Hãy chọn dòng phù hợp với môi trường của bạn và bỏ comment:
 
 // 1. Cho máy ảo Android (Emulator)
-const BASE_URL = 'http://192.168.1.207:8000/api/v1/';
+const BASE_URL = 'http://192.168.1.126:8000/api/v1/';
 
 // 2. Cho máy ảo iOS (Simulator)
 // const BASE_URL = 'http://127.0.0.1:8000/api/v1/';

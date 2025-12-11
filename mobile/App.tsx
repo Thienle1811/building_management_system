@@ -13,6 +13,7 @@ import CreateFeedbackScreen from './src/screens/Feedback/CreateFeedbackScreen';
 import NotificationScreen from './src/screens/Notification/NotificationScreen';
 import ProfileScreen from './src/screens/Profile/ProfileScreen';
 import ChangePasswordScreen from './src/screens/Profile/ChangePasswordScreen';
+import InvoiceListScreen from './src/screens/Billing/InvoiceListScreen';
 
 // Tạo màn hình Home tạm thời
 const HomeScreen = () => (
@@ -46,8 +47,9 @@ function MainTabNavigator() {
           let iconName: keyof typeof Ionicons.glyphMap = 'alert-circle'; 
 
           if (route.name === 'Home') iconName = focused ? 'home' : 'home-outline';
-          else if (route.name === 'Feedback') iconName = focused ? 'chatbox-ellipses' : 'chatbox-ellipses-outline';
+          else if (route.name === 'Billing') iconName = focused ? 'receipt' : 'receipt-outline';
           else if (route.name === 'Notifications') iconName = focused ? 'notifications' : 'notifications-outline';
+          else if (route.name === 'Feedback') iconName = focused ? 'chatbox-ellipses' : 'chatbox-ellipses-outline';
           else if (route.name === 'Profile') iconName = focused ? 'person' : 'person-outline';
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -55,6 +57,10 @@ function MainTabNavigator() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'Trang chủ' }} />
+      
+      {/* Tab Hóa đơn - Mới thêm */}
+      <Tab.Screen name="Billing" component={InvoiceListScreen} options={{ title: 'Hóa đơn' }} />
+
       <Tab.Screen name="Notifications" component={NotificationScreen} options={{ title: 'Thông báo' }} />
       <Tab.Screen name="Feedback" component={FeedbackListScreen} options={{ title: 'Phản hồi', headerShown: false }} />
       <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: 'Tài khoản', headerShown: false }} />

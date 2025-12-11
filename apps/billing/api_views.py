@@ -5,6 +5,7 @@ from django.utils import timezone
 from .models import MeterReading, Invoice
 from .serializers import MeterReadingSerializer, InvoiceSerializer, PaymentProofSerializer
 
+# ==================== 1. API CHO BẢO VỆ (GHI ĐIỆN NƯỚC) ====================
 class MeterReadingViewSet(viewsets.ModelViewSet):
     """
     API dành cho Bảo vệ đi ghi số Điện/Nước
@@ -28,6 +29,8 @@ class MeterReadingViewSet(viewsets.ModelViewSet):
         # Khi bảo vệ update số, tự động đổi trạng thái thành RECORDED
         serializer.save(status='RECORDED')
 
+
+# ==================== 2. API CHO CƯ DÂN (HÓA ĐƠN) ====================
 class InvoiceViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API cho Cư dân xem hóa đơn và thanh toán
@@ -38,7 +41,6 @@ class InvoiceViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         user = self.request.user
         
-        # --- LOGIC MỚI CẬP NHẬT ---
         # 1. Nếu là Admin/Staff: Cho phép xem TẤT CẢ (bao gồm cả DRAFT) để test
         if user.is_staff:
             return Invoice.objects.all().order_by('-year', '-month')
@@ -68,7 +70,7 @@ class InvoiceViewSet(viewsets.ReadOnlyModelViewSet):
         if serializer.is_valid():
             serializer.save(
                 payment_date=timezone.now(),
-                # Giữ nguyên trạng thái để Admin duyệt, hoặc đổi sang 'PENDING_REVIEW' tùy logic
+                # Có thể thêm logic đổi status thành 'PENDING_REVIEW' nếu cần
             )
             return Response({'status': 'Uploaded successfully', 'data': serializer.data})
         
