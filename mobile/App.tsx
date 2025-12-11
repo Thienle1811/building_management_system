@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, RouteProp } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
@@ -11,6 +11,8 @@ import LoginScreen from './src/screens/Auth/LoginScreen';
 import FeedbackListScreen from './src/screens/Feedback/FeedbackListScreen';
 import CreateFeedbackScreen from './src/screens/Feedback/CreateFeedbackScreen';
 import NotificationScreen from './src/screens/Notification/NotificationScreen';
+import ProfileScreen from './src/screens/Profile/ProfileScreen';
+import ChangePasswordScreen from './src/screens/Profile/ChangePasswordScreen';
 
 // Tạo màn hình Home tạm thời
 const HomeScreen = () => (
@@ -29,79 +31,49 @@ const HomeScreen = () => (
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// --- CẤU HÌNH TAB BAR (Thanh menu dưới đáy) ---
+// --- CẤU HÌNH TAB BAR ---
 function MainTabNavigator() {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      id="MainTab"
+      screenOptions={({ route }: { route: RouteProp<any, any> }) => ({
         headerShown: true,
         tabBarActiveTintColor: '#0d6efd',
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: { paddingBottom: 5, height: 60 },
         tabBarLabelStyle: { fontSize: 12, fontWeight: '600' },
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName: keyof typeof Ionicons.glyphMap;
+        tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }) => {
+          let iconName: keyof typeof Ionicons.glyphMap = 'alert-circle'; 
 
-          // Cấu hình Icon cho từng Tab
-          if (route.name === 'Home') {
-            iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Feedback') {
-            iconName = focused ? 'chatbox-ellipses' : 'chatbox-ellipses-outline';
-          } else if (route.name === 'Notifications') {
-            iconName = focused ? 'notifications' : 'notifications-outline';
-          } else {
-            iconName = 'alert-circle';
-          }
+          if (route.name === 'Home') iconName = focused ? 'home' : 'home-outline';
+          else if (route.name === 'Feedback') iconName = focused ? 'chatbox-ellipses' : 'chatbox-ellipses-outline';
+          else if (route.name === 'Notifications') iconName = focused ? 'notifications' : 'notifications-outline';
+          else if (route.name === 'Profile') iconName = focused ? 'person' : 'person-outline';
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
     >
-      <Tab.Screen 
-        name="Home" 
-        component={HomeScreen} 
-        options={{ title: 'Trang chủ' }} 
-      />
-      
-      {/* Tab Thông báo */}
-      <Tab.Screen 
-        name="Notifications" 
-        component={NotificationScreen} 
-        options={{ title: 'Thông báo' }} 
-      />
-      
-      {/* Tab Phản hồi (Ẩn header tab để dùng header riêng của màn hình) */}
-      <Tab.Screen 
-        name="Feedback" 
-        component={FeedbackListScreen} 
-        options={{ title: 'Phản hồi', headerShown: false }} 
-      />
+      <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'Trang chủ' }} />
+      <Tab.Screen name="Notifications" component={NotificationScreen} options={{ title: 'Thông báo' }} />
+      <Tab.Screen name="Feedback" component={FeedbackListScreen} options={{ title: 'Phản hồi', headerShown: false }} />
+      <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: 'Tài khoản', headerShown: false }} />
     </Tab.Navigator>
   );
 }
 
-// --- CẤU HÌNH APP CHÍNH (Luồng đi của ứng dụng) ---
+// --- CẤU HÌNH APP CHÍNH ---
 export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="auto" />
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator 
+        id="RootStack" 
+        initialRouteName="Login"
+      >
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Main" component={MainTabNavigator} options={{ headerShown: false }} />
         
-        {/* 1. Màn hình Đăng nhập (Mặc định) */}
-        <Stack.Screen 
-          name="Login" 
-          component={LoginScreen} 
-          options={{ headerShown: false }} 
-        />
-        
-        {/* 2. Màn hình Chính (Chứa 3 Tab: Home, Notifications, Feedback) */}
-        <Stack.Screen 
-          name="Main" 
-          component={MainTabNavigator} 
-          options={{ headerShown: false }} 
-        />
-
-        {/* 3. Màn hình Tạo phản hồi (Nằm đè lên trên Tab Bar) */}
         <Stack.Screen 
           name="CreateFeedback" 
           component={CreateFeedbackScreen} 
@@ -113,6 +85,15 @@ export default function App() {
           }} 
         />
 
+        <Stack.Screen 
+          name="ChangePassword" 
+          component={ChangePasswordScreen} 
+          options={{ 
+            title: 'Đổi mật khẩu',
+            headerStyle: { backgroundColor: '#fff' },
+            headerTintColor: '#000',
+          }} 
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

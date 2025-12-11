@@ -1,32 +1,25 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from .models import Resident, Vehicle
 
 class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
-        fields = ['id', 'license_plate', 'vehicle_type']
+        fields = ['id', 'license_plate', 'vehicle_type', 'manufacturer', 'model', 'color']
 
 class ResidentSerializer(serializers.ModelSerializer):
-    # Nhúng danh sách xe vào trong thông tin cư dân
-    vehicles = VehicleSerializer(many=True, required=False)
-    
-    # Hiển thị mã căn hộ thay vì chỉ hiện ID số
     apartment_code = serializers.CharField(source='current_apartment.apartment_code', read_only=True)
-
+    
     class Meta:
         model = Resident
-        fields = [
-            'id', 'full_name', 'identity_card', 'phone_number', 
-            'current_apartment', 'apartment_code', 'relationship_type',
-            'identity_card_image_front', 'identity_card_image_back',
-            'vehicles', 'created_at'
-        ]
+        fields = ['id', 'full_name', 'phone_number', 'identity_card', 'apartment_code', 'relationship_type']
 
-    def create(self, validated_data):
-        # Logic để lưu xe khi tạo cư dân
-        vehicles_data = validated_data.pop('vehicles', [])
-        resident = Resident.objects.create(**validated_data)
-        
-        for vehicle_data in vehicles_data:
-            Vehicle.objects.create(resident=resident, **vehicle_data)
-        return resident
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+    confirm_password = serializers.CharField(required=True)
+
+    def validate(self, data):
+        if data['new_password'] != data['confirm_password']:
+            raise serializers.ValidationError("Mật khẩu mới không khớp.")
+        return data

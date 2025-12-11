@@ -2,18 +2,35 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+from django.contrib.auth.models import User # <--- Import thêm User để tạo tài khoản
 
 # Import cho API
-from rest_framework import viewsets, permissions, filters
+from rest_framework import viewsets, permissions, filters, status, views
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import ResidentSerializer
+from .serializers import ResidentSerializer, VehicleSerializer, ChangePasswordSerializer
 
 # Import cho Web
 from .models import Resident, Vehicle
 from .forms import ResidentForm, VehicleForm
 
 # ==================== 1. API (MOBILE APP) ====================
+
+class ChangePasswordView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        serializer = ChangePasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user
+            if not user.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Mật khẩu cũ không đúng."]}, status=status.HTTP_400_BAD_REQUEST)
+            
+            user.set_password(serializer.data.get("new_password"))
+            user.save()
+            return Response({"detail": "Đổi mật khẩu thành công."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class ResidentViewSet(viewsets.ModelViewSet):
     """API quản lý cư dân"""
     queryset = Resident.objects.select_related('current_apartment').all().order_by('-created_at')
@@ -32,12 +49,29 @@ class ResidentViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def me(self, request):
+        """API lấy thông tin profile ĐẦY ĐỦ (Cá nhân + Xe + Thành viên)"""
         if hasattr(request.user, 'resident'):
-            serializer = self.get_serializer(request.user.resident)
-            return Response(serializer.data)
+            resident = request.user.resident
+            
+            # 1. Thông tin cá nhân
+            profile_data = ResidentSerializer(resident).data
+            
+            # 2. Danh sách xe
+            vehicles = Vehicle.objects.filter(resident=resident)
+            profile_data['vehicles'] = VehicleSerializer(vehicles, many=True).data
+            
+            # 3. Thành viên cùng căn hộ (trừ bản thân mình ra)
+            members = Resident.objects.filter(
+                current_apartment=resident.current_apartment
+            ).exclude(pk=resident.pk)
+            profile_data['members'] = ResidentSerializer(members, many=True).data
+            
+            return Response(profile_data)
+        
         return Response({"detail": "User chưa liên kết hồ sơ cư dân"}, status=404)
 
 # ==================== 2. WEB VIEW (QUẢN LÝ CƯ DÂN) ====================
+
 @login_required
 def resident_list_view(request):
     residents = Resident.objects.select_related('current_apartment').all().order_by('-created_at')
@@ -52,10 +86,31 @@ def resident_list_view(request):
 
 @login_required
 def resident_create_view(request):
+    """Thêm cư dân mới & TỰ ĐỘNG TẠO TÀI KHOẢN"""
     if request.method == 'POST':
         form = ResidentForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            # 1. Lấy đối tượng nhưng chưa lưu vào DB
+            resident = form.save(commit=False)
+            phone = form.cleaned_data.get('phone_number')
+
+            # 2. Logic tự tạo/lấy User theo Số điện thoại
+            if phone:
+                # Tìm user có username = số điện thoại
+                user, created = User.objects.get_or_create(username=phone)
+                if created:
+                    # Nếu mới tạo -> Set mật khẩu mặc định
+                    user.set_password('123456')
+                    user.save()
+                    messages.info(request, f"Đã tạo tài khoản mới: {phone} / 123456")
+                else:
+                    messages.info(request, f"Đã liên kết với tài khoản cũ: {phone}")
+                
+                # Gán user vào cư dân
+                resident.user = user
+
+            # 3. Lưu chính thức
+            resident.save()
             messages.success(request, "Thêm cư dân thành công!")
             return redirect('residents:resident_list')
     else:
@@ -85,6 +140,7 @@ def resident_delete_view(request, pk):
     return render(request, 'residents/resident_confirm_delete.html', {'resident': resident})
 
 # ==================== 3. WEB VIEW (QUẢN LÝ XE) ====================
+
 @login_required
 def vehicle_list_view(request):
     query = request.GET.get('q', '')
